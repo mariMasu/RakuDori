@@ -86,16 +86,16 @@ public class DrillAdd : MonoBehaviour {
 	public void AddSimple()
 	{
 
-		PopupWindow pw = this.GetComponent<PopupWindow> ();
+		SceneData sd = this.GetComponent<SceneData> ();
 
-		string name = pw.InputText;
+		string name = sd.DrillName;
 		//string last = DateTime.Now.ToString();
 
 		if (name == null) {
 			name = " ";
 		}
 
-		DrillData data = new DrillData { NAME = name, COLOR = pw.ColNum , LAST = "なし"};
+		DrillData data = new DrillData { NAME = name, COLOR = sd.ColNum , LAST = "なし"};
 
 		dbManager.Insert(data);
 

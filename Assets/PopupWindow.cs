@@ -6,41 +6,28 @@ public class PopupWindow : MonoBehaviour
 {
 
 	public GameObject pop;
-	public GameObject input;
 
-	[SerializeField]
-	private string _text;
+	public GameObject input1;
+	public GameObject input2;
+	public GameObject input3;
+	public GameObject input4;
 
-	[SerializeField]
-	private int _colNum = 0;
 
-	public string InputText {
-		get {
-			return _text;
-		}
-		set {
-			_text = value;
-		}
+	SceneData data;
+
+	void Awake() {
+		data = this.GetComponent<SceneData> ();
 	}
 
-	public int ColNum {
-		get {
-			return _colNum;
-		}
-		set {
-			_colNum = value;
-		}
-	}
-
-	public void DrillSentakuNext ()
+	public void DrillAddNext ()
 	{
 
 		Popdown ();
-		InputText = input.GetComponent<InputField> ().text;
+		data.SetData (input1.GetComponent<InputField> ().text, "DrillName");
 
 		this.GetComponent<DrillAdd> ().AddSimple ();
 
-		ResetInputField ();
+		ResetInputField (1);
 		ResetColor ();
 	}
 
@@ -59,14 +46,26 @@ public class PopupWindow : MonoBehaviour
 		Debug.Log ("Black click!");
 	}
 
-	public void ResetInputField ()
+	public void ResetInputField (int num)
 	{
-		input.GetComponent<InputField> ().text = "";
+		input1.GetComponent<InputField> ().text = "";
+
+		if (num == 2) {
+			input2.GetComponent<InputField> ().text = "";
+		} else if (num == 3) {
+			input2.GetComponent<InputField> ().text = "";
+			input3.GetComponent<InputField> ().text = "";
+		} else if (num == 4) {
+			input2.GetComponent<InputField> ().text = "";
+			input3.GetComponent<InputField> ().text = "";
+			input4.GetComponent<InputField> ().text = "";
+		} else {
+		}
 	}
 
 	public void ResetColor ()
 	{
-		GameObject.Find ("sky").GetComponent<ColorPoint> ().OnClick ();
+		GameObject.Find ("sky").GetComponent<ButtonPoint> ().OnClick ();
 
 	}
 

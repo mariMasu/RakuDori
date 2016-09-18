@@ -514,10 +514,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 166390906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da68b64cb7fc4ce3a5c4bd10f27d0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 692187569083d4901b394e9b8f5a0715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 3
+  select: {fileID: 941141439}
+  number: 3
+  type: ColNum
 --- !u!1 &257672689
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,10 +650,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 257672689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da68b64cb7fc4ce3a5c4bd10f27d0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 692187569083d4901b394e9b8f5a0715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 5
+  select: {fileID: 941141439}
+  number: 5
+  type: ColNum
 --- !u!1 &266443344
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,7 +732,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1019962105}
-        m_MethodName: DrillSentakuNext
+        m_MethodName: DrillAddNext
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1195,8 +1199,9 @@ GameObject:
   - 4: {fileID: 1019962104}
   - 114: {fileID: 1019962103}
   - 114: {fileID: 1019962102}
-  - 114: {fileID: 1019962105}
   - 114: {fileID: 1019962106}
+  - 114: {fileID: 1019962107}
+  - 114: {fileID: 1019962105}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1261,9 +1266,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pop: {fileID: 1228487307}
-  input: {fileID: 137429939}
-  _text: 
-  _colNum: 0
+  input1: {fileID: 137429939}
+  input2: {fileID: 0}
+  input3: {fileID: 0}
+  input4: {fileID: 0}
 --- !u!114 &1019962106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1277,6 +1283,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dbManager: {fileID: 1702985830}
   drill: {fileID: 1000010866080454, guid: 2691ab809165c439fbf8897546031bb7, type: 2}
+--- !u!114 &1019962107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1019962101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe1cfa54d7c84a42a969d6a3efe2449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _drillName: 
+  _colNum: 0
+  _inputPat: 0
+  _quesKey: 
+  _ansKey1: 
+  _ansKey2: 
+  _dummyKey: 
+  _quesText: 
 --- !u!1 &1228487307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1548,10 +1573,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1490013919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da68b64cb7fc4ce3a5c4bd10f27d0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 692187569083d4901b394e9b8f5a0715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 1
+  select: {fileID: 941141439}
+  number: 1
+  type: ColNum
 --- !u!1 &1492413262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,7 +1839,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1019962105}
-        m_MethodName: Popdown
+        m_MethodName: ResetColor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1824,7 +1851,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1019962105}
         m_MethodName: ResetInputField
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1834,7 +1861,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1019962105}
-        m_MethodName: ResetColor
+        m_MethodName: Popdown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2009,10 +2036,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1504632613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da68b64cb7fc4ce3a5c4bd10f27d0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 692187569083d4901b394e9b8f5a0715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 0
+  select: {fileID: 941141439}
+  number: 0
+  type: ColNum
 --- !u!1 &1613760541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2304,10 +2333,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1688639060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da68b64cb7fc4ce3a5c4bd10f27d0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 692187569083d4901b394e9b8f5a0715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 2
+  select: {fileID: 941141439}
+  number: 2
+  type: ColNum
 --- !u!1 &1695490707
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,10 +2469,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1695490707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8da68b64cb7fc4ce3a5c4bd10f27d0e9, type: 3}
+  m_Script: {fileID: 11500000, guid: 692187569083d4901b394e9b8f5a0715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 4
+  select: {fileID: 941141439}
+  number: 4
+  type: ColNum
 --- !u!1 &1702985829
 GameObject:
   m_ObjectHideFlags: 0
