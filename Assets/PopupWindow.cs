@@ -5,7 +5,10 @@ using UnityEngine.UI;
 public class PopupWindow : MonoBehaviour
 {
 
-	public GameObject pop;
+	public GameObject pop1;
+	public GameObject pop2;
+	public GameObject pop3;
+	public GameObject pop4;
 
 	public GameObject input1;
 	public GameObject input2;
@@ -28,16 +31,58 @@ public class PopupWindow : MonoBehaviour
 		this.GetComponent<DrillAdd> ().AddSimple ();
 
 		ResetInputField (1);
-		ResetColor ();
+		DrillAddReset ();
 	}
 
-	public void Popup ()
+	public void DrillAddReset ()
 	{
-		pop.transform.position = new Vector3 (0, 0, 0);
+		GameObject.Find ("sky").GetComponent<ButtonPoint> ().OnClick ();
+
 	}
 
-	public void Popdown ()
+	public void DrillPatReset(){
+
+		if (data.InputPat == 0) {
+			GameObject.Find ("patternB0").GetComponent<ButtonPoint> ().OnClick ();
+		} else {
+			GameObject.Find ("patternB1").GetComponent<ButtonPoint> ().OnClick ();
+		}
+
+		Popdown (1);
+		
+	}
+
+	public void Popup (int num = 1)
 	{
+		GameObject pop;
+
+		if (num == 2) {
+			pop = pop2;
+		} else if (num == 3) {
+			pop = pop3;
+		} else if (num == 4) {
+			pop = pop4;
+		} else {
+			pop = pop1;
+		}
+
+		pop.transform.position = GameObject.Find ("backGround").transform.position;
+	}
+
+	public void Popdown (int num = 1)
+	{
+		GameObject pop;
+
+		if (num == 2) {
+			pop = pop2;
+		} else if (num == 3) {
+			pop = pop3;
+		} else if (num == 4) {
+			pop = pop4;
+		} else {
+			pop = pop1;
+		}
+
 		pop.transform.position = new Vector3 (Screen.width * 2, 0, 0);
 	}
 
@@ -46,7 +91,7 @@ public class PopupWindow : MonoBehaviour
 		Debug.Log ("Black click!");
 	}
 
-	public void ResetInputField (int num)
+	public void ResetInputField (int num = 1)
 	{
 		input1.GetComponent<InputField> ().text = "";
 
@@ -61,12 +106,6 @@ public class PopupWindow : MonoBehaviour
 			input4.GetComponent<InputField> ().text = "";
 		} else {
 		}
-	}
-
-	public void ResetColor ()
-	{
-		GameObject.Find ("sky").GetComponent<ButtonPoint> ().OnClick ();
-
 	}
 
 }

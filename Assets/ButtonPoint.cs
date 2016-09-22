@@ -4,13 +4,14 @@ using System.Collections;
 public class ButtonPoint : MonoBehaviour {
 
 	public GameObject select;
-	GameObject es;
+	public GameObject baseOb;
+	TempData temp;
 
-	public string number = "0";
-	public string type;
+	public string data;
+	public int tempNum;
 
 	void Awake() {
-		es = GameObject.Find ("EventSystem");	
+		temp = baseOb.GetComponent<TempData> ();
 	}
 
 	public void OnClick() {
@@ -18,8 +19,7 @@ public class ButtonPoint : MonoBehaviour {
 
 		select.transform.position = this.transform.position;
 
-		SceneData sd = es.GetComponent<SceneData>();
-		sd.SetData (number, type);
+		temp.SetTemp (data, tempNum);
 
 	}
 }
