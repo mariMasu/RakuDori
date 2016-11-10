@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ButtonPoint : MonoBehaviour {
+public class ButtonPoint : MonoBehaviour
+{
 
 	public GameObject select;
 	public GameObject baseOb;
@@ -10,12 +11,14 @@ public class ButtonPoint : MonoBehaviour {
 	public string data;
 	public int tempNum;
 
-	void Awake() {
+	void Awake ()
+	{
 		temp = baseOb.GetComponent<TempData> ();
 	}
 
-	public void OnClick() {
-		Debug.Log(this.name + "click");
+	public void OnClick ()
+	{
+		Debug.Log (this.name + "click");
 
 		select.transform.position = this.transform.position;
 

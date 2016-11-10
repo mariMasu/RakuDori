@@ -5,7 +5,8 @@ using System.Linq;
 using UnityEngine.UI;
 
 
-public class DrillAdd : MonoBehaviour {
+public class DrillAdd : MonoBehaviour
+{
 
 	private List<DrillData> _dbData;
 
@@ -16,23 +17,22 @@ public class DrillAdd : MonoBehaviour {
 	private GameObject content;
 
 
-	void Start()
+	void Start ()
 	{
 		content = GameObject.Find ("Content");
 
-		Reset();
+		Reset ();
 	}
 
-	void View()
+	void View ()
 	{
 
-		foreach (DrillData dbData in _dbData)
-		{
+		foreach (DrillData dbData in _dbData) {
 			Debug.Log (dbData.ID + dbData.NAME + dbData.COLOR + dbData.LAST);
 
 			GameObject go = Instantiate (drill);
 
-			GameObject ba =  go.transform.FindChild ("base").gameObject;
+			GameObject ba = go.transform.FindChild ("base").gameObject;
 			GameObject obi = go.transform.FindChild ("obi").gameObject;
 			GameObject name = go.transform.FindChild ("name").gameObject;
 			GameObject record = go.transform.FindChild ("record").gameObject;
@@ -49,25 +49,25 @@ public class DrillAdd : MonoBehaviour {
 
 			record.GetComponent<Text> ().text = (lastTime + "\n" + dbData.OKNUM + "／" + dbData.QNUM);
 
-			go.transform.SetParent(content.transform);
+			go.transform.SetParent (content.transform);
 			go.transform.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
 
 		}
 
 	}
 
-	private void Reset()
+	private void Reset ()
 	{
 		
-		foreach ( Transform n in content.transform )
-		{
-			GameObject.Destroy(n.gameObject);
+		foreach (Transform n in content.transform) {
+			GameObject.Destroy (n.gameObject);
 		}
 
 		// Loads the player stats from the database using Linq
-		_dbData = new List<DrillData> (from ps in dbManager.Table<DrillData> () select ps);
+		_dbData = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
+		                               select ps);
 
-		View();
+		View ();
 
 	}
 
@@ -83,7 +83,7 @@ public class DrillAdd : MonoBehaviour {
 	/// <param name='points'>
 	/// Points.
 	/// </param>
-	public void AddSimple()
+	public void AddSimple ()
 	{
 
 		SceneData sd = this.GetComponent<SceneData> ();
@@ -95,9 +95,9 @@ public class DrillAdd : MonoBehaviour {
 			name = " ";
 		}
 
-		DrillData data = new DrillData { NAME = name, COLOR = sd.ColNum , LAST = "なし"};
+		DrillData data = new DrillData { NAME = name, COLOR = sd.ColNum, LAST = "なし" };
 
-		dbManager.Insert(data);
+		dbManager.Insert (data);
 
 		Reset ();
 	}
@@ -114,7 +114,7 @@ public class DrillAdd : MonoBehaviour {
 	/// <param name='points'>
 	/// Points.
 	/// </param>
-	public void AddQuery()
+	public void AddQuery ()
 	{
 		// Call our SQL statement using ? to bind our variables
 		//dbManager.Execute("INSERT INTO DBdrillData (PlayerName, TotalKills, Points) VALUES (?, ?, ?)", playerName, totalKills, points);

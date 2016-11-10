@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class DrillKeyButton : MonoBehaviour {
+public class DrillKeyButton : MonoBehaviour
+{
 
 	public GameObject baseOb;
 	TempData temp;
@@ -11,51 +12,71 @@ public class DrillKeyButton : MonoBehaviour {
 	public string defKey;
 	public int myNum;
 
-	void Awake() {
+	void Awake ()
+	{
 		temp = baseOb.GetComponent<TempData> ();
 	}
 
-	public void SetTemp(){
-		switch (this.GetComponent<Dropdown>().value) {
+	public void SetTemp ()
+	{
+		switch ((this.GetComponent<Dropdown> ().captionText).text) {
 
-		case 0:
-			temp.SetTemp (defKey, myNum);
+		case "設定する":
+			InputOn ();
+			break;
+		case "設定しない":
+			temp.SetTemp (null, myNum);
 			InputOff ();
 			break;
-		case 1:
-			temp.SetTemp ("　", myNum);
-			InputOff ();
-			break;
-		case 2:
-			temp.SetTemp (" ", myNum);
-			InputOff ();
-			break;
-		case 3:
+		case "改行":
 			temp.SetTemp ("\n", myNum);
 			InputOff ();
 			break;
-		case 4:
+		case "２改行":
+			temp.SetTemp ("\n\n", myNum);
+			InputOff ();
+			break;
+		case "３改行":
+			temp.SetTemp ("\n\n\n", myNum);
+			InputOff ();
+			break;
+		case "カスタム":
 			InputOn ();
 
 			break;
+		case "なし":
+			temp.SetTemp (null, myNum);
+			InputOff ();
+
+			break;
 		default:
-			Debug.Log ("Incorrect data");
+			temp.SetTemp (defKey, myNum);
+			InputOff ();
 			break;
 		}
 
 	}
 
-	public void SetCustom(){
+	public void NullTemp ()
+	{
+		temp.SetTemp (null, myNum);
+		InputOff ();
+	}
+
+	public void SetCustom ()
+	{
 		string t = input.GetComponent<InputField> ().text;
 		temp.SetTemp (t, myNum);
 	}
 
-	public void InputOn(){
+	public void InputOn ()
+	{
 		input.GetComponent<InputField> ().text = null;
 		input.SetActive (true);
 	}
 
-	public void InputOff(){
+	public void InputOff ()
+	{
 		input.SetActive (false);
 	}
 }

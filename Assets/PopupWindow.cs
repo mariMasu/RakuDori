@@ -14,11 +14,14 @@ public class PopupWindow : MonoBehaviour
 	public GameObject input2;
 	public GameObject input3;
 	public GameObject input4;
-
+	public GameObject input5;
+	public GameObject input6;
+	public GameObject input7;
 
 	SceneData data;
 
-	void Awake() {
+	void Awake ()
+	{
 		data = this.GetComponent<SceneData> ();
 	}
 
@@ -31,7 +34,8 @@ public class PopupWindow : MonoBehaviour
 		this.GetComponent<DrillAdd> ().AddSimple ();
 
 		ResetInputField (1);
-		DrillAddReset ();
+
+
 	}
 
 	public void DrillAddReset ()
@@ -40,12 +44,38 @@ public class PopupWindow : MonoBehaviour
 
 	}
 
-	public void DrillPatReset(){
+	public void DrillPatReset ()
+	{
 
-		if (data.InputPat == 0) {
+		switch (data.InputPat) {
+
+		case 0:
 			GameObject.Find ("patternB0").GetComponent<ButtonPoint> ().OnClick ();
-		} else {
+
+			break;
+		case 1:
 			GameObject.Find ("patternB1").GetComponent<ButtonPoint> ().OnClick ();
+
+			break;
+		case 2:
+			GameObject.Find ("patternB2").GetComponent<ButtonPoint> ().OnClick ();
+
+			break;
+		case 3:
+			GameObject.Find ("patternB3").GetComponent<ButtonPoint> ().OnClick ();
+
+			break;
+		case 4:
+			GameObject.Find ("patternB4").GetComponent<ButtonPoint> ().OnClick ();
+
+			break;
+		case 5:
+			GameObject.Find ("patternB5").GetComponent<ButtonPoint> ().OnClick ();
+
+			break;
+		default:
+			Debug.Log ("Incorrect data");
+			break;
 		}
 
 		Popdown (1);
@@ -104,8 +134,19 @@ public class PopupWindow : MonoBehaviour
 			input2.GetComponent<InputField> ().text = "";
 			input3.GetComponent<InputField> ().text = "";
 			input4.GetComponent<InputField> ().text = "";
+			input5.GetComponent<InputField> ().text = "";
+			input6.GetComponent<InputField> ().text = "";
+			input7.GetComponent<InputField> ().text = "";
 		} else {
 		}
+	}
+
+	public void PopupCaution (string t)
+	{
+		GameObject pop = pop4;
+
+		GameObject.Find ("CautionText").GetComponent<Text> ().text = t;
+		pop.transform.position = GameObject.Find ("backGround").transform.position;
 	}
 
 }

@@ -3,51 +3,59 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class TempData : MonoBehaviour {
+public class TempData : MonoBehaviour
+{
 
 	GameObject es;
 	SceneData sd;
+	[SerializeField]
+	private string[] temp = new string[7];
 
-	private string[] temp = new string[5];
-
-	void Awake() {
+	void Awake ()
+	{
 		es = GameObject.Find ("EventSystem");
-		sd = es.GetComponent<SceneData>();
+		sd = es.GetComponent<SceneData> ();
 	}
 
-	public void DrillAddSend() {
+	public void DrillAddSend ()
+	{
 
-		if (temp [0] != null) {
+		if (temp [0] != "") {
 			sd.SetData (temp [0], "ColNum");
 		}
 
 	}
 
-	public void DrillPatSend() {
+	public void DrillPatSend ()
+	{
 
-		if (temp [0] != null) {
+		if (temp [0] != "") {
 			sd.SetData (temp [0], "InputPat");
 		}
+
+		if (sd.InputPat < 2) {
+			sd.SetData ("\n", "QuesKey");
+		} else {
+			sd.SetData ("@@", "QuesKey");
+
+		}
 		es.GetComponent<DrillKeyState> ().DrillKeyPatView ();
-		es.GetComponent<DrillKeyState> ().PopDrillKeyView ();
-		es.GetComponent<PopupWindow> ().Popdown (1);
 	}
 
-	public void DrillKeySend() {
+	public void DrillKeySend ()
+	{
 
-		HashSet<string> hs = new HashSet<string>();
-
-		for (int i = 0; i < 4; i++) {
-			if ((hs.Add (temp [i]) == false)) {
-				Debug.Log ("zyuuhukuKey");
-				return;
-			}
+		if (KeyCheck () == false) {
+			return;
 		}
 
-			sd.SetData (temp [0], "QuesKey");
-			sd.SetData (temp [1], "AnsKey1");
-			sd.SetData (temp [2], "DummyKey");
-			sd.SetData (temp [3], "AnsKey2");
+		sd.SetData (temp [0], "Sentaku");
+		sd.SetData (temp [1], "QuesKey");
+		sd.SetData (temp [2], "AnsKey");
+		sd.SetData (temp [3], "SepKey");
+		sd.SetData (temp [4], "ExpKey");
+		sd.SetData (temp [5], "DummyKey");
+		sd.SetData (temp [6], "PerKey");
 
 		es.GetComponent<DrillKeyState> ().DrillKeyPatView ();
 		es.GetComponent<DrillKeyState> ().DropViewReset ();
@@ -61,9 +69,41 @@ public class TempData : MonoBehaviour {
 		temp [i] = data;
 	}
 
-	public void ResetTemp(){
-		for (int i = 0; i < 5; i++) {
+	public void ResetTemp ()
+	{
+		for (int i = 0; i < 7; i++) {
 			temp [i] = null;
 		}
+	}
+
+	public bool KeyCheck ()
+	{
+
+		if (es.GetComponent<DrillKeyState> ().CustomCheck () == false) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n入力されていない\nカスタムがあります");
+			return false;
+		}
+
+		HashSet<string> hs = new HashSet<string> ();
+		//string[] used = {"###","$$$","%%%","&&&"};
+
+		for (int i = 0; i < 7; i++) {
+
+			if (SceneData.strNull (temp [i])) {
+				break;
+			}
+
+			if ((hs.Add (temp [i]) == false)) {
+				es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n複数の項目に同じキーは\n指定できません");
+				return false;
+			}
+
+			//			if(-1 != UnityEditor.ArrayUtility.IndexOf(used,temp[i])){
+			//				es.GetComponent<PopupWindow> ().PopupCaution ("###,$$$,%%%,&&&は使えません");
+			//				return;
+			//			}
+		}
+
+		return true;
 	}
 }
