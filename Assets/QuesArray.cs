@@ -8,8 +8,8 @@ public class QuesArray
 
 	public string Exp { get; set; }
 
-	public string Ans { get; set; }
+	public string[] Ans { get; set; }
 
-	public string Dummy { get; set; }
+	public string[] Dummy { get; set; }
 
 } 

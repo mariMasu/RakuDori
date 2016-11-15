@@ -90,18 +90,18 @@ public class TempData : MonoBehaviour
 		for (int i = 0; i < 7; i++) {
 
 			if (SceneData.strNull (temp [i])) {
-				break;
-			}
+			} else {
 
-			if ((hs.Add (temp [i]) == false)) {
-				es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n複数の項目に同じキーは\n指定できません");
-				return false;
-			}
+				if ((hs.Add (temp [i]) == false)) {
+					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n複数の項目に同じキーは\n指定できません");
+					return false;
+				}
 
-			//			if(-1 != UnityEditor.ArrayUtility.IndexOf(used,temp[i])){
-			//				es.GetComponent<PopupWindow> ().PopupCaution ("###,$$$,%%%,&&&は使えません");
-			//				return;
-			//			}
+				//			if(-1 != UnityEditor.ArrayUtility.IndexOf(used,temp[i])){
+				//				es.GetComponent<PopupWindow> ().PopupCaution ("###,$$$,%%%,&&&は使えません");
+				//				return;
+				//			}
+			}
 		}
 
 		return true;

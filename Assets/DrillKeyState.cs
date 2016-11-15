@@ -119,9 +119,9 @@ public class DrillKeyState : MonoBehaviour
 	{
 		SceneData sd = this.GetComponent<SceneData> ();
 
-		float gapX = ansInput.transform.position.x - ansDrop.transform.position.x;
+		float gapX = quesInput.transform.position.x - quesDrop.transform.position.x;
 		float gapY = senInput.transform.position.y - quesDrop.transform.position.y;
-		gapY = (float)(gapY * 1.15);
+		gapY = (float)(gapY * 1.05);
 		Vector3 quesPos = quesDrop.transform.position;
 
 		if (sd.InputPat == 0 || sd.InputPat == 1) {
@@ -133,11 +133,11 @@ public class DrillKeyState : MonoBehaviour
 			expInput.transform.position = new Vector3 (Screen.width * 2, 0, 0);
 
 			sepDrop.transform.position = new Vector3 (quesPos.x, quesPos.y - gapY, 0);
-			sepInput.transform.position = new Vector3 (quesPos.x + gapX, quesPos.y - gapY, 0);
+			sepInput.transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY, 0);
 			dummyDrop.transform.position = new Vector3 (quesPos.x, quesPos.y - gapY * 2, 0);
-			dummyInput.transform.position = new Vector3 (quesPos.x + gapX, quesPos.y - gapY * 2, 0);
+			dummyInput.transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * 2, 0);
 			perDrop.transform.position = new Vector3 (quesPos.x, quesPos.y - gapY * 3, 0);
-			perInput.transform.position = new Vector3 (quesPos.x + gapX, quesPos.y - gapY * 3, 0);
+			perInput.transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * 3, 0);
 
 			popKeyText.GetComponent<Text> ().text = "・選択式問題の選択肢設定\n\n\n・問題文の区切り\n\n・正答、ダミー内の分割\n\n・ダミー選択肢の開始\n\n・正答の順序を守る問題";
 		} else {
@@ -147,7 +147,7 @@ public class DrillKeyState : MonoBehaviour
 
 			for (int i = 2; i < 7; i++) {
 				drops [i].transform.position = new Vector3 (quesPos.x, quesPos.y - gapY * m, 0);
-				inputs [i].transform.position = new Vector3 (quesPos.x + gapX, quesPos.y - gapY * m, 0);
+				inputs [i].transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * m, 0);
 
 				m++;
 			}
