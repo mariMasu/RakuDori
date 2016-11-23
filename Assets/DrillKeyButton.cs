@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 
 public class DrillKeyButton : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class DrillKeyButton : MonoBehaviour
 
 	public GameObject input;
 	public string defKey;
+	public string dataName;
 	public int myNum;
 
 	void Awake ()
@@ -28,6 +31,14 @@ public class DrillKeyButton : MonoBehaviour
 			temp.SetTemp (null, myNum);
 			InputOff ();
 			break;
+		case "スペース(半角)":
+			temp.SetTemp (" ", myNum);
+			InputOff ();
+			break;
+		case "スペース(全角)":
+			temp.SetTemp ("　", myNum);
+			InputOff ();
+			break;
 		case "改行":
 			temp.SetTemp ("\n", myNum);
 			InputOff ();
@@ -41,8 +52,10 @@ public class DrillKeyButton : MonoBehaviour
 			InputOff ();
 			break;
 		case "カスタム":
-			InputOn ();
+			SceneData sd = GameObject.Find ("EventSystem").GetComponent<SceneData> ();
+			input.GetComponent<InputField> ().text = sd.GetDataByText (dataName);
 
+			InputOn ();
 			break;
 		case "なし":
 			temp.SetTemp (null, myNum);
@@ -55,6 +68,59 @@ public class DrillKeyButton : MonoBehaviour
 			break;
 		}
 
+	}
+
+	public void ChangeDropByText ()
+	{
+		SceneData sd = GameObject.Find ("EventSystem").GetComponent<SceneData> ();
+
+		List<string> dropText = new List<string> ();
+		List<Dropdown.OptionData> dropList = this.GetComponent<Dropdown> ().options;
+
+
+		if (dataName == "Sentaku") {
+			
+			string senText = sd.Sentaku;
+
+			if (SceneData.strNull (senText) == true) {
+				this.GetComponent<Dropdown> ().value = 0;
+				InputOff ();
+			} else {
+				this.GetComponent<Dropdown> ().value = 1;
+				InputOn ();
+				input.GetComponent<InputField> ().text = senText;
+			}
+
+			this.SetCustom ();
+
+		} else {
+
+			foreach (Dropdown.OptionData s in dropList) {
+				dropText.Add (s.text);
+			}
+
+			string ds = SceneData.SpaceString (sd.GetDataByText (dataName));
+
+			if (ds == "半スペ") {
+				ds = "スペース(半角)";
+			} else if (ds == "全スペ") {
+				ds = "スペース(全角)";
+			}
+
+			int index = dropText.IndexOf (ds);
+
+			if (index > -1) {
+				this.GetComponent<Dropdown> ().value = index;
+				this.SetTemp ();
+			} else {
+				this.GetComponent<Dropdown> ().value = dropText.IndexOf ("カスタム");
+				this.SetTemp ();
+
+				input.GetComponent<InputField> ().text = ds;
+				SetCustom ();
+
+			}
+		}
 	}
 
 	public void NullTemp ()

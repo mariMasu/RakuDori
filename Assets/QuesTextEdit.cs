@@ -15,12 +15,12 @@ public class QuesTextEdit : MonoBehaviour
 	SceneData sd;
 
 	//string QuesKeyCommon = "###";
-	string AnsKeyCommon = "$$$";
-	string ExpKeyCommon = ":::";
-	string DummyKeyCommon = "%%%";
-	string SepKeyCommon = "&&&";
-	string PerKeyCommon = ";;;";
-	string NullKeyCommon = "!!!";
+	public static string AnsKeyCommon = "$$$";
+	public static string ExpKeyCommon = ":::";
+	public static string DummyKeyCommon = "%%%";
+	public static string SepKeyCommon = "&&&";
+	public static string PerKeyCommon = ";;;";
+	public static string NullKeyCommon = "!!!";
 
 
 	void Awake ()
@@ -38,36 +38,9 @@ public class QuesTextEdit : MonoBehaviour
 			return;
 		}
 
-		foreach (string d in q) {
-			Debug.Log (d);
+		es.GetComponent<QuesViewAdd> ().TestQuesView (q);
 
-			QuesArray qa = DbTextToQA.DbToQA (d);
-
-			Debug.Log ("問題文：" + qa.Ques);
-
-			foreach (string s in qa.Ans) {
-				Debug.Log ("正答：" + s);
-
-			}
-
-			if (qa.Dummy.Length > 0) {
-				foreach (string s in qa.Dummy) {
-					
-					Debug.Log ("ダミー：" + s);
-				}
-			} else {
-				Debug.Log ("ダミーなし");
-
-			}
-
-			if (qa.Exp.Length > 0) {
-
-				Debug.Log ("解説：" + qa.Exp);
-			} else {
-				Debug.Log ("解説なし");
-
-			}
-		}
+		es.GetComponent<PopupWindow> ().Popup (3);
 	}
 
 	public List<string> TextToArray (int mode = 0)

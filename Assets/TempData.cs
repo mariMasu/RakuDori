@@ -39,7 +39,7 @@ public class TempData : MonoBehaviour
 			sd.SetData ("@@", "QuesKey");
 
 		}
-		es.GetComponent<DrillKeyState> ().DrillKeyPatView ();
+		es.GetComponent<DrillKeyTextDrops> ().DrillKeyPatView ();
 	}
 
 	public void DrillKeySend ()
@@ -57,10 +57,11 @@ public class TempData : MonoBehaviour
 		sd.SetData (temp [5], "DummyKey");
 		sd.SetData (temp [6], "PerKey");
 
-		es.GetComponent<DrillKeyState> ().DrillKeyPatView ();
-		es.GetComponent<DrillKeyState> ().DropViewReset ();
+		es.GetComponent<DrillKeyTextDrops> ().DrillKeyPatView ();
+		es.GetComponent<DrillKeyTextDrops> ().DropViewReset ();
 		es.GetComponent<PopupWindow> ().ResetInputField (4);
 		es.GetComponent<PopupWindow> ().Popdown (2);
+		ResetTemp ();
 	}
 
 	public void SetTemp (string data, int i)
@@ -79,7 +80,7 @@ public class TempData : MonoBehaviour
 	public bool KeyCheck ()
 	{
 
-		if (es.GetComponent<DrillKeyState> ().CustomCheck () == false) {
+		if (es.GetComponent<DrillKeyTextDrops> ().CustomCheck () == false) {
 			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n入力されていない\nカスタムがあります");
 			return false;
 		}

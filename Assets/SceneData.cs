@@ -107,61 +107,122 @@ public class SceneData : MonoBehaviour
 	public void SetData (string data, string type)
 	{
 
-		if (type == null) {
-			Debug.Log ("null data");
+		switch (type) {
 
-		} else
+		case "DrillName":
+			_drillName = data;
+
+			break;
+		case "ColNum":
+			_colNum = int.Parse (data);
+
+			break;
+		case "InputPat":
+			_inputPat = int.Parse (data);
+
+			break;
+		case "Sentaku":
+			_sentaku = data;
+
+			break;
+		case "QuesKey":
+			_quesKey = data;
+
+			break;
+		case "AnsKey":
+			_ansKey = data;
+
+			break;
+		case "SepKey":
+			_sepKey = data;
+
+			break;
+		case "ExpKey":
+			_expKey = data;
+
+			break;
+		case "DummyKey":
+			_dummyKey = data;
+
+			break;
+		case "PerKey":
+			_perKey = data;
+
+			break;
+		case "QuesText":
+			_quesText = data;
+
+			break;
+		default:
+			Debug.Log ("Incorrect data");
+			break;
+		}
+	}
+
+	public string GetDataByText (string type)
+	{
+
+		if (strNull (type)) {
+			return "";
+
+		} else {
+
+			string r;
+
 			switch (type) {
 
 			case "DrillName":
-				_drillName = data;
+				r = _drillName;
 
 				break;
 			case "ColNum":
-				_colNum = int.Parse (data);
+				r = _colNum.ToString ();
 
 				break;
 			case "InputPat":
-				_inputPat = int.Parse (data);
+				r = _inputPat.ToString ();
 
 				break;
 			case "Sentaku":
-				_sentaku = data;
+				r = _sentaku;
 
 				break;
 			case "QuesKey":
-				_quesKey = data;
+				r = _quesKey;
 
 				break;
 			case "AnsKey":
-				_ansKey = data;
+				r = _ansKey;
 
 				break;
 			case "SepKey":
-				_sepKey = data;
+				r = _sepKey;
 
 				break;
 			case "ExpKey":
-				_expKey = data;
+				r = _expKey;
 
 				break;
 			case "DummyKey":
-				_dummyKey = data;
+				r = _dummyKey;
 
 				break;
 			case "PerKey":
-				_perKey = data;
+				r = _perKey;
 
 				break;
 			case "QuesText":
-				_quesText = data;
+				r = _quesText;
 
 				break;
 			default:
 				Debug.Log ("Incorrect data");
+				r = "";
 				break;
 			}
 
+			return r;
+		}
 	}
 
 	public static bool strNull (string s)
@@ -173,5 +234,30 @@ public class SceneData : MonoBehaviour
 		}
 	}
 
+	public static string SpaceString (string s)
+	{
+
+		if (s == " ") {
+			s = "半スペ";
+			return s;
+		} else if (s == "　") {
+			s = "全スペ";
+			return s;
+		} else if (s == "\n") {
+			s = "改行";
+			return s;
+		} else if (s == "\n\n") {
+			s = "２改行";
+			return s;
+		} else if (s == "\n\n\n") {
+			s = "３改行";
+			return s;
+		} else if (strNull (s)) {
+			s = "なし";
+			return s;
+		} else {
+			return s;
+		}
+	}
 
 }
