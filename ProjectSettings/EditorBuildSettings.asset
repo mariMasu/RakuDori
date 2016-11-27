@@ -4,4 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/drillSentaku.unity
+  - enabled: 1
+    path: Assets/drillAns.unity
+  - enabled: 1
+    path: Assets/quesInput.unity
+  - enabled: 1
+    path: Assets/quesSentaku.unity
+  - enabled: 1
+    path: Assets/title.unity

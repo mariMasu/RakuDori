@@ -3,12 +3,9 @@ using System.Collections;
 
 public class SceneData : MonoBehaviour
 {
-
-	[SerializeField]
-	private string _drillName;
-
-	[SerializeField]
-	private int _colNum = 0;
+	public static int nowDrill = 0;
+	public static int nowColor = 0;
+	public static string nowName = "";
 
 	[SerializeField]
 	private int _inputPat = 0;
@@ -36,18 +33,6 @@ public class SceneData : MonoBehaviour
 
 	[SerializeField]
 	private string _quesText;
-
-	public string DrillName {
-		get {
-			return _drillName;
-		}
-	}
-
-	public int ColNum {
-		get {
-			return _colNum;
-		}
-	}
 
 	public int InputPat {
 		get {
@@ -109,14 +94,7 @@ public class SceneData : MonoBehaviour
 
 		switch (type) {
 
-		case "DrillName":
-			_drillName = data;
 
-			break;
-		case "ColNum":
-			_colNum = int.Parse (data);
-
-			break;
 		case "InputPat":
 			_inputPat = int.Parse (data);
 
@@ -171,14 +149,6 @@ public class SceneData : MonoBehaviour
 
 			switch (type) {
 
-			case "DrillName":
-				r = _drillName;
-
-				break;
-			case "ColNum":
-				r = _colNum.ToString ();
-
-				break;
 			case "InputPat":
 				r = _inputPat.ToString ();
 

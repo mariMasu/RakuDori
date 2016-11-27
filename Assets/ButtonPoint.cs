@@ -18,7 +18,7 @@ public class ButtonPoint : MonoBehaviour
 
 	public void OnClick ()
 	{
-		Debug.Log (this.name + "click");
+		//Debug.Log (this.name + "click");
 
 		select.transform.position = this.transform.position;
 

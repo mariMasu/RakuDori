@@ -8,22 +8,13 @@ public class TempData : MonoBehaviour
 
 	GameObject es;
 	SceneData sd;
-	[SerializeField]
-	private string[] temp = new string[7];
+
+	public string[] temp = new string[7];
 
 	void Awake ()
 	{
 		es = GameObject.Find ("EventSystem");
 		sd = es.GetComponent<SceneData> ();
-	}
-
-	public void DrillAddSend ()
-	{
-
-		if (temp [0] != "") {
-			sd.SetData (temp [0], "ColNum");
-		}
-
 	}
 
 	public void DrillPatSend ()

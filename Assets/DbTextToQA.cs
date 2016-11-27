@@ -9,12 +9,11 @@ using System;
 public class DbTextToQA : MonoBehaviour
 {
 
-	//string[] QuesKeyCommon = "###";
-	static string[] AnsKeyCommon = { "$$$" };
-	static string[] DummyKeyCommon = { "%%%" };
-	static string[] ExpKeyCommon = { ":::" };
-	static string[] SepKeyCommon = { "&&&" };
-	//string NullKeyCommon = "!!!";
+	static string[] AnsKeyCommon = { QuesTextEdit.AnsKeyCommon };
+	static string[] DummyKeyCommon = { QuesTextEdit.DummyKeyCommon };
+	static string[] ExpKeyCommon = { QuesTextEdit.ExpKeyCommon };
+	static string[] SepKeyCommon = { QuesTextEdit.SepKeyCommon };
+
 
 	public static QuesArray DbToQA (string raw)
 	{

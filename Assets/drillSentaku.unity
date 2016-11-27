@@ -733,17 +733,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1228487309}
-        m_MethodName: DrillAddSend
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1019962105}
         m_MethodName: DrillAddNext
         m_Mode: 1
@@ -998,6 +987,111 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 339305475}
+--- !u!1001 &384159699
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1947000021}
+    m_Modifications:
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 921.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -290
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 1843
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 580
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2691ab809165c439fbf8897546031bb7, type: 2}
+  m_IsPrefabParent: 0
+--- !u!224 &384159700 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224000012605551404, guid: 2691ab809165c439fbf8897546031bb7,
+    type: 2}
+  m_PrefabInternal: {fileID: 384159699}
 --- !u!1 &385415866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,7 +1307,6 @@ GameObject:
   - 114: {fileID: 1019962103}
   - 114: {fileID: 1019962102}
   - 114: {fileID: 1019962106}
-  - 114: {fileID: 1019962107}
   - 114: {fileID: 1019962105}
   m_Layer: 0
   m_Name: EventSystem
@@ -1286,6 +1379,9 @@ MonoBehaviour:
   input2: {fileID: 0}
   input3: {fileID: 0}
   input4: {fileID: 0}
+  input5: {fileID: 0}
+  input6: {fileID: 0}
+  input7: {fileID: 0}
 --- !u!114 &1019962106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1299,25 +1395,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dbManager: {fileID: 1702985830}
   drill: {fileID: 1000010866080454, guid: 2691ab809165c439fbf8897546031bb7, type: 2}
---- !u!114 &1019962107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1019962101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebe1cfa54d7c84a42a969d6a3efe2449, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _drillName: 
-  _colNum: 0
-  _inputPat: 0
-  _quesKey: 
-  _ansKey1: 
-  _ansKey2: 
-  _dummyKey: 
-  _quesText: 
 --- !u!1 &1228487307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,9 +2606,9 @@ MonoBehaviour:
   m_Script: {fileID: 1705125264, guid: 8382d7f8352b70544aa11f6729f875f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  databaseFile: {fileID: 4900000, guid: c7334054467aa4dabba7b702caf01229, type: 3}
-  changeWorkingName: 0
-  workingName: 
+  databaseFile: {fileID: 4900000, guid: 0a3c40645ed8d405581cdea9385aa191, type: 3}
+  changeWorkingName: 1
+  workingName: RD
   overwriteIfExists: 0
   debugTrace: 0
 --- !u!4 &1702985831
@@ -2776,7 +2853,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 384159700}
   m_Father: {fileID: 36692715}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}

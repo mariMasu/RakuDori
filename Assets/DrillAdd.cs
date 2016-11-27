@@ -17,7 +17,7 @@ public class DrillAdd : MonoBehaviour
 	private GameObject content;
 
 
-	void Start ()
+	void Awake ()
 	{
 		content = GameObject.Find ("Content");
 
@@ -49,6 +49,10 @@ public class DrillAdd : MonoBehaviour
 
 			record.GetComponent<Text> ().text = (lastTime + "\n" + dbData.OKNUM + "／" + dbData.QNUM);
 
+			go.GetComponent<DrillNum> ().id = dbData.ID;
+			go.GetComponent<DrillNum> ().color = dbData.COLOR;
+			go.GetComponent<DrillNum> ().name = dbData.NAME;
+
 			go.transform.SetParent (content.transform);
 			go.transform.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
 
@@ -71,53 +75,16 @@ public class DrillAdd : MonoBehaviour
 
 	}
 
-	/// <summary>
-	/// Saves the player stats by using the PlayerStats class structure. No need for SQL here.
-	/// </summary>
-	/// <param name='playerName'>
-	/// Player name.
-	/// </param>
-	/// <param name='totalKills'>
-	/// Total kills.
-	/// </param>
-	/// <param name='points'>
-	/// Points.
-	/// </param>
-	public void AddSimple ()
+	public void AddSimple (int col, string name)
 	{
-
-		SceneData sd = this.GetComponent<SceneData> ();
-
-		string name = sd.DrillName;
-		//string last = DateTime.Now.ToString();
-
 		if (name == null) {
 			name = " ";
 		}
 
-		DrillData data = new DrillData { NAME = name, COLOR = sd.ColNum, LAST = "なし" };
+		DrillData data = new DrillData { NAME = name, COLOR = col, LAST = "なし" };
 
 		dbManager.Insert (data);
 
 		Reset ();
 	}
-
-	/// <summary>
-	/// Saves the player stats by executing a SQL statement. Note that no data is returned, this only modifies the table
-	/// </summary>
-	/// <param name='playerName'>
-	/// Player name.
-	/// </param>
-	/// <param name='totalKills'>
-	/// Total kills.
-	/// </param>
-	/// <param name='points'>
-	/// Points.
-	/// </param>
-	public void AddQuery ()
-	{
-		// Call our SQL statement using ? to bind our variables
-		//dbManager.Execute("INSERT INTO DBdrillData (PlayerName, TotalKills, Points) VALUES (?, ?, ?)", playerName, totalKills, points);
-	}
-
 }

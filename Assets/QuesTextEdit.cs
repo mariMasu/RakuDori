@@ -14,6 +14,8 @@ public class QuesTextEdit : MonoBehaviour
 	GameObject es;
 	SceneData sd;
 
+	List<string> q;
+
 	//string QuesKeyCommon = "###";
 	public static string AnsKeyCommon = "$$$";
 	public static string ExpKeyCommon = ":::";
@@ -29,18 +31,28 @@ public class QuesTextEdit : MonoBehaviour
 		sd = es.GetComponent<SceneData> ();
 	}
 
-	public void QaSend ()
+	public void QaTest ()
 	{
 		TextCheck ();
-		List<string> q = TextToArray (sd.InputPat);
+		q = TextToArray (sd.InputPat);
 
 		if (q.Count == 0) {
 			return;
 		}
 
-		es.GetComponent<QuesViewAdd> ().TestQuesView (q);
+		es.GetComponent<QuesView> ().TestQuesView (q);
 
 		es.GetComponent<PopupWindow> ().Popup (3);
+	}
+
+	public void QaSend ()
+	{
+		if (q == null || q.Count == 0) {
+			return;
+		}
+
+		es.GetComponent<DbProcess> ().AddFirst (q);
+		es.GetComponent<LoadButton> ().LoadQuesSentaku ();
 	}
 
 	public List<string> TextToArray (int mode = 0)
@@ -200,10 +212,10 @@ public class QuesTextEdit : MonoBehaviour
 				string[] rowAS = listRow [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 				if (rowAS.Length > 2) {
-					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の正答開始キーが\n使われています（" + i + "番目の問題）\n分割キーに置き換えてください");
+					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の正答開始キーが\n使われています（" + i + 1 + "番目の問題）\n分割キーに置き換えてください");
 					return new List<string> ();
 				} else if (rowAS.Length < 2) {
-					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題のない正答か正答のない\n問題があります（" + i + "番目の問題）");
+					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題のない正答か正答のない\n問題があります（" + i + 1 + "番目の問題）");
 					return new List<string> ();
 				} else {
 
@@ -228,7 +240,7 @@ public class QuesTextEdit : MonoBehaviour
 						listE.Add (NullKeyCommon);
 					} else if (rowAS.Length > 2) {
 
-						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の解説開始キーが\n使われています（\" + i + \"番目の問題）");
+						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の解説開始キーが\n使われています（" + i + 1 + "番目の問題）");
 						return new List<string> ();
 					}
 				}
@@ -346,10 +358,10 @@ public class QuesTextEdit : MonoBehaviour
 				string[] rowAS = listRow [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 				if (rowAS.Length > 2) {
-					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の正答開始キーが\n使われています（" + i + "番目の問題）\n分割キーに置き換えてください");
+					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の正答開始キーが\n使われています（" + i + 1 + "番目の問題）\n分割キーに置き換えてください");
 					return new List<string> ();
 				} else if (rowAS.Length < 2) {
-					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題のない正答か正答のない\n問題があります（" + i + "番目の問題）");
+					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題のない正答か正答のない\n問題があります（" + i + 1 + "番目の問題）");
 					return new List<string> ();
 				} else {
 
@@ -374,7 +386,7 @@ public class QuesTextEdit : MonoBehaviour
 						listE.Add (NullKeyCommon);
 					} else if (rowQE.Length > 2) {
 
-						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の解説開始キーが\n使われています（\" + i + \"番目の問題）");
+						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の解説開始キーが\n使われています（" + i + 1 + "番目の問題）");
 						return new List<string> ();
 					}
 				}
@@ -528,7 +540,7 @@ public class QuesTextEdit : MonoBehaviour
 						listE.Add (NullKeyCommon);
 					} else if (rowAS.Length > 2) {
 
-						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の解説開始キーが\n使われています（\" + i + \"番目の問題）");
+						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に複数の解説開始キーが\n使われています（ " + i + 1 + "番目の問題）");
 						return new List<string> ();
 					}
 				}
@@ -693,7 +705,7 @@ public class QuesTextEdit : MonoBehaviour
 						listE.Add (NullKeyCommon);
 					} else if (rowAS.Length > 2) {
 
-						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に開始キーが重複して\n使われています（" + i + "番目の問題付近）");
+						es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n一つの問題に開始キーが重複して\n使われています（" + i + 1 + "番目の問題付近）");
 						return new List<string> ();
 					}
 				}

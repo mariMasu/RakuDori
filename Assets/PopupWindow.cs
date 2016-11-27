@@ -29,9 +29,11 @@ public class PopupWindow : MonoBehaviour
 	{
 
 		Popdown ();
-		data.SetData (input1.GetComponent<InputField> ().text, "DrillName");
 
-		this.GetComponent<DrillAdd> ().AddSimple ();
+		int col = int.Parse (GameObject.Find ("PopDrillAdd").GetComponent<TempData> ().temp [0]);
+		string name = input1.GetComponent<InputField> ().text;
+
+		this.GetComponent<DrillAdd> ().AddSimple (col, name);
 
 		ResetInputField (1);
 
