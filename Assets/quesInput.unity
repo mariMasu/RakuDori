@@ -7739,6 +7739,8 @@ MonoBehaviour:
   pop2: {fileID: 1004821125}
   pop3: {fileID: 382757981}
   pop4: {fileID: 1952734650}
+  pop5: {fileID: 0}
+  pop6: {fileID: 0}
   input1: {fileID: 1879631561}
   input2: {fileID: 137429939}
   input3: {fileID: 374616750}
@@ -7839,6 +7841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dbManager: {fileID: 0}
   quesP: {fileID: 1000011998242144, guid: 3cd159064af0e458c9df2ad60d198959, type: 2}
+  deleteDrillB: {fileID: 0}
   sentakuMode: 0
   firstView: 0
   senList: 

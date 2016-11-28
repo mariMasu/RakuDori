@@ -9,7 +9,8 @@ public class QuesBannar : MonoBehaviour
 {
 
 	public GameObject sele;
-	public int id = 0;
+	public int id;
+	public int jun;
 
 	GameObject es;
 	QuesView qv;

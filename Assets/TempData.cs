@@ -7,18 +7,18 @@ public class TempData : MonoBehaviour
 {
 
 	GameObject es;
-	SceneData sd;
 
 	public string[] temp = new string[7];
 
 	void Awake ()
 	{
 		es = GameObject.Find ("EventSystem");
-		sd = es.GetComponent<SceneData> ();
 	}
 
 	public void DrillPatSend ()
 	{
+
+		SceneData sd = es.GetComponent<SceneData> ();
 
 		if (temp [0] != "") {
 			sd.SetData (temp [0], "InputPat");
@@ -33,12 +33,83 @@ public class TempData : MonoBehaviour
 		es.GetComponent<DrillKeyTextDrops> ().DrillKeyPatView ();
 	}
 
+	public void TagSend ()
+	{
+
+		if (SceneData.strNull (temp [0])) {
+			return;
+		}
+
+		QuesView qv = es.GetComponent<QuesView> ();
+		qv.TagSenB (int.Parse (temp [0]));
+
+		es.GetComponent<PopupWindow> ().Popdown (3);
+		es.GetComponent<PopupWindow> ().Popdown (2);
+	}
+
+	public void SortSend ()
+	{
+
+		InputField input1 = this.transform.FindChild ("numInput1").GetComponent<InputField> ();
+		InputField input2 = this.transform.FindChild ("numInput2").GetComponent<InputField> ();
+
+		if (SceneData.strNull (input1.text) || SceneData.strNull (input2.text)) {
+			return;
+		}
+
+		int nowJun = int.Parse (input1.text);
+		int newJun = int.Parse (input2.text);
+
+		if (nowJun == newJun) {
+			return;
+		}
+
+		QuesView qv = es.GetComponent<QuesView> ();
+
+		nowJun = JunModify (nowJun, qv.GetQuesCount ());
+		newJun = JunModify (newJun, qv.GetQuesCount ());
+
+		es.GetComponent<DbProcess> ().UpdateQuesJun (nowJun - 1, newJun - 1);
+
+		qv.SentakuQuesView ();
+
+		es.GetComponent<PopupWindow> ().Popdown (4);
+		input1.text = "";
+		input2.text = "";
+		ResetTemp ();
+
+	}
+
+	int JunModify (int i, int c)
+	{
+		if (i < 1) {
+			return 1;
+		} else if (i > c) {
+			return c;
+		}
+		return i;
+	}
+
+	public void DrillEditSend ()
+	{
+
+		int col = int.Parse (temp [0]);
+		GameObject input = es.GetComponent<PopupWindow> ().input1;
+		string name = input.GetComponent<InputField> ().text;
+
+		this.GetComponent<DbProcess> ().UpdateDrillNC (col, name);
+
+		es.GetComponent<PopupWindow> ().Popdown (1);
+	}
+
 	public void DrillKeySend ()
 	{
 
 		if (KeyCheck () == false) {
 			return;
 		}
+
+		SceneData sd = es.GetComponent<SceneData> ();
 
 		sd.SetData (temp [0], "Sentaku");
 		sd.SetData (temp [1], "QuesKey");
@@ -98,4 +169,5 @@ public class TempData : MonoBehaviour
 
 		return true;
 	}
+		
 }

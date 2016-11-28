@@ -951,7 +951,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 339305478}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1019962101}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &339305478
@@ -1375,6 +1386,8 @@ MonoBehaviour:
   pop2: {fileID: 0}
   pop3: {fileID: 0}
   pop4: {fileID: 0}
+  pop5: {fileID: 0}
+  pop6: {fileID: 0}
   input1: {fileID: 137429939}
   input2: {fileID: 0}
   input3: {fileID: 0}

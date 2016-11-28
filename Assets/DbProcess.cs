@@ -21,18 +21,46 @@ public class DbProcess : MonoBehaviour
 
 		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
 		                                            select ps);
+		List<QuesData> newData = new List<QuesData> ();
 
-		foreach (QuesData qd in dbData) {
+		for (int i = dbData.Count - text.Count; i < dbData.Count; i++) {
+			newData.Add (dbData [i]);
+		}
+
+		foreach (QuesData qd in newData) {
+
+			int jun;
+			if (qd.ID == 0) {
+				jun = -1000;
+			} else {
+				jun = qd.ID * 1000;
+			}
+
 			QuesData dat = new QuesData {
+				ID = qd.ID,
 				DRILL_ID = qd.DRILL_ID,
 				TEXT = qd.TEXT,
-				JUN = qd.DRILL_ID,
+				JUN = jun,
 				REVIEW = 3,
 				IMAGE = "なし",
 				LAST = "なし"
 			};
 			dbManager.UpdateTable (dat);
 		}
+	}
+
+	public void UpdateTag (int idT, int tag)
+	{
+		List<QuesData> qd = this.GetComponent<QuesView> ().dbData;
+
+		QuesData data = qd.Find (s => s.ID == idT);
+
+		if (data.TAG == tag) {
+			return;
+		}
+
+		data.TAG = tag;
+		dbManager.UpdateTable (data);
 	}
 
 	public void DeleteSelection (List<int> sele)
@@ -44,8 +72,32 @@ public class DbProcess : MonoBehaviour
 
 			dbManager.Delete<QuesData> (qd);
 
-
 		}
+	}
+
+	public void DeleteDrill ()
+	{
+
+		DrillData dd = new DrillData { ID = SceneData.nowDrill };
+
+		dbManager.Delete<DrillData> (dd);
+
+		this.GetComponent<LoadButton> ().LoadDrillSentaku ();
+	}
+
+	public void UpdateQuesJun (int nowNum, int newNum)
+	{
+		List<QuesData> qd = this.GetComponent<QuesView> ().dbData;
+
+		QuesData nowData = qd [nowNum];
+		QuesData newData = qd [newNum];
+		if (newNum == 1) {
+			nowData.JUN = newData.JUN - 1;
+		} else {
+			nowData.JUN = newData.JUN + 1;
+		}
+
+		dbManager.UpdateTable (nowData);
 	}
 
 	public void UpdateDrillNC (int col, string name)

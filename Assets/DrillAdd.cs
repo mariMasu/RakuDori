@@ -51,7 +51,7 @@ public class DrillAdd : MonoBehaviour
 
 			go.GetComponent<DrillNum> ().id = dbData.ID;
 			go.GetComponent<DrillNum> ().color = dbData.COLOR;
-			go.GetComponent<DrillNum> ().name = dbData.NAME;
+			go.GetComponent<DrillNum> ().nameD = dbData.NAME;
 
 			go.transform.SetParent (content.transform);
 			go.transform.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);

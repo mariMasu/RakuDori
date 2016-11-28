@@ -12,15 +12,17 @@ public class QuesView : MonoBehaviour
 	public GameObject quesP;
 	private GameObject content;
 
+	public GameObject deleteDrillB;
+
 	public bool sentakuMode = false;
 	public bool firstView = false;
+
+	GameObject es;
 
 	[SerializeField]
 	List<int> senList;
 
-	GameObject es;
-
-	List<QuesData> dbData;
+	public List<QuesData> dbData;
 
 	void Awake ()
 	{
@@ -114,13 +116,16 @@ public class QuesView : MonoBehaviour
 		                             select ps);
 		
 		dbData = dbData.FindAll (s => s.DRILL_ID == SceneData.nowDrill);
-		
+		dbData.Sort ((a, b) => a.JUN - b.JUN);
+
 		senList = new List<int> ();
 
 		foreach (Transform n in content.transform) {
 			GameObject.Destroy (n.gameObject);
 		}
 
+
+		int i = 1;
 		foreach (QuesData d in dbData) {
 
 			GameObject go = Instantiate (quesP);
@@ -141,6 +146,7 @@ public class QuesView : MonoBehaviour
 			//Debug.Log (d);
 
 			go.GetComponent<QuesBannar> ().id = d.ID;
+			go.GetComponent<QuesBannar> ().jun = i;
 
 			string lastTime;
 			if (d.LAST.Length > 5) {
@@ -149,7 +155,9 @@ public class QuesView : MonoBehaviour
 				lastTime = "なし";
 			}
 
-			num.GetComponent<Text> ().text = d.ID + "　最終：" + lastTime;
+			num.GetComponent<Text> ().text = i + "　最終：" + lastTime;
+
+			i++;
 
 			Color[] col = DrillColor.GetColorD (SceneData.nowColor);
 			ba.GetComponent<Image> ().color = col [0];
@@ -222,6 +230,13 @@ public class QuesView : MonoBehaviour
 
 		if (b == true) {
 			this.sentakuMode = true;
+
+			if (dbData.Count > 0) {
+				deleteDrillB.SetActive (false);
+			} else {
+				deleteDrillB.SetActive (true);
+			}
+
 		} else {
 			this.sentakuMode = false;
 		}
@@ -235,6 +250,39 @@ public class QuesView : MonoBehaviour
 		} else {
 			es.GetComponent<DbProcess> ().DeleteSelection (senList);
 			SentakuQuesView ();
+			es.GetComponent<PopupWindow> ().Popdown (2);
 		}
+	}
+
+	public void TagSenB (int tagC)
+	{
+
+		foreach (int s in senList) {
+			es.GetComponent<DbProcess> ().UpdateTag (s, tagC);
+
+		}
+		SentakuQuesView ();
+
+	}
+
+	public bool SentakuNull ()
+	{
+		if (senList.Count == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void SentakuAll ()
+	{
+		foreach (Transform c in content.transform) {
+			c.GetComponent<QuesBannar> ().OnSentaku ();
+		}
+	}
+
+	public int GetQuesCount ()
+	{
+		return dbData.Count;
 	}
 }

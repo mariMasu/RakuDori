@@ -166,15 +166,6 @@ public class DrillKeyTextDrops : MonoBehaviour
 		}
 	}
 
-	//	public void SetDataTemp ()
-	//	{
-	//
-	//		foreach (GameObject d in drops) {
-	//			d.GetComponent <DrillKeyButton> ().SetTemp ();
-	//		}
-	//
-	//	}
-
 	public bool CustomCheck ()
 	{
 		foreach (GameObject i in inputs) {

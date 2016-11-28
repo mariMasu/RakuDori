@@ -9,6 +9,9 @@ public class PopupWindow : MonoBehaviour
 	public GameObject pop2;
 	public GameObject pop3;
 	public GameObject pop4;
+	public GameObject pop5;
+	public GameObject pop6;
+
 
 	public GameObject input1;
 	public GameObject input2;
@@ -18,11 +21,9 @@ public class PopupWindow : MonoBehaviour
 	public GameObject input6;
 	public GameObject input7;
 
-	SceneData data;
 
 	void Awake ()
 	{
-		data = this.GetComponent<SceneData> ();
 	}
 
 	public void DrillAddNext ()
@@ -36,8 +37,6 @@ public class PopupWindow : MonoBehaviour
 		this.GetComponent<DrillAdd> ().AddSimple (col, name);
 
 		ResetInputField (1);
-
-
 	}
 
 	public void DrillAddReset ()
@@ -46,8 +45,21 @@ public class PopupWindow : MonoBehaviour
 
 	}
 
+	public void TagPopReset ()
+	{
+		QuesView qv = this.GetComponent<QuesView> ();
+
+		if (qv.SentakuNull ()) {
+			return;
+		}
+
+		GameObject.Find ("none").GetComponent<ButtonPoint> ().OnClick ();
+		Popup (3);
+	}
+
 	public void DrillPatReset ()
 	{
+		SceneData data = this.GetComponent<SceneData> ();
 
 		switch (data.InputPat) {
 
@@ -88,13 +100,20 @@ public class PopupWindow : MonoBehaviour
 	{
 		GameObject pop;
 
-		if (num == 2) {
+		if (num == 1) {
+			pop = pop1;
+		} else if (num == 2) {
 			pop = pop2;
 		} else if (num == 3) {
 			pop = pop3;
 		} else if (num == 4) {
 			pop = pop4;
+		} else if (num == 5) {
+			pop = pop5;
+		} else if (num == 6) {
+			pop = pop6;
 		} else {
+			Debug.Log ("nonePop");
 			pop = pop1;
 		}
 
@@ -141,6 +160,23 @@ public class PopupWindow : MonoBehaviour
 			input7.GetComponent<InputField> ().text = "";
 		} else {
 		}
+	}
+
+	public void PopDrillEdit ()
+	{
+		input1.GetComponent<InputField> ().text = SceneData.nowName;
+
+		Popup (1);
+	}
+
+	public void PopSort ()
+	{
+		QuesView qv = this.GetComponent<QuesView> ();
+		if (qv.GetQuesCount () == 0) {
+			return;
+		}
+
+		Popup (4);
 	}
 
 	public void PopupCaution (string t)
