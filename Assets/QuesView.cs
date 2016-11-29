@@ -22,6 +22,8 @@ public class QuesView : MonoBehaviour
 	[SerializeField]
 	List<int> senList;
 
+	public int sortTag = 6;
+
 	public List<QuesData> dbData;
 
 	void Awake ()
@@ -116,6 +118,11 @@ public class QuesView : MonoBehaviour
 		                             select ps);
 		
 		dbData = dbData.FindAll (s => s.DRILL_ID == SceneData.nowDrill);
+
+		if (sortTag != 6) {
+			dbData = dbData.FindAll (s => s.TAG == sortTag);
+		}
+
 		dbData.Sort ((a, b) => a.JUN - b.JUN);
 
 		senList = new List<int> ();

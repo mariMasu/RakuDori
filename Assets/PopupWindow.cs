@@ -53,7 +53,8 @@ public class PopupWindow : MonoBehaviour
 			return;
 		}
 
-		GameObject.Find ("none").GetComponent<ButtonPoint> ().OnClick ();
+		GameObject go = GameObject.Find ("PopTagColor");
+		go.transform.FindChild ("none").GetComponent<ButtonPoint> ().OnClick ();
 		Popup (3);
 	}
 
@@ -124,13 +125,20 @@ public class PopupWindow : MonoBehaviour
 	{
 		GameObject pop;
 
-		if (num == 2) {
+		if (num == 1) {
+			pop = pop1;
+		} else if (num == 2) {
 			pop = pop2;
 		} else if (num == 3) {
 			pop = pop3;
 		} else if (num == 4) {
 			pop = pop4;
+		} else if (num == 5) {
+			pop = pop5;
+		} else if (num == 6) {
+			pop = pop6;
 		} else {
+			Debug.Log ("nonePop");
 			pop = pop1;
 		}
 
@@ -164,9 +172,14 @@ public class PopupWindow : MonoBehaviour
 
 	public void PopDrillEdit ()
 	{
+
+		GameObject go = GameObject.Find ("PopDrillEdit");
 		input1.GetComponent<InputField> ().text = SceneData.nowName;
 
 		Popup (1);
+
+		go.transform.FindChild ("sky").GetComponent<ButtonPoint> ().OnClick ();
+
 	}
 
 	public void PopSort ()
@@ -177,6 +190,16 @@ public class PopupWindow : MonoBehaviour
 		}
 
 		Popup (4);
+	}
+
+	public void PopTagSort ()
+	{
+		GameObject go = GameObject.Find ("PopTagSort");
+		go.GetComponent<TempData> ().temp [0] = "0";
+
+		Popup (5);
+
+		go.transform.FindChild ("none").GetComponent<ButtonPoint> ().OnClickTagSort ();
 	}
 
 	public void PopupCaution (string t)

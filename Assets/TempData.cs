@@ -97,9 +97,26 @@ public class TempData : MonoBehaviour
 		GameObject input = es.GetComponent<PopupWindow> ().input1;
 		string name = input.GetComponent<InputField> ().text;
 
-		this.GetComponent<DbProcess> ().UpdateDrillNC (col, name);
+		es.GetComponent<DbProcess> ().UpdateDrillNC (col, name);
+
+		SceneData.nowColor = col;
+		es.GetComponent<QuesView> ().SentakuQuesView ();
 
 		es.GetComponent<PopupWindow> ().Popdown (1);
+	}
+
+	public void TagSortSend ()
+	{
+
+		int tag = int.Parse (temp [0]);
+
+		QuesView qv = es.GetComponent<QuesView> ();
+
+		qv.sortTag = tag;
+
+		qv.SentakuQuesView ();
+
+		es.GetComponent<PopupWindow> ().Popdown (5);
 	}
 
 	public void DrillKeySend ()
