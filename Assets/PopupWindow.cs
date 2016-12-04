@@ -34,7 +34,7 @@ public class PopupWindow : MonoBehaviour
 		int col = int.Parse (GameObject.Find ("PopDrillAdd").GetComponent<TempData> ().temp [0]);
 		string name = input1.GetComponent<InputField> ().text;
 
-		this.GetComponent<DrillAdd> ().AddSimple (col, name);
+		this.GetComponent<DrillSentakuMaster> ().AddSimple (col, name);
 
 		ResetInputField (1);
 	}
@@ -47,7 +47,7 @@ public class PopupWindow : MonoBehaviour
 
 	public void TagPopReset ()
 	{
-		QuesView qv = this.GetComponent<QuesView> ();
+		QuesSentakuMaster qv = this.GetComponent<QuesSentakuMaster> ();
 
 		if (qv.SentakuNull ()) {
 			return;
@@ -60,9 +60,9 @@ public class PopupWindow : MonoBehaviour
 
 	public void DrillPatReset ()
 	{
-		SceneData data = this.GetComponent<SceneData> ();
+		QuesInputMaster data = this.GetComponent<QuesInputMaster> ();
 
-		switch (data.InputPat) {
+		switch (data.inputPat) {
 
 		case 0:
 			GameObject.Find ("patternB0").GetComponent<ButtonPoint> ().OnClick ();
@@ -174,7 +174,7 @@ public class PopupWindow : MonoBehaviour
 	{
 
 		GameObject go = GameObject.Find ("PopDrillEdit");
-		input1.GetComponent<InputField> ().text = SceneData.nowName;
+		input1.GetComponent<InputField> ().text = Statics.nowName;
 
 		Popup (1);
 
@@ -184,7 +184,7 @@ public class PopupWindow : MonoBehaviour
 
 	public void PopSort ()
 	{
-		QuesView qv = this.GetComponent<QuesView> ();
+		QuesSentakuMaster qv = this.GetComponent<QuesSentakuMaster> ();
 		if (qv.GetQuesCount () == 0) {
 			return;
 		}
@@ -208,6 +208,23 @@ public class PopupWindow : MonoBehaviour
 
 		GameObject.Find ("CautionText").GetComponent<Text> ().text = t;
 		pop.transform.position = GameObject.Find ("backGround").transform.position;
+	}
+
+	public void PopDrillOrder ()
+	{
+		GameObject drop1 = GameObject.Find ("OrderDrop");
+		GameObject drop2 = GameObject.Find ("DummyDrop1");
+		GameObject drop3 = GameObject.Find ("DummyDrop2");
+
+		drop1.GetComponent<Dropdown> ().value = 1;
+		drop2.GetComponent<Dropdown> ().value = 1;
+		drop3.GetComponent<Dropdown> ().value = 1;
+
+		drop1.GetComponent<Dropdown> ().value = 0;
+		drop2.GetComponent<Dropdown> ().value = 0;
+		drop3.GetComponent<Dropdown> ().value = 0;
+
+		Popup (2);
 	}
 
 }

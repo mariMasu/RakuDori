@@ -13,12 +13,12 @@ public class QuesBannar : MonoBehaviour
 	public int jun;
 
 	GameObject es;
-	QuesView qv;
+	QuesSentakuMaster qv;
 
 	void Awake ()
 	{
 		es = GameObject.Find ("EventSystem");
-		qv = es.GetComponent<QuesView> ();
+		qv = es.GetComponent<QuesSentakuMaster> ();
 
 		sele.SetActive (false);
 	}

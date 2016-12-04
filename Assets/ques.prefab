@@ -283,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sele: {fileID: 1000011749915700}
   id: 0
+  jun: 0
 --- !u!114 &114000010240029580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -756,7 +757,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   color: 0
-  name: 
+  nameD: 
+  order: 0
 --- !u!114 &114000014196309096
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -967,8 +969,8 @@ RectTransform:
   m_RootOrder: 8
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -389.2497, y: 128}
-  m_SizeDelta: {x: 778.5, y: 104}
+  m_AnchoredPosition: {x: -389.2497, y: 119}
+  m_SizeDelta: {x: 778, y: 122}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000012342536600
 RectTransform:

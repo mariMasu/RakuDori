@@ -16,9 +16,9 @@ public class LoadButton : MonoBehaviour
 
 	public void SetDrillIC ()
 	{
-		SceneData.nowDrill = this.GetComponent<DrillNum> ().id;
-		SceneData.nowColor = this.GetComponent<DrillNum> ().color;
-		SceneData.nowName = this.GetComponent<DrillNum> ().nameD;
+		Statics.nowDrill = this.GetComponent<DrillNum> ().id;
+		Statics.nowColor = this.GetComponent<DrillNum> ().color;
+		Statics.nowName = this.GetComponent<DrillNum> ().nameD;
 
 	}
 
@@ -37,6 +37,12 @@ public class LoadButton : MonoBehaviour
 	public void LoadDrillSentaku ()
 	{
 		SceneManager.LoadScene ("drillSentaku");
+
+	}
+
+	public void LoadDrillAns ()
+	{
+		SceneManager.LoadScene ("drillAns");
 
 	}
 

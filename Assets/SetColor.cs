@@ -13,7 +13,7 @@ public class SetColor : MonoBehaviour
 		GameObject ba = this.transform.FindChild ("base").gameObject;
 		GameObject obi = this.transform.FindChild ("obi").gameObject;
 
-		Color[] col = DrillColor.GetColorD (SceneData.nowColor);
+		Color[] col = DrillColor.GetColorD (Statics.nowColor);
 		ba.GetComponent<Image> ().color = col [0];
 		obi.GetComponent<Image> ().color = col [1];
 	

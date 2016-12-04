@@ -295,7 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   color: 0
-  name: 
+  nameD: 
+  order: 0
 --- !u!114 &114000011227338816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -334,7 +335,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114000010542155102}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114000010557105092}
+        m_MethodName: DrillNext
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114000011459259660
@@ -368,8 +380,10 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "\u306A\u3057\n0/0"
+    m_LineSpacing: 0.9
+  m_Text: '0
+
+    0/0'
 --- !u!114 &114000011950978628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -428,8 +442,8 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "\u6700\u8FD1\u306E\u5B66\u7FD2\n\u5B8C\u6210\u554F\u984C"
+    m_LineSpacing: 0.9
+  m_Text: "\u8981\u5FA9\u7FD2\u554F\u984C\n\u5B8C\u6210\u554F\u984C"
 --- !u!114 &114000012781548266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,8 +638,8 @@ RectTransform:
   m_RootOrder: 4
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 123, y: -102.47}
-  m_SizeDelta: {x: 425, y: 255}
+  m_AnchoredPosition: {x: 168, y: -102.47}
+  m_SizeDelta: {x: 515, y: 255}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000010773991004
 RectTransform:

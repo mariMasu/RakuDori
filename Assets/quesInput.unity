@@ -1502,7 +1502,7 @@ MonoBehaviour:
   input: {fileID: 855110390}
   defKey: ' '
   dataName: SepKey
-  myNum: 3
+  tempNum: 3
 --- !u!1 &218636933
 GameObject:
   m_ObjectHideFlags: 0
@@ -4376,7 +4376,7 @@ MonoBehaviour:
   input: {fileID: 374616750}
   defKey: '!!'
   dataName: AnsKey
-  myNum: 2
+  tempNum: 2
 --- !u!1 &505294488
 GameObject:
   m_ObjectHideFlags: 0
@@ -5808,7 +5808,7 @@ MonoBehaviour:
   input: {fileID: 2020273945}
   defKey: '%%'
   dataName: PerKey
-  myNum: 6
+  tempNum: 5
 --- !u!114 &827602106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5956,7 +5956,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 1196003318}
   m_Father: {fileID: 1505482636}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
@@ -7399,7 +7400,7 @@ MonoBehaviour:
   input: {fileID: 1697730746}
   defKey: $$
   dataName: DummyKey
-  myNum: 5
+  tempNum: 4
 --- !u!114 &990303096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7716,10 +7717,10 @@ GameObject:
   - 114: {fileID: 1019962105}
   - 114: {fileID: 1019962108}
   - 114: {fileID: 1019962106}
-  - 114: {fileID: 1019962107}
-  - 114: {fileID: 1019962109}
   - 114: {fileID: 1019962110}
   - 114: {fileID: 1019962111}
+  - 114: {fileID: 1019962107}
+  - 114: {fileID: 1019962109}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -7802,22 +7803,28 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1019962101}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebe1cfa54d7c84a42a969d6a3efe2449, type: 3}
+  m_Script: {fileID: 11500000, guid: 9eb59740d54614df9985f49075dfd416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputPat: 0
-  _sentaku: 
-  _quesKey: '
+  dbManager: {fileID: 1702985830}
+  quesP: {fileID: 1000011998242144, guid: 3cd159064af0e458c9df2ad60d198959, type: 2}
+  inputPat: 0
+  sentaku: 
+  quesKey: '
 
 '
-  _ansKey: '!!'
-  _sepKey: 
-  _expKey: '##'
-  _dummyKey: 
-  _perKey: 
-  _quesText: 
+  ansKey: '!!'
+  sepKey: 
+  expKey: '##'
+  dummyKey: 
+  perKey: 
+  quesText: 
+  keyText1: {fileID: 385415866}
+  senText: {fileID: 327560884}
+  keyText2: {fileID: 1059379610}
+  patText: {fileID: 1863968645}
 --- !u!114 &1019962107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7826,13 +7833,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1019962101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee24a9aff192a4a69ae86c137c357e89, type: 3}
+  m_Script: {fileID: 11500000, guid: 598f7afa5fe0c44348b1fae7c507d81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyText1: {fileID: 385415866}
-  senText: {fileID: 327560884}
-  keyText2: {fileID: 1059379610}
-  patText: {fileID: 1863968645}
   popKeyText: {fileID: 759077995}
   senDrop: {fileID: 1150270953}
   senInput: {fileID: 1879631561}
@@ -7884,15 +7887,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1019962101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93555c0876227497bb739a7da4baeccb, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ef3e1100e5e4424aa92d00937981783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dbManager: {fileID: 0}
-  quesP: {fileID: 1000011998242144, guid: 3cd159064af0e458c9df2ad60d198959, type: 2}
-  deleteDrillB: {fileID: 0}
-  sentakuMode: 0
-  firstView: 0
-  senList: 
 --- !u!114 &1019962110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8847,7 +8844,7 @@ MonoBehaviour:
   input: {fileID: 1879631561}
   defKey: 
   dataName: Sentaku
-  myNum: 0
+  tempNum: 0
 --- !u!114 &1150270956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9299,6 +9296,111 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1181540750}
+--- !u!1001 &1196003317
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 829851744}
+    m_Modifications:
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 921.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -290
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 1843
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 580
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 3cd159064af0e458c9df2ad60d198959, type: 2}
+  m_IsPrefabParent: 0
+--- !u!224 &1196003318 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224000010925966408, guid: 3cd159064af0e458c9df2ad60d198959,
+    type: 2}
+  m_PrefabInternal: {fileID: 1196003317}
 --- !u!1 &1200765515
 GameObject:
   m_ObjectHideFlags: 0
@@ -13024,7 +13126,7 @@ MonoBehaviour:
   input: {fileID: 387161007}
   defKey: '##'
   dataName: ExpKey
-  myNum: 4
+  tempNum: 4
 --- !u!1 &1749875048
 GameObject:
   m_ObjectHideFlags: 0
@@ -14466,7 +14568,7 @@ MonoBehaviour:
   input: {fileID: 137429939}
   defKey: '@@'
   dataName: QuesKey
-  myNum: 1
+  tempNum: 1
 --- !u!1 &1990331059
 GameObject:
   m_ObjectHideFlags: 0

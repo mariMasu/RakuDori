@@ -13,7 +13,7 @@ public class DrillKeyButton : MonoBehaviour
 	public GameObject input;
 	public string defKey;
 	public string dataName;
-	public int myNum;
+	public int tempNum;
 
 	void Awake ()
 	{
@@ -28,42 +28,42 @@ public class DrillKeyButton : MonoBehaviour
 			InputOn ();
 			break;
 		case "設定しない":
-			temp.SetTemp (null, myNum);
+			temp.SetTemp (null, tempNum);
 			InputOff ();
 			break;
 		case "スペース(半角)":
-			temp.SetTemp (" ", myNum);
+			temp.SetTemp (" ", tempNum);
 			InputOff ();
 			break;
 		case "スペース(全角)":
-			temp.SetTemp ("　", myNum);
+			temp.SetTemp ("　", tempNum);
 			InputOff ();
 			break;
 		case "改行":
-			temp.SetTemp ("\n", myNum);
+			temp.SetTemp ("\n", tempNum);
 			InputOff ();
 			break;
 		case "２改行":
-			temp.SetTemp ("\n\n", myNum);
+			temp.SetTemp ("\n\n", tempNum);
 			InputOff ();
 			break;
 		case "３改行":
-			temp.SetTemp ("\n\n\n", myNum);
+			temp.SetTemp ("\n\n\n", tempNum);
 			InputOff ();
 			break;
 		case "カスタム":
-			SceneData sd = GameObject.Find ("EventSystem").GetComponent<SceneData> ();
+			QuesInputMaster sd = GameObject.Find ("EventSystem").GetComponent<QuesInputMaster> ();
 			input.GetComponent<InputField> ().text = sd.GetDataByText (dataName);
 
 			InputOn ();
 			break;
 		case "なし":
-			temp.SetTemp (null, myNum);
+			temp.SetTemp (null, tempNum);
 			InputOff ();
 
 			break;
 		default:
-			temp.SetTemp (defKey, myNum);
+			temp.SetTemp (defKey, tempNum);
 			InputOff ();
 			break;
 		}
@@ -72,7 +72,7 @@ public class DrillKeyButton : MonoBehaviour
 
 	public void ChangeDropByText ()
 	{
-		SceneData sd = GameObject.Find ("EventSystem").GetComponent<SceneData> ();
+		QuesInputMaster sd = GameObject.Find ("EventSystem").GetComponent<QuesInputMaster> ();
 
 		List<string> dropText = new List<string> ();
 		List<Dropdown.OptionData> dropList = this.GetComponent<Dropdown> ().options;
@@ -80,9 +80,9 @@ public class DrillKeyButton : MonoBehaviour
 
 		if (dataName == "Sentaku") {
 			
-			string senText = sd.Sentaku;
+			string senText = sd.sentaku;
 
-			if (SceneData.strNull (senText) == true) {
+			if (Statics.strNull (senText) == true) {
 				this.GetComponent<Dropdown> ().value = 0;
 				InputOff ();
 			} else {
@@ -99,7 +99,7 @@ public class DrillKeyButton : MonoBehaviour
 				dropText.Add (s.text);
 			}
 
-			string ds = SceneData.SpaceString (sd.GetDataByText (dataName));
+			string ds = sd.SpaceString (sd.GetDataByText (dataName));
 
 			if (ds == "半スペ") {
 				ds = "スペース(半角)";
@@ -125,14 +125,14 @@ public class DrillKeyButton : MonoBehaviour
 
 	public void NullTemp ()
 	{
-		temp.SetTemp (null, myNum);
+		temp.SetTemp (null, tempNum);
 		InputOff ();
 	}
 
 	public void SetCustom ()
 	{
 		string t = input.GetComponent<InputField> ().text;
-		temp.SetTemp (t, myNum);
+		temp.SetTemp (t, tempNum);
 	}
 
 	public void InputOn ()

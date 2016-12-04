@@ -2,9 +2,10 @@
 using System.Collections;
 using System;
 
-public class DrillTime : MonoBehaviour {
+public class TimeFunctions : MonoBehaviour
+{
 
-	public static string GetLastTime (string lastTime)
+	public static string GetLastString (string lastTime)
 	{
 		string retT;
 		DateTime last = DateTime.Parse (lastTime);
@@ -22,7 +23,7 @@ public class DrillTime : MonoBehaviour {
 			i = (int)diff.TotalHours;
 			retT = (i + "時間前");
 
-		}else if(diff.TotalMinutes > 1){
+		} else if (diff.TotalMinutes > 1) {
 			i = (int)diff.TotalMinutes;
 			retT = (i + "分前");
 		} else {
@@ -32,5 +33,34 @@ public class DrillTime : MonoBehaviour {
 
 
 		return retT;
+	}
+
+	public static bool NeedReview (string lastTime, int level)
+	{
+		DateTime last = DateTime.Parse (lastTime);
+		TimeSpan diff = DateTime.Now.Subtract (last);
+
+		int gapD = (int)diff.TotalDays;
+
+		bool r = false;
+
+		if (level == 0) {
+			r = true;
+		} else if (level == 1) {
+			if (gapD > 0) {
+				r = true;
+			}
+		} else if (level == 2) {
+			if (gapD > 6) {
+				r = true;
+			}
+		} else if (level == 3) {
+			if (gapD > 29) {
+				r = true;
+			}
+		}
+
+
+		return r;
 	}
 }

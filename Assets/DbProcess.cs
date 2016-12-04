@@ -13,7 +13,7 @@ public class DbProcess : MonoBehaviour
 	{
 
 		foreach (string t in text) {
-			QuesData data = new QuesData { DRILL_ID = SceneData.nowDrill, TEXT = t, IMAGE = "なし", LAST = "なし"
+			QuesData data = new QuesData { DRILL_ID = Statics.nowDrill, TEXT = t, IMAGE = "なし", LAST = "なし"
 			};
 
 			dbManager.Insert (data);
@@ -51,7 +51,7 @@ public class DbProcess : MonoBehaviour
 
 	public void UpdateTag (int idT, int tag)
 	{
-		List<QuesData> qd = this.GetComponent<QuesView> ().dbData;
+		List<QuesData> qd = this.GetComponent<QuesSentakuMaster> ().dbData;
 
 		QuesData data = qd.Find (s => s.ID == idT);
 
@@ -78,7 +78,7 @@ public class DbProcess : MonoBehaviour
 	public void DeleteDrill ()
 	{
 
-		DrillData dd = new DrillData { ID = SceneData.nowDrill };
+		DrillData dd = new DrillData { ID = Statics.nowDrill };
 
 		dbManager.Delete<DrillData> (dd);
 
@@ -87,11 +87,11 @@ public class DbProcess : MonoBehaviour
 
 	public void UpdateQuesJun (int nowNum, int newNum)
 	{
-		List<QuesData> qd = this.GetComponent<QuesView> ().dbData;
+		List<QuesData> qd = this.GetComponent<QuesSentakuMaster> ().dbData;
 
 		QuesData nowData = qd [nowNum];
 		QuesData newData = qd [newNum];
-		if (newNum == 1) {
+		if (newNum == 0) {
 			nowData.JUN = newData.JUN - 1;
 		} else {
 			nowData.JUN = newData.JUN + 1;
@@ -107,17 +107,34 @@ public class DbProcess : MonoBehaviour
 			name = " ";
 		}
 
-		if (name == SceneData.nowName && col == SceneData.nowColor) {
+		if (name == Statics.nowName && col == Statics.nowColor) {
 			return;
 		}
 
 		List<DrillData> dd = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
 		                                          select ps);
 
-		DrillData data = dd.Find (s => s.ID == SceneData.nowDrill);
+		DrillData data = dd.Find (s => s.ID == Statics.nowDrill);
 
 		data.COLOR = col;
 		data.NAME = name;
+
+		dbManager.UpdateTable (data);
+	}
+
+	public void UpdateDrillOrder (int ansO, int dumU, int dumT)
+	{
+
+
+		List<DrillData> dd = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
+		                                          select ps);
+
+		DrillData data = dd.Find (s => s.ID == Statics.nowDrill);
+
+		data.ANS_ORDER = ansO;
+		data.DUMMY_USE = dumU;
+		data.DUMMY_TAG = dumT;
+
 
 		dbManager.UpdateTable (data);
 	}

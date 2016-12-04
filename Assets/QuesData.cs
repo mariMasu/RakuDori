@@ -9,20 +9,23 @@ public class QuesData
 	[Default (0)]
 	public int DRILL_ID { get; set; }
 
-	[Default (0)]
-	public int JUN { get; set; }
-
-	[Default (0)]
-	public int TAG { get; set; }
-
 	[Default ("なし")]
 	public string TEXT { get; set; }
 
 	[Default (0)]
-	public int LEVEL { get; set; }
+	public int TAG { get; set; }
+
+	[Default (0)]
+	public int JUN { get; set; }
+
+	[Default (0)]
+	public int ANSNUM { get; set; }
 
 	[Default ("なし")]
 	public string LAST { get; set; }
+
+	[Default (0)]
+	public int LEVEL { get; set; }
 
 	[Default (0)]
 	public int REVIEW { get; set; }
@@ -30,12 +33,5 @@ public class QuesData
 	[Default ("なし")]
 	public string IMAGE { get; set; }
 
-	//mu
-
-	[Default (0)]
-	public int ANSNUM { get; set; }
-
-	[Default (0)]
-	public int SHORTANS { get; set; }
 
 }

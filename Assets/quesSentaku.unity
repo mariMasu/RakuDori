@@ -4555,7 +4555,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1019962101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93555c0876227497bb739a7da4baeccb, type: 3}
+  m_Script: {fileID: 11500000, guid: 60612af8a99da4331a293de9f01ae270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dbManager: {fileID: 1702985830}
@@ -8762,22 +8762,22 @@ Prefab:
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 921.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -241.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 1843
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 483
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
@@ -8787,7 +8787,7 @@ Prefab:
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
@@ -8797,7 +8797,7 @@ Prefab:
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000014038231522, guid: 3cd83680c8ae14dbdb43b31cc2050ce2,
         type: 2}

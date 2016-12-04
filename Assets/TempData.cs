@@ -18,29 +18,29 @@ public class TempData : MonoBehaviour
 	public void DrillPatSend ()
 	{
 
-		SceneData sd = es.GetComponent<SceneData> ();
+		QuesInputMaster sd = es.GetComponent<QuesInputMaster> ();
 
 		if (temp [0] != "") {
 			sd.SetData (temp [0], "InputPat");
 		}
 
-		if (sd.InputPat < 2) {
+		if (sd.inputPat < 2) {
 			sd.SetData ("\n", "QuesKey");
 		} else {
 			sd.SetData ("@@", "QuesKey");
 
 		}
-		es.GetComponent<DrillKeyTextDrops> ().DrillKeyPatView ();
+		es.GetComponent<QuesInputMaster> ().DrillKeyPatView ();
 	}
 
 	public void TagSend ()
 	{
 
-		if (SceneData.strNull (temp [0])) {
+		if (Statics.strNull (temp [0])) {
 			return;
 		}
 
-		QuesView qv = es.GetComponent<QuesView> ();
+		QuesSentakuMaster qv = es.GetComponent<QuesSentakuMaster> ();
 		qv.TagSenB (int.Parse (temp [0]));
 
 		es.GetComponent<PopupWindow> ().Popdown (3);
@@ -53,7 +53,7 @@ public class TempData : MonoBehaviour
 		InputField input1 = this.transform.FindChild ("numInput1").GetComponent<InputField> ();
 		InputField input2 = this.transform.FindChild ("numInput2").GetComponent<InputField> ();
 
-		if (SceneData.strNull (input1.text) || SceneData.strNull (input2.text)) {
+		if (Statics.strNull (input1.text) || Statics.strNull (input2.text)) {
 			return;
 		}
 
@@ -64,7 +64,7 @@ public class TempData : MonoBehaviour
 			return;
 		}
 
-		QuesView qv = es.GetComponent<QuesView> ();
+		QuesSentakuMaster qv = es.GetComponent<QuesSentakuMaster> ();
 
 		nowJun = JunModify (nowJun, qv.GetQuesCount ());
 		newJun = JunModify (newJun, qv.GetQuesCount ());
@@ -99,8 +99,8 @@ public class TempData : MonoBehaviour
 
 		es.GetComponent<DbProcess> ().UpdateDrillNC (col, name);
 
-		SceneData.nowColor = col;
-		es.GetComponent<QuesView> ().SentakuQuesView ();
+		Statics.nowColor = col;
+		es.GetComponent<QuesSentakuMaster> ().SentakuQuesView ();
 
 		es.GetComponent<PopupWindow> ().Popdown (1);
 	}
@@ -110,7 +110,7 @@ public class TempData : MonoBehaviour
 
 		int tag = int.Parse (temp [0]);
 
-		QuesView qv = es.GetComponent<QuesView> ();
+		QuesSentakuMaster qv = es.GetComponent<QuesSentakuMaster> ();
 
 		qv.sortTag = tag;
 
@@ -126,7 +126,7 @@ public class TempData : MonoBehaviour
 			return;
 		}
 
-		SceneData sd = es.GetComponent<SceneData> ();
+		QuesInputMaster sd = es.GetComponent<QuesInputMaster> ();
 
 		sd.SetData (temp [0], "Sentaku");
 		sd.SetData (temp [1], "QuesKey");
@@ -136,8 +136,8 @@ public class TempData : MonoBehaviour
 		sd.SetData (temp [5], "DummyKey");
 		sd.SetData (temp [6], "PerKey");
 
-		es.GetComponent<DrillKeyTextDrops> ().DrillKeyPatView ();
-		es.GetComponent<DrillKeyTextDrops> ().DropViewReset ();
+		es.GetComponent<QuesInputMaster> ().DrillKeyPatView ();
+		es.GetComponent<PopDrillKey> ().DropViewReset ();
 		es.GetComponent<PopupWindow> ().ResetInputField (4);
 		es.GetComponent<PopupWindow> ().Popdown (2);
 		ResetTemp ();
@@ -152,14 +152,14 @@ public class TempData : MonoBehaviour
 	public void ResetTemp ()
 	{
 		for (int i = 0; i < 7; i++) {
-			temp [i] = null;
+			temp [i] = "";
 		}
 	}
 
 	public bool KeyCheck ()
 	{
 
-		if (es.GetComponent<DrillKeyTextDrops> ().CustomCheck () == false) {
+		if (es.GetComponent<PopDrillKey> ().CustomCheck () == false) {
 			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n入力されていない\nカスタムがあります");
 			return false;
 		}
@@ -169,7 +169,7 @@ public class TempData : MonoBehaviour
 
 		for (int i = 0; i < 7; i++) {
 
-			if (SceneData.strNull (temp [i])) {
+			if (Statics.strNull (temp [i])) {
 			} else {
 
 				if ((hs.Add (temp [i]) == false)) {
@@ -185,6 +185,23 @@ public class TempData : MonoBehaviour
 		}
 
 		return true;
+	}
+
+	public void DrillOrderSend ()
+	{
+		int ansO = int.Parse (temp [0]);
+		int dumU = int.Parse (temp [1]);
+		int dumT = int.Parse (temp [2]);
+
+		if (ansO == 0) {
+			ansO = 1;
+		}
+
+		es.GetComponent<DbProcess> ().UpdateDrillOrder (ansO, dumU, dumT);
+
+		es.GetComponent<LoadButton> ().LoadDrillAns ();
+
+
 	}
 		
 }

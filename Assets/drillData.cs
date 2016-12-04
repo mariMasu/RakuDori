@@ -9,17 +9,17 @@ public class DrillData
 	[Default (" ")]
 	public string NAME { get; set; }
 
-	[Default ("なし")]
-	public string LAST { get; set; }
-
-	[Default (0)]
-	public int OKNUM { get; set; }
-
 	[Default (0)]
 	public int COLOR { get; set; }
 
 	[Default (0)]
-	public int QNUM { get; set; }
+	public int ANS_ORDER { get; set; }
+
+	[Default (0)]
+	public int DUMMY_USE { get; set; }
+
+	[Default (0)]
+	public int DUMMY_TAG { get; set; }
 
 	[Default (0)]
 	public int FLAG { get; set; }

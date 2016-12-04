@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 
 
-public class QuesView : MonoBehaviour
+public class QuesSentakuMaster : MonoBehaviour
 {
 	
 	public SimpleSQL.SimpleSQLManager dbManager;
@@ -37,87 +37,13 @@ public class QuesView : MonoBehaviour
 		}
 	}
 
-	public void TestQuesView (List<string> q)
-	{
-
-		foreach (Transform n in content.transform) {
-			GameObject.Destroy (n.gameObject);
-		}
-
-		Color[] col = DrillColor.GetColorD (SceneData.nowColor);
-
-		foreach (string d in q) {
-
-			GameObject go = Instantiate (quesP);
-
-			GameObject ba = go.transform.FindChild ("base").gameObject;
-			GameObject obi = go.transform.FindChild ("obi").gameObject;
-			GameObject zyun = go.transform.FindChild ("zyun").gameObject;
-			GameObject ques = go.transform.FindChild ("quesText").gameObject;
-			GameObject ans = go.transform.FindChild ("ansText").gameObject;
-			GameObject exp = go.transform.FindChild ("expText").gameObject;
-			GameObject dum = go.transform.FindChild ("dumText").gameObject;
-
-			//Debug.Log (d);
-
-			ba.GetComponent<Image> ().color = col [0];
-			obi.GetComponent<Image> ().color = col [1];
-
-
-
-			QuesArray qa = DbTextToQA.DbToQA (d);
-
-			string sento = qa.Ques.Substring (0, QuesTextEdit.PerKeyCommon.Length);
-
-			if (sento != QuesTextEdit.PerKeyCommon) {
-				zyun.SetActive (false);
-				ques.GetComponent<Text> ().text = "問題文：" + qa.Ques;
-			} else {
-				ques.GetComponent<Text> ().text = "問題文：" + qa.Ques.Substring (QuesTextEdit.PerKeyCommon.Length - 1);
-			}
-
-			string ansS = "";
-
-			foreach (string s in qa.Ans) {
-				ansS += (" " + s);
-			}
-
-			ans.GetComponent<Text> ().text = "正答：" + ansS;
-
-
-			if (qa.Dummy.Length > 0) {
-				string dumS = "";
-
-				foreach (string s in qa.Dummy) {
-
-					dumS += (" " + s);
-				}
-
-				dum.GetComponent<Text> ().text = "ダミー：" + dumS;
-			} else {
-				dum.GetComponent<Text> ().text = "ダミー：なし";
-			}
-
-			if (qa.Exp.Length > 0) {
-				exp.GetComponent<Text> ().text = "解説：" + qa.Exp;
-			} else {
-				exp.GetComponent<Text> ().text = "解説：なし" + qa.Exp;
-
-			}
-
-			go.transform.SetParent (content.transform);
-			go.transform.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
-
-		}
-
-	}
 
 	public void SentakuQuesView ()
 	{
 		dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
 		                             select ps);
 		
-		dbData = dbData.FindAll (s => s.DRILL_ID == SceneData.nowDrill);
+		dbData = dbData.FindAll (s => s.DRILL_ID == Statics.nowDrill);
 
 		if (sortTag != 6) {
 			dbData = dbData.FindAll (s => s.TAG == sortTag);
@@ -157,7 +83,7 @@ public class QuesView : MonoBehaviour
 
 			string lastTime;
 			if (d.LAST.Length > 5) {
-				lastTime = DrillTime.GetLastTime (d.LAST);
+				lastTime = TimeFunctions.GetLastString (d.LAST);
 			} else {
 				lastTime = "なし";
 			}
@@ -166,7 +92,7 @@ public class QuesView : MonoBehaviour
 
 			i++;
 
-			Color[] col = DrillColor.GetColorD (SceneData.nowColor);
+			Color[] col = DrillColor.GetColorD (Statics.nowColor);
 			ba.GetComponent<Image> ().color = col [0];
 			obi.GetComponent<Image> ().color = col [1];
 
@@ -184,11 +110,11 @@ public class QuesView : MonoBehaviour
 			level4.SetActive (false);
 
 			if (d.LEVEL == 0) {
-			} else if (d.LEVEL < 3) {
+			} else if (d.LEVEL == 1) {
 				level1.SetActive (true);
-			} else if (d.LEVEL < 5) {
+			} else if (d.LEVEL == 2) {
 				level2.SetActive (true);
-			} else if (d.LEVEL < 7) {
+			} else if (d.LEVEL == 3) {
 				level3.SetActive (true);
 			} else {
 				level4.SetActive (true);

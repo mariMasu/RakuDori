@@ -12,7 +12,7 @@ public class QuesTextEdit : MonoBehaviour
 	public GameObject inputQuesText;
 
 	GameObject es;
-	SceneData sd;
+	QuesInputMaster sd;
 
 	List<string> q;
 
@@ -28,19 +28,19 @@ public class QuesTextEdit : MonoBehaviour
 	void Awake ()
 	{
 		es = GameObject.Find ("EventSystem");
-		sd = es.GetComponent<SceneData> ();
+		sd = es.GetComponent<QuesInputMaster> ();
 	}
 
 	public void QaTest ()
 	{
 		TextCheck ();
-		q = TextToArray (sd.InputPat);
+		q = TextToArray (sd.inputPat);
 
 		if (q.Count == 0) {
 			return;
 		}
 
-		es.GetComponent<QuesView> ().TestQuesView (q);
+		es.GetComponent<QuesInputMaster> ().TestQuesView (q);
 
 		es.GetComponent<PopupWindow> ().Popup (3);
 	}
@@ -63,7 +63,7 @@ public class QuesTextEdit : MonoBehaviour
 
 		List<string> q = new List<string> ();
 
-		string[] que = { sd.QuesKey };
+		string[] que = { sd.quesKey };
 		string[] rowText = text.Split (que, StringSplitOptions.RemoveEmptyEntries);
 
 		List<string> listRow = new List<string> ();
@@ -79,9 +79,9 @@ public class QuesTextEdit : MonoBehaviour
 		}
 
 		//選択肢があればダミー用を作成
-		if (SceneData.strNull (sd.Sentaku) == false) {
+		if (Statics.strNull (sd.sentaku) == false) {
 			string[] kanma = { "," };
-			string[] sen = sd.Sentaku.Split (kanma, StringSplitOptions.RemoveEmptyEntries);
+			string[] sen = sd.sentaku.Split (kanma, StringSplitOptions.RemoveEmptyEntries);
 
 			sentaku = sen [0];
 
@@ -99,7 +99,7 @@ public class QuesTextEdit : MonoBehaviour
 				es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題のない正答か\n正答のない問題があります");
 				return new List<string> ();
 			}
-			if (sd.InputPat == 0) {
+			if (sd.inputPat == 0) {
 				for (int i = 0; i < listRow.Count; i++) {
 					if (i % 2 == 0) {
 						listQ.Add (listRow [i]);
@@ -127,14 +127,14 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (SceneData.strNull (sd.SepKey) == false) {
+			if (Statics.strNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
 					
 					string str = listQ [i];
 
-					string[] sep = { sd.SepKey };
+					string[] sep = { sd.sepKey };
 					string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 					List<string> listAS = new List<string> ();
@@ -208,7 +208,7 @@ public class QuesTextEdit : MonoBehaviour
 
 			for (int i = 0; i < listRow.Count; i++) {
 				
-				string[] sep = { sd.AnsKey };
+				string[] sep = { sd.ansKey };
 				string[] rowAS = listRow [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 				if (rowAS.Length > 2) {
@@ -226,11 +226,11 @@ public class QuesTextEdit : MonoBehaviour
 			}
 
 			//解説の分離
-			if (SceneData.strNull (sd.ExpKey) == false) {
+			if (Statics.strNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count; i++) {
 
-					string[] sep = { sd.ExpKey };
+					string[] sep = { sd.expKey };
 					string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 					if (rowAS.Length == 2) {
@@ -256,14 +256,14 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (SceneData.strNull (sd.SepKey) == false) {
+			if (Statics.strNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
 
 					string str = listQ [i];
 
-					string[] sep = { sd.SepKey };
+					string[] sep = { sd.sepKey };
 					string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 					List<string> listAS = new List<string> ();
@@ -354,7 +354,7 @@ public class QuesTextEdit : MonoBehaviour
 
 			for (int i = 0; i < listRow.Count; i++) {
 
-				string[] sep = { sd.AnsKey };
+				string[] sep = { sd.ansKey };
 				string[] rowAS = listRow [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 				if (rowAS.Length > 2) {
@@ -372,11 +372,11 @@ public class QuesTextEdit : MonoBehaviour
 			}
 
 			//解説の分離
-			if (SceneData.strNull (sd.ExpKey) == false) {
+			if (Statics.strNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count; i++) {
 
-					string[] sep = { sd.ExpKey };
+					string[] sep = { sd.expKey };
 					string[] rowQE = listQ [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 					if (rowQE.Length == 2) {
@@ -402,14 +402,14 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (SceneData.strNull (sd.SepKey) == false) {
+			if (Statics.strNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
 
 					string str = listQ [i];
 
-					string[] sep = { sd.SepKey };
+					string[] sep = { sd.sepKey };
 					string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 					List<string> listAS = new List<string> ();
@@ -498,7 +498,7 @@ public class QuesTextEdit : MonoBehaviour
 		} else if (mode == 4) {
 
 
-			string[] sep = { sd.AnsKey };
+			string[] sep = { sd.ansKey };
 			string[] rowA = listRow [listRow.Count - 1].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 			if (rowA.Length == listRow.Count + 1) {
@@ -526,11 +526,11 @@ public class QuesTextEdit : MonoBehaviour
 
 
 			//解説の分離
-			if (SceneData.strNull (sd.ExpKey) == false) {
+			if (Statics.strNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count; i++) {
 
-					string[] sep2 = { sd.ExpKey };
+					string[] sep2 = { sd.expKey };
 					string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
 
 					if (rowAS.Length == 2) {
@@ -556,14 +556,14 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (SceneData.strNull (sd.SepKey) == false) {
+			if (Statics.strNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
 
 					string str = listQ [i];
 
-					string[] sep2 = { sd.SepKey };
+					string[] sep2 = { sd.sepKey };
 					string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
 
 					List<string> listAS = new List<string> ();
@@ -651,7 +651,7 @@ public class QuesTextEdit : MonoBehaviour
 
 			//全問題ー解説ー正答ー解説
 		} else if (mode == 5) {
-			string[] sep = { sd.AnsKey };
+			string[] sep = { sd.ansKey };
 			string[] rowA = listRow [listRow.Count - 1].Split (sep, StringSplitOptions.RemoveEmptyEntries);
 
 			listRow [listRow.Count - 1] = rowA [0];
@@ -659,8 +659,8 @@ public class QuesTextEdit : MonoBehaviour
 			if (rowA.Length == listRow.Count + 1) {
 				
 				//解説の分離[0]
-				if (SceneData.strNull (sd.ExpKey) == false) {
-					string[] sep2 = { sd.ExpKey };
+				if (Statics.strNull (sd.expKey) == false) {
+					string[] sep2 = { sd.expKey };
 					string lr = listRow [listRow.Count - 1];
 					string[] rowE = lr.Split (sep2, StringSplitOptions.RemoveEmptyEntries);
 
@@ -691,11 +691,11 @@ public class QuesTextEdit : MonoBehaviour
 
 
 			//解説の分離
-			if (SceneData.strNull (sd.ExpKey) == false) {
+			if (Statics.strNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count - 1; i++) {
 
-					string[] sep2 = { sd.ExpKey };
+					string[] sep2 = { sd.expKey };
 					string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
 
 					if (rowAS.Length == 2) {
@@ -721,14 +721,14 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (SceneData.strNull (sd.SepKey) == false) {
+			if (Statics.strNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
 
 					string str = listQ [i];
 
-					string[] sep2 = { sd.SepKey };
+					string[] sep2 = { sd.sepKey };
 					string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
 
 					List<string> listAS = new List<string> ();
@@ -862,7 +862,7 @@ public class QuesTextEdit : MonoBehaviour
 		string[] spl = Regex.Split (s, kaigyo);
 
 		foreach (string sp in spl) {
-			if (SceneData.strNull (sp)) {
+			if (Statics.strNull (sp)) {
 			} else {
 				ns += sp;
 			}
@@ -900,8 +900,8 @@ public class QuesTextEdit : MonoBehaviour
 
 	public void SeparateDummy (ref List<string> listA, ref List<string> listD)
 	{
-		if (SceneData.strNull (sd.DummyKey) == false) {
-			string[] dum = { sd.DummyKey };
+		if (Statics.strNull (sd.dummyKey) == false) {
+			string[] dum = { sd.dummyKey };
 			for (int i = 0; i < listA.Count; i++) {
 				string[] strD = listA [i].Split (dum, StringSplitOptions.RemoveEmptyEntries);
 				if (strD.Length > 1) {
@@ -916,11 +916,11 @@ public class QuesTextEdit : MonoBehaviour
 
 	public void ConvertPerfectCommand (ref List<string> listQ)
 	{
-		if (SceneData.strNull (sd.PerKey) == false) {
+		if (Statics.strNull (sd.perKey) == false) {
 
 			for (int i = 0; i < listQ.Count; i++) {
-				if (listQ [i].Substring (0, sd.PerKey.Length) == sd.PerKey) {
-					listQ [i] = listQ [i].Substring (sd.PerKey.Length);
+				if (listQ [i].Substring (0, sd.perKey.Length) == sd.perKey) {
+					listQ [i] = listQ [i].Substring (sd.perKey.Length);
 					listQ [i] = PerKeyCommon + listQ [i];
 				}
 			}	

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 
 
-public class DrillAdd : MonoBehaviour
+public class DrillSentakuMaster : MonoBehaviour
 {
 
 	private List<DrillData> _dbData;
@@ -28,7 +28,7 @@ public class DrillAdd : MonoBehaviour
 	{
 
 		foreach (DrillData dbData in _dbData) {
-			Debug.Log (dbData.ID + dbData.NAME + dbData.COLOR + dbData.LAST);
+			Debug.Log (dbData.ID + dbData.NAME + dbData.COLOR);
 
 			GameObject go = Instantiate (drill);
 
@@ -42,12 +42,14 @@ public class DrillAdd : MonoBehaviour
 			obi.GetComponent<Image> ().color = col [1];
 			name.GetComponent<Text> ().text = dbData.NAME;
 
-			string lastTime = dbData.LAST;
-			if (lastTime.Length > 5) {
-				lastTime = DrillTime.GetLastTime (dbData.LAST);
-			}
+//			string lastTime = dbData.LAST;
+//			if (lastTime.Length > 5) {
+//				lastTime = DrillTime.GetLastTime (dbData.LAST);
+//			}
 
-			record.GetComponent<Text> ().text = (lastTime + "\n" + dbData.OKNUM + "／" + dbData.QNUM);
+			int[] num = DbNumCount (dbData.ID);
+
+			record.GetComponent<Text> ().text = (num [0] + "\n" + num [1] + "／" + num [2]);
 
 			go.GetComponent<DrillNum> ().id = dbData.ID;
 			go.GetComponent<DrillNum> ().color = dbData.COLOR;
@@ -59,6 +61,34 @@ public class DrillAdd : MonoBehaviour
 		}
 
 	}
+
+	public int[] DbNumCount (int drillId)
+	{
+		int rNum = 0;
+		int qNum;
+		int okNum;
+
+		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
+		                                            select ps);
+
+		dbData = dbData.FindAll (s => s.DRILL_ID == drillId);
+
+		qNum = dbData.Count;
+		okNum = dbData.FindAll (s => s.LEVEL == 4).Count;
+
+		foreach (QuesData qd in dbData) {
+			if (qd.LAST.Length > 5) {
+				if (TimeFunctions.NeedReview (qd.LAST, qd.LEVEL)) {
+					rNum++;
+				}
+			} else {
+				rNum++;
+			}
+		}
+
+		return new int[] { rNum, okNum, qNum };
+	}
+
 
 	private void Reset ()
 	{
@@ -81,7 +111,7 @@ public class DrillAdd : MonoBehaviour
 			name = " ";
 		}
 
-		DrillData data = new DrillData { NAME = name, COLOR = col, LAST = "なし" };
+		DrillData data = new DrillData { NAME = name, COLOR = col };
 
 		dbManager.Insert (data);
 
