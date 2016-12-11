@@ -52,10 +52,11 @@ public class DrillKeyButton : MonoBehaviour
 			InputOff ();
 			break;
 		case "カスタム":
+			InputOn ();
+
 			QuesInputMaster sd = GameObject.Find ("EventSystem").GetComponent<QuesInputMaster> ();
 			input.GetComponent<InputField> ().text = sd.GetDataByText (dataName);
 
-			InputOn ();
 			break;
 		case "なし":
 			temp.SetTemp (null, tempNum);

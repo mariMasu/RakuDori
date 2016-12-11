@@ -37,14 +37,14 @@ public class QuesInputMaster : MonoBehaviour
 
 	public void DrillKeyPatView ()
 	{
-		senText.GetComponent<Text> ().text = this.sentaku;
+		senText.GetComponent<Text> ().text = sentaku;
 
 		if (this.inputPat == 0 || this.inputPat == 1) {
 
-			string A2 = SpaceString (this.sepKey);
-			string Q = SpaceString (this.quesKey);
-			string D = SpaceString (this.dummyKey);
-			string P = SpaceString (this.perKey);
+			string A2 = SpaceString (sepKey);
+			string Q = SpaceString (quesKey);
+			string D = SpaceString (dummyKey);
+			string P = SpaceString (perKey);
 
 			if (Statics.strNull (this.sentaku)) {
 				keyText1.GetComponent<Text> ().text = "区切り\n\n正答、ダミー内の分割\n\nダミー選択肢\n\n正答の順序を守る";
@@ -167,54 +167,6 @@ public class QuesInputMaster : MonoBehaviour
 
 		}
 
-	}
-
-	public void SetData (string data, string type)
-	{
-
-		switch (type) {
-
-
-		case "InputPat":
-			inputPat = int.Parse (data);
-
-			break;
-		case "Sentaku":
-			sentaku = data;
-
-			break;
-		case "QuesKey":
-			quesKey = data;
-
-			break;
-		case "AnsKey":
-			ansKey = data;
-
-			break;
-		case "SepKey":
-			sepKey = data;
-
-			break;
-		case "ExpKey":
-			expKey = data;
-
-			break;
-		case "DummyKey":
-			dummyKey = data;
-
-			break;
-		case "PerKey":
-			perKey = data;
-
-			break;
-		case "QuesText":
-			quesText = data;
-
-			break;
-		default:
-			Debug.Log ("Incorrect data");
-			break;
-		}
 	}
 
 	public string GetDataByText (string type)

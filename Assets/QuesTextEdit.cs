@@ -83,6 +83,7 @@ public class QuesTextEdit : MonoBehaviour
 			string[] kanma = { "," };
 			string[] sen = sd.sentaku.Split (kanma, StringSplitOptions.RemoveEmptyEntries);
 
+			AnswerToHankaku (ref sen);
 			sentaku = sen [0];
 
 			for (int i = 1; i < sen.Length; i++) {
@@ -142,6 +143,8 @@ public class QuesTextEdit : MonoBehaviour
 					foreach (string s in rowAS) {
 						listAS.Add (RemoveEnterAll (s));
 					}
+
+					AnswerToHankaku (ref listAS);
 						
 					//### Q $$$ A &&& A &&& A
 					str += AnsKeyCommon + MergeList (listAS, SepKeyCommon);
@@ -174,6 +177,7 @@ public class QuesTextEdit : MonoBehaviour
 				}
 			} else {
 				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
 
 				for (int i = 0; i < listQ.Count; i++) {
 
@@ -272,6 +276,8 @@ public class QuesTextEdit : MonoBehaviour
 						listAS.Add (RemoveEnterAll (s));
 					}
 
+					AnswerToHankaku (ref listAS);
+
 					//### Q $$$ A &&& A &&& A
 					str += AnsKeyCommon + MergeList (listAS, SepKeyCommon);
 
@@ -309,6 +315,7 @@ public class QuesTextEdit : MonoBehaviour
 				}
 			} else {
 				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
 
 				for (int i = 0; i < listQ.Count; i++) {
 
@@ -418,6 +425,8 @@ public class QuesTextEdit : MonoBehaviour
 						listAS.Add (RemoveEnterAll (s));
 					}
 
+					AnswerToHankaku (ref listAS);
+
 					//### Q $$$ A &&& A &&& A
 					str += AnsKeyCommon + MergeList (listAS, SepKeyCommon);
 
@@ -455,6 +464,8 @@ public class QuesTextEdit : MonoBehaviour
 				}
 			} else {
 				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
 
 				for (int i = 0; i < listQ.Count; i++) {
 
@@ -572,6 +583,8 @@ public class QuesTextEdit : MonoBehaviour
 						listAS.Add (RemoveEnterAll (s));
 					}
 
+					AnswerToHankaku (ref listAS);
+
 					//### Q $$$ A &&& A &&& A
 					str += AnsKeyCommon + MergeList (listAS, SepKeyCommon);
 
@@ -609,6 +622,8 @@ public class QuesTextEdit : MonoBehaviour
 				}
 			} else {
 				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
 
 				for (int i = 0; i < listQ.Count; i++) {
 
@@ -737,6 +752,8 @@ public class QuesTextEdit : MonoBehaviour
 						listAS.Add (RemoveEnterAll (s));
 					}
 
+					AnswerToHankaku (ref listAS);
+
 					//### Q $$$ A &&& A &&& A
 					str += AnsKeyCommon + MergeList (listAS, SepKeyCommon);
 
@@ -774,6 +791,8 @@ public class QuesTextEdit : MonoBehaviour
 				}
 			} else {
 				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
 
 				for (int i = 0; i < listQ.Count; i++) {
 
@@ -900,6 +919,7 @@ public class QuesTextEdit : MonoBehaviour
 
 	public void SeparateDummy (ref List<string> listA, ref List<string> listD)
 	{
+
 		if (Statics.strNull (sd.dummyKey) == false) {
 			string[] dum = { sd.dummyKey };
 			for (int i = 0; i < listA.Count; i++) {
@@ -912,6 +932,28 @@ public class QuesTextEdit : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void AnswerToHankaku (ref List<string> listA)
+	{
+
+		//answer群の英数字半角化
+		for (int i = 0; i < listA.Count; i++) {
+
+			listA [i] = CSharp.Japanese.Kanaxs.KanaEx.ToHankaku (listA [i]);
+		}
+
+	}
+
+	public void AnswerToHankaku (ref string[] strA)
+	{
+
+		//answer群の英数字半角化
+		for (int i = 0; i < strA.Length; i++) {
+
+			strA [i] = CSharp.Japanese.Kanaxs.KanaEx.ToHankaku (strA [i]);
+		}
+
 	}
 
 	public void ConvertPerfectCommand (ref List<string> listQ)

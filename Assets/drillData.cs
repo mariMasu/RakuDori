@@ -13,6 +13,9 @@ public class DrillData
 	public int COLOR { get; set; }
 
 	[Default (0)]
+	public int QUES_ORDER { get; set; }
+
+	[Default (0)]
 	public int ANS_ORDER { get; set; }
 
 	[Default (0)]

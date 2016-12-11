@@ -7,7 +7,6 @@ using System.Collections.Generic;
 public class PopDrillKey : MonoBehaviour
 {
 
-	public GameObject popKeyText;
 	public GameObject senDrop;
 	public GameObject senInput;
 	public GameObject sepDrop;
@@ -70,7 +69,7 @@ public class PopDrillKey : MonoBehaviour
 			perDrop.transform.position = new Vector3 (quesPos.x, quesPos.y - gapY * 3, 0);
 			perInput.transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * 3, 0);
 
-			popKeyText.GetComponent<Text> ().text = "・選択式問題の選択肢設定\n\n\n・問題文の区切り\n\n・正答、ダミー内の分割\n\n・ダミー選択肢の開始\n\n・正答の順序を守る問題";
+			//popKeyText.GetComponent<Text> ().text = "・選択式問題の選択肢設定\n\n\n・問題文の区切り\n\n・正答、ダミー内の分割\n\n・ダミー選択肢の開始\n\n・正答の順序を守る問題";
 		} else {
 			quesDrop.GetComponent<Dropdown> ().options [0].text = "@@(半角)";
 
@@ -83,7 +82,7 @@ public class PopDrillKey : MonoBehaviour
 				m++;
 			}
 
-			popKeyText.GetComponent<Text> ().text = "・選択式問題の選択肢設定\n\n\n・問題文の区切り\n\n・正答文の開始\n\n・正答、ダミー内の分割\n\n・解説文の開始\n\n・ダミー選択文の開始\n\n・正答の順序を守る問題";
+			//popKeyText.GetComponent<Text> ().text = "・選択式問題の選択肢設定\n\n\n・問題文の区切り\n\n・正答文の開始\n\n・正答、ダミー内の分割\n\n・解説文の開始\n\n・ダミー選択文の開始\n\n・正答の順序を守る問題";
 		}
 		quesDrop.GetComponent<Dropdown> ().value = 1;
 		quesDrop.GetComponent<Dropdown> ().value = 0;

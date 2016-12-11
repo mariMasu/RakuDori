@@ -6,21 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadButton : MonoBehaviour
 {
-	//GameObject es;
-	//SceneData sd;
-
-	void Awake ()
-	{
-		//es = GameObject.Find ("EventSystem");
-	}
-
-	public void SetDrillIC ()
-	{
-		Statics.nowDrill = this.GetComponent<DrillNum> ().id;
-		Statics.nowColor = this.GetComponent<DrillNum> ().color;
-		Statics.nowName = this.GetComponent<DrillNum> ().nameD;
-
-	}
 
 	public void LoadQuesSentaku ()
 	{

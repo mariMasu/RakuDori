@@ -15,9 +15,6 @@ public class QuesSentakuMaster : MonoBehaviour
 	public GameObject deleteDrillB;
 
 	public bool sentakuMode = false;
-	public bool firstView = false;
-
-	GameObject es;
 
 	[SerializeField]
 	List<int> senList;
@@ -29,12 +26,8 @@ public class QuesSentakuMaster : MonoBehaviour
 	void Awake ()
 	{
 
-		es = GameObject.Find ("EventSystem");
 		content = GameObject.Find ("QuesContent");
-
-		if (firstView) {
-			SentakuQuesView ();
-		}
+		SentakuQuesView ();
 	}
 
 
@@ -181,9 +174,9 @@ public class QuesSentakuMaster : MonoBehaviour
 		if (senList.Count == 0) {
 			return;
 		} else {
-			es.GetComponent<DbProcess> ().DeleteSelection (senList);
+			this.GetComponent<DbProcess> ().DeleteSelection (senList);
 			SentakuQuesView ();
-			es.GetComponent<PopupWindow> ().Popdown (2);
+			this.GetComponent<PopupWindow> ().Popdown (2);
 		}
 	}
 
@@ -191,7 +184,7 @@ public class QuesSentakuMaster : MonoBehaviour
 	{
 
 		foreach (int s in senList) {
-			es.GetComponent<DbProcess> ().UpdateTag (s, tagC);
+			this.GetComponent<DbProcess> ().UpdateTag (s, tagC);
 
 		}
 		SentakuQuesView ();

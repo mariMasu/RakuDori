@@ -215,14 +215,17 @@ public class PopupWindow : MonoBehaviour
 		GameObject drop1 = GameObject.Find ("OrderDrop");
 		GameObject drop2 = GameObject.Find ("DummyDrop1");
 		GameObject drop3 = GameObject.Find ("DummyDrop2");
+		GameObject drop4 = GameObject.Find ("OrderDrop2");
 
 		drop1.GetComponent<Dropdown> ().value = 1;
 		drop2.GetComponent<Dropdown> ().value = 1;
 		drop3.GetComponent<Dropdown> ().value = 1;
+		drop4.GetComponent<Dropdown> ().value = 1;
 
 		drop1.GetComponent<Dropdown> ().value = 0;
 		drop2.GetComponent<Dropdown> ().value = 0;
 		drop3.GetComponent<Dropdown> ().value = 0;
+		drop4.GetComponent<Dropdown> ().value = 0;
 
 		Popup (2);
 	}

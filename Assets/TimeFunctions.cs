@@ -63,4 +63,14 @@ public class TimeFunctions : MonoBehaviour
 
 		return r;
 	}
+
+	public static string GetTimeID ()
+	{
+		string retT;
+		DateTime nt = DateTime.Now;
+
+		retT = nt.ToLongTimeString ();
+
+		return retT;
+	}
 }

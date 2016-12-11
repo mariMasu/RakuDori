@@ -6,17 +6,28 @@ using UnityEngine.UI;
 public class SetColor : MonoBehaviour
 {
 
+	public int typeInt = 0;
+
 	// Use this for initialization
 	void Start ()
 	{
+		setC ();
+	}
 
-		GameObject ba = this.transform.FindChild ("base").gameObject;
-		GameObject obi = this.transform.FindChild ("obi").gameObject;
-
+	void setC ()
+	{
 		Color[] col = DrillColor.GetColorD (Statics.nowColor);
-		ba.GetComponent<Image> ().color = col [0];
-		obi.GetComponent<Image> ().color = col [1];
-	
+
+		if (typeInt == 0) {
+			GameObject ba = this.transform.FindChild ("base").gameObject;
+			GameObject obi = this.transform.FindChild ("obi").gameObject;
+
+			ba.GetComponent<Image> ().color = col [0];
+			obi.GetComponent<Image> ().color = col [1];
+
+		} else {
+			this.GetComponent<Image> ().color = col [1];
+		}
 	}
 
 }

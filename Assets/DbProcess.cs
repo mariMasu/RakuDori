@@ -41,7 +41,7 @@ public class DbProcess : MonoBehaviour
 				DRILL_ID = qd.DRILL_ID,
 				TEXT = qd.TEXT,
 				JUN = jun,
-				REVIEW = 3,
+				REVIEW = 1,
 				IMAGE = "なし",
 				LAST = "なし"
 			};
@@ -122,7 +122,7 @@ public class DbProcess : MonoBehaviour
 		dbManager.UpdateTable (data);
 	}
 
-	public void UpdateDrillOrder (int ansO, int dumU, int dumT)
+	public void UpdateDrillOrder (int orderQ, int orderA, int dumU, int dumT)
 	{
 
 
@@ -131,12 +131,19 @@ public class DbProcess : MonoBehaviour
 
 		DrillData data = dd.Find (s => s.ID == Statics.nowDrill);
 
-		data.ANS_ORDER = ansO;
+		data.QUES_ORDER = orderQ;
+		data.ANS_ORDER = orderA;
 		data.DUMMY_USE = dumU;
 		data.DUMMY_TAG = dumT;
 
 
 		dbManager.UpdateTable (data);
+	}
+
+	public void UpdateQuesData (QuesData qd)
+	{
+
+		dbManager.UpdateTable (qd);
 	}
 
 }

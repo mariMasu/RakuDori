@@ -23,6 +23,9 @@ public class AnsOrder : MonoBehaviour
 		case "ランダム":
 			temp.SetTemp ("1", tempNum);
 			break;
+		case "abc順":
+			temp.SetTemp ("2", tempNum);
+			break;
 		case "昇順":
 			temp.SetTemp ("2", tempNum);
 			break;

@@ -21,13 +21,13 @@ public class TempData : MonoBehaviour
 		QuesInputMaster sd = es.GetComponent<QuesInputMaster> ();
 
 		if (temp [0] != "") {
-			sd.SetData (temp [0], "InputPat");
+			sd.inputPat = int.Parse (temp [0]);
 		}
 
 		if (sd.inputPat < 2) {
-			sd.SetData ("\n", "QuesKey");
+			sd.quesKey = "\n";
 		} else {
-			sd.SetData ("@@", "QuesKey");
+			sd.quesKey = "@@";
 
 		}
 		es.GetComponent<QuesInputMaster> ().DrillKeyPatView ();
@@ -128,13 +128,13 @@ public class TempData : MonoBehaviour
 
 		QuesInputMaster sd = es.GetComponent<QuesInputMaster> ();
 
-		sd.SetData (temp [0], "Sentaku");
-		sd.SetData (temp [1], "QuesKey");
-		sd.SetData (temp [2], "AnsKey");
-		sd.SetData (temp [3], "SepKey");
-		sd.SetData (temp [4], "ExpKey");
-		sd.SetData (temp [5], "DummyKey");
-		sd.SetData (temp [6], "PerKey");
+		sd.sentaku = temp [0];
+		sd.quesKey = temp [1];
+		sd.ansKey = temp [2];
+		sd.sepKey = temp [3];
+		sd.expKey = temp [4];
+		sd.dummyKey = temp [5];
+		sd.perKey = temp [6];
 
 		es.GetComponent<QuesInputMaster> ().DrillKeyPatView ();
 		es.GetComponent<PopDrillKey> ().DropViewReset ();
@@ -189,16 +189,18 @@ public class TempData : MonoBehaviour
 
 	public void DrillOrderSend ()
 	{
-		int ansO = int.Parse (temp [0]);
-		int dumU = int.Parse (temp [1]);
-		int dumT = int.Parse (temp [2]);
+		int orderQ = int.Parse (temp [0]);
+		int orderA = (int.Parse (temp [1]) - 1);
+		int dumU = int.Parse (temp [2]);
+		int dumT = int.Parse (temp [3]);
 
-		if (ansO == 0) {
-			ansO = 1;
+		if (orderQ == 0) {
+			orderQ = 1;
 		}
 
-		es.GetComponent<DbProcess> ().UpdateDrillOrder (ansO, dumU, dumT);
+		es.GetComponent<DbProcess> ().UpdateDrillOrder (orderQ, orderA, dumU, dumT);
 
+		Statics.reviewList.Add (Statics.nowDrill);
 		es.GetComponent<LoadButton> ().LoadDrillAns ();
 
 
