@@ -46,7 +46,7 @@ public class QuesInputMaster : MonoBehaviour
 			string D = SpaceString (dummyKey);
 			string P = SpaceString (perKey);
 
-			if (Statics.strNull (this.sentaku)) {
+			if (Statics.StrNull (this.sentaku)) {
 				keyText1.GetComponent<Text> ().text = "区切り\n\n正答、ダミー内の分割\n\nダミー選択肢\n\n正答の順序を守る";
 				keyText2.GetComponent<Text> ().text = Q + "\n\n" + A2 + "\n\n" + D + "\n\n" + P;
 
@@ -71,7 +71,7 @@ public class QuesInputMaster : MonoBehaviour
 			string D = SpaceString (this.dummyKey);
 			string P = SpaceString (this.perKey);
 
-			if (Statics.strNull (this.sentaku)) {
+			if (Statics.StrNull (this.sentaku)) {
 				keyText1.GetComponent<Text> ().text = "問題の区切り\n\n正答の開始\n\n正答、ダミー内の分割\n\n解説の開始\n\nダミー選択肢\n\n正答の順序を守る";
 				keyText2.GetComponent<Text> ().text = Q + "\n\n" + A1 + "\n\n" + A2 + "\n\n" + E + "\n\n" + D + "\n\n" + P;
 
@@ -172,7 +172,7 @@ public class QuesInputMaster : MonoBehaviour
 	public string GetDataByText (string type)
 	{
 
-		if (Statics.strNull (type)) {
+		if (Statics.StrNull (type)) {
 			return "";
 
 		} else {
@@ -245,7 +245,7 @@ public class QuesInputMaster : MonoBehaviour
 		} else if (s == "\n\n\n") {
 			s = "３改行";
 			return s;
-		} else if (Statics.strNull (s)) {
+		} else if (Statics.StrNull (s)) {
 			s = "なし";
 			return s;
 		} else {

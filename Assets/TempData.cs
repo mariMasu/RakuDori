@@ -15,6 +15,12 @@ public class TempData : MonoBehaviour
 		es = GameObject.Find ("EventSystem");
 	}
 
+	public void ScrollReset ()
+	{
+		GameObject sv = this.transform.Find ("Scroll View").gameObject;
+		sv.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+	}
+
 	public void DrillPatSend ()
 	{
 
@@ -36,7 +42,7 @@ public class TempData : MonoBehaviour
 	public void TagSend ()
 	{
 
-		if (Statics.strNull (temp [0])) {
+		if (Statics.StrNull (temp [0])) {
 			return;
 		}
 
@@ -47,13 +53,36 @@ public class TempData : MonoBehaviour
 		es.GetComponent<PopupWindow> ().Popdown (2);
 	}
 
+	public void TagLevelSend ()
+	{
+
+		if (Statics.StrNull (temp [0]) && Statics.StrNull (temp [1])) {
+			return;
+		}
+
+		DrillAnsMaster dam = es.GetComponent<DrillAnsMaster> ();
+
+
+		if (Statics.StrNull (temp [0]) == false) {
+			dam.nowQData.TAG = int.Parse (temp [0]);
+		}
+
+		if (Statics.StrNull (temp [1]) == false) {
+			dam.nowQData.LEVEL = int.Parse (temp [1]);
+		}
+
+		es.GetComponent<DbProcess> ().UpdateQuesData (dam.nowQData);
+		dam.setTagLevActive ();
+		es.GetComponent<PopupWindow> ().Popdown (1);
+	}
+
 	public void SortSend ()
 	{
 
 		InputField input1 = this.transform.FindChild ("numInput1").GetComponent<InputField> ();
 		InputField input2 = this.transform.FindChild ("numInput2").GetComponent<InputField> ();
 
-		if (Statics.strNull (input1.text) || Statics.strNull (input2.text)) {
+		if (Statics.StrNull (input1.text) || Statics.StrNull (input2.text)) {
 			return;
 		}
 
@@ -169,7 +198,7 @@ public class TempData : MonoBehaviour
 
 		for (int i = 0; i < 7; i++) {
 
-			if (Statics.strNull (temp [i])) {
+			if (Statics.StrNull (temp [i])) {
 			} else {
 
 				if ((hs.Add (temp [i]) == false)) {
@@ -199,10 +228,6 @@ public class TempData : MonoBehaviour
 		}
 
 		es.GetComponent<DbProcess> ().UpdateDrillOrder (orderQ, orderA, dumU, dumT);
-
-		Statics.reviewList.Add (Statics.nowDrill);
-		es.GetComponent<LoadButton> ().LoadDrillAns ();
-
 
 	}
 		

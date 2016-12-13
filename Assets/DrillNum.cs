@@ -32,11 +32,9 @@ public class DrillNum : MonoBehaviour
 			Statics.nowColor = color;
 
 			if (orderQ == 0) {
-				es.GetComponent<PopupWindow> ().PopDrillOrder ();
+				es.GetComponent<PopupWindow> ().PopDrillOrder (2);
 			} else {
-
-				Statics.reviewList.Add (Statics.nowDrill);
-				es.GetComponent<LoadButton> ().LoadDrillAns ();
+				es.GetComponent<LoadButton> ().LoadDrillAnsSingle ();
 			}
 		}
 	}

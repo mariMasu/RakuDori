@@ -12,8 +12,20 @@ public class Statics : MonoBehaviour
 	public static int nowColor = 0;
 	public static string nowName = "";
 	public static List<int> reviewList = new List<int> ();
+	public static float prefabX = 0;
 
-	public static bool strNull (string s)
+
+	public static void ResetReviewList ()
+	{
+		reviewList = new List<int> ();
+	}
+
+	public static void AddReviewList ()
+	{
+		reviewList.Add (nowDrill);
+	}
+
+	public static bool StrNull (string s)
 	{
 		if (s == "" || s == null) {
 			return true;

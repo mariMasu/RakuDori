@@ -83,7 +83,7 @@ public class DrillKeyButton : MonoBehaviour
 			
 			string senText = sd.sentaku;
 
-			if (Statics.strNull (senText) == true) {
+			if (Statics.StrNull (senText) == true) {
 				this.GetComponent<Dropdown> ().value = 0;
 				InputOff ();
 			} else {

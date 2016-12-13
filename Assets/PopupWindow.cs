@@ -58,6 +58,19 @@ public class PopupWindow : MonoBehaviour
 		Popup (3);
 	}
 
+	public void TagLevPopReset ()
+	{
+		GameObject go = GameObject.Find ("PopTagColor");
+
+		go.GetComponent<TempData> ().ResetTemp ();
+		GameObject col = go.transform.Find ("Scroll View/Viewport/Content/colSelect").gameObject;
+		GameObject lev = go.transform.Find ("Scroll View/Viewport/Content/levSelect").gameObject;
+		col.transform.position = new Vector3 (10000, 0, 0);
+		lev.transform.position = new Vector3 (10000, 0, 0);
+
+		Popup (1);
+	}
+
 	public void DrillPatReset ()
 	{
 		QuesInputMaster data = this.GetComponent<QuesInputMaster> ();
@@ -210,7 +223,7 @@ public class PopupWindow : MonoBehaviour
 		pop.transform.position = GameObject.Find ("backGround").transform.position;
 	}
 
-	public void PopDrillOrder ()
+	public void PopDrillOrder (int i)
 	{
 		GameObject drop1 = GameObject.Find ("OrderDrop");
 		GameObject drop2 = GameObject.Find ("DummyDrop1");
@@ -227,7 +240,7 @@ public class PopupWindow : MonoBehaviour
 		drop3.GetComponent<Dropdown> ().value = 0;
 		drop4.GetComponent<Dropdown> ().value = 0;
 
-		Popup (2);
+		Popup (i);
 	}
 
 }

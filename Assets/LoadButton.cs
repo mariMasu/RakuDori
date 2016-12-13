@@ -31,6 +31,14 @@ public class LoadButton : MonoBehaviour
 
 	}
 
+	public void LoadDrillAnsSingle ()
+	{
+		Statics.ResetReviewList ();
+		Statics.AddReviewList ();
+		SceneManager.LoadScene ("drillAns");
+
+	}
+
 	public void LoadTitle ()
 	{
 		SceneManager.LoadScene ("title");

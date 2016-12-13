@@ -18,11 +18,11 @@ public class AnsPrefab : MonoBehaviour
 
 		Vector2 rt = text.GetComponent<RectTransform> ().sizeDelta;
 
-		rt.x += (float)Screen.width * 0.5f;
+		rt.x += Statics.prefabX;
 
 		back.GetComponent<RectTransform> ().sizeDelta = rt;
-		this.GetComponent<LayoutElement> ().minWidth = (rt.x + ((float)Screen.width * 0.2f));
-		this.GetComponent<LayoutElement> ().minHeight = (rt.y + ((float)Screen.width * 0.5f));
+		this.GetComponent<LayoutElement> ().minWidth = (rt.x + (Statics.prefabX * 0.2f));
+		this.GetComponent<LayoutElement> ().minHeight = (rt.y + (Statics.prefabX * 0.2f));
 
 	}
 

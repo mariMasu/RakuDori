@@ -50,9 +50,9 @@ public class PopDrillKey : MonoBehaviour
 	{
 		QuesInputMaster sd = this.GetComponent<QuesInputMaster> ();
 
-		float gapX = quesInput.transform.position.x - quesDrop.transform.position.x;
-		float gapY = (float)(Screen.height * 0.004);
-		Vector3 quesPos = quesDrop.transform.position;
+		float gapX = quesInput.GetComponent<RectTransform> ().localPosition.x - quesDrop.GetComponent<RectTransform> ().localPosition.x;
+		float gapY = (float)((quesInput.GetComponent<RectTransform> ().sizeDelta.y) * 2.3);
+		Vector3 quesPos = quesDrop.GetComponent<RectTransform> ().localPosition;
 
 		if (sd.inputPat == 0 || sd.inputPat == 1) {
 			quesDrop.GetComponent<Dropdown> ().options [0].text = "改行";
@@ -62,12 +62,12 @@ public class PopDrillKey : MonoBehaviour
 			expDrop.transform.position = new Vector3 (Screen.width * 2, 0, 0);
 			expInput.transform.position = new Vector3 (Screen.width * 2, 0, 0);
 
-			sepDrop.transform.position = new Vector3 (quesPos.x, quesPos.y - gapY, 0);
-			sepInput.transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY, 0);
-			dummyDrop.transform.position = new Vector3 (quesPos.x, quesPos.y - gapY * 2, 0);
-			dummyInput.transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * 2, 0);
-			perDrop.transform.position = new Vector3 (quesPos.x, quesPos.y - gapY * 3, 0);
-			perInput.transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * 3, 0);
+			sepDrop.GetComponent<RectTransform> ().localPosition = new Vector3 (quesPos.x, quesPos.y - gapY, 0);
+			sepInput.GetComponent<RectTransform> ().localPosition = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY, 0);
+			dummyDrop.GetComponent<RectTransform> ().localPosition = new Vector3 (quesPos.x, quesPos.y - gapY * 2, 0);
+			dummyInput.GetComponent<RectTransform> ().localPosition = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * 2, 0);
+			perDrop.GetComponent<RectTransform> ().localPosition = new Vector3 (quesPos.x, quesPos.y - gapY * 3, 0);
+			perInput.GetComponent<RectTransform> ().localPosition = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * 3, 0);
 
 			//popKeyText.GetComponent<Text> ().text = "・選択式問題の選択肢設定\n\n\n・問題文の区切り\n\n・正答、ダミー内の分割\n\n・ダミー選択肢の開始\n\n・正答の順序を守る問題";
 		} else {
@@ -76,8 +76,8 @@ public class PopDrillKey : MonoBehaviour
 			int m = 1;
 
 			for (int i = 2; i < 7; i++) {
-				drops [i].transform.position = new Vector3 (quesPos.x, quesPos.y - gapY * m, 0);
-				inputs [i].transform.position = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * m, 0);
+				drops [i].GetComponent<RectTransform> ().localPosition = new Vector3 (quesPos.x, quesPos.y - gapY * m, 0);
+				inputs [i].GetComponent<RectTransform> ().localPosition = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY * m, 0);
 
 				m++;
 			}

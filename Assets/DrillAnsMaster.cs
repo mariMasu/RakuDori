@@ -38,6 +38,7 @@ public class DrillAnsMaster : MonoBehaviour
 	GameObject level2;
 	GameObject level3;
 
+	GameObject tagImage;
 	GameObject zyun;
 	GameObject correct;
 	GameObject wrong;
@@ -60,6 +61,8 @@ public class DrillAnsMaster : MonoBehaviour
 			Statics.reviewList.RemoveAt (0);
 
 		}
+
+		Statics.prefabX = ((GameObject.Find ("back").GetComponent<RectTransform> ().sizeDelta.x) / 2);
 
 		Col = DrillColor.GetColorD (Statics.nowColor);
 
@@ -163,110 +166,113 @@ public class DrillAnsMaster : MonoBehaviour
 
 		if (questionList.Count == 0) {
 			this.GetComponent<LoadButton> ().LoadDrillAns ();
-		}
+		} else {
 
-		nowQData = questionList [0];
-		QuesArray q = DbTextToQA.DbToQA (nowQData.TEXT);
-		nowQArray = q;
+			nowQData = questionList [0];
+			QuesArray q = DbTextToQA.DbToQA (nowQData.TEXT);
+			nowQArray = q;
 
-		ansList = new List<string> ();
-		senAnsList = new List<string[]> ();
+			ansList = new List<string> ();
+			senAnsList = new List<string[]> ();
 
-		ansList.AddRange (q.Ans);
+			ansList.AddRange (q.Ans);
 
-		if (dummyKouhoList.Count != 0) {
+			if (dummyKouhoList.Count != 0) {
 			
-			for (int i = 0; i < 3; i++) {
+				for (int i = 0; i < 3; i++) {
 				
-				int rand = UnityEngine.Random.Range (0, dummyKouhoList.Count);
+					int rand = UnityEngine.Random.Range (0, dummyKouhoList.Count);
 
-				QuesArray qa = DbTextToQA.DbToQA (dummyKouhoList [rand].TEXT);
+					QuesArray qa = DbTextToQA.DbToQA (dummyKouhoList [rand].TEXT);
 
-				rand = UnityEngine.Random.Range (0, qa.Ans.Length);
+					rand = UnityEngine.Random.Range (0, qa.Ans.Length);
 
-				ansList.Add (qa.Ans [rand]);
+					ansList.Add (qa.Ans [rand]);
+				}
 			}
-		}
 
-		if (q.Dummy.Length != 0) {
+			if (q.Dummy.Length != 0) {
 			
-			ansList.AddRange (q.Dummy);
+				ansList.AddRange (q.Dummy);
+			}
+
+			ansList = ansList.Distinct ().ToList ();
+
+
+
+			string ansStr = String.Join ("", q.Ans);
+			string dumStr = ansList.ToString ();
+			string strAS = ansStr + dumStr;
+
+			if (strAS.Length > 10) {
+				ansBase = GameObject.Find ("LongAnswer");
+			} else {
+				ansBase = GameObject.Find ("ShortAnswer");
+
+			}
+
+			ansBase.transform.position = new Vector3 (0, 0, 0);
+
+			correct = ansBase.transform.Find ("correct").gameObject;
+			wrong = ansBase.transform.Find ("wrong").gameObject;
+
+			level0 = ansBase.transform.Find ("level0").gameObject;
+			level1 = ansBase.transform.Find ("level1").gameObject;
+			level2 = ansBase.transform.Find ("level2").gameObject;
+			level3 = ansBase.transform.Find ("level3").gameObject;
+
+			zyun = ansBase.transform.Find ("zyun").gameObject;
+
+			next = ansBase.transform.Find ("next").gameObject;
+			nextQ = ansBase.transform.Find ("nextQ").gameObject;
+
+			hide = ansBase.transform.Find ("hide").gameObject;
+			ok = ansBase.transform.Find ("ok").gameObject;
+			bad = ansBase.transform.Find ("bad").gameObject;
+
+			setTagLevActive ();
+			setIconActive ();
+
+			if (ansRandom == true) {
+				Fisher_Yates_CardDeck_Shuffle ();
+			} else {
+				StringComparer cmp = StringComparer.OrdinalIgnoreCase;
+				ansList.Sort (cmp);
+			}
+
+
+			ansContent = ansBase.transform.Find ("choose/scroll/Scroll View/Viewport/AnsContent").gameObject;
+			sentakuContent = ansBase.transform.Find ("answer/scroll/Scroll View/Viewport/SentakuContent").gameObject;
+
+
+			foreach (Transform n in ansContent.transform) {
+				GameObject.Destroy (n.gameObject);
+			}
+
+			foreach (Transform n in sentakuContent.transform) {
+				GameObject.Destroy (n.gameObject);
+			}
+
+			for (int i = 0; i < ansList.Count; i++) {
+				GameObject ans = Instantiate (ansP);
+
+				ans.GetComponent<AnsPrefab> ().ansText = ansList [i];
+				ans.transform.Find ("textBack").GetComponent<Image> ().color = Col [1];
+
+				StartCoroutine (SetText (ans, ansContent)); 
+
+			}
+
+			if (zyun.activeSelf == true) {
+				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length - 1));
+			} else {
+				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques;
+			}
+			ansBase.transform.Find ("question/Qtext").GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+
+
+			questionList.RemoveAt (0);
 		}
-
-		ansList = ansList.Distinct ().ToList ();
-
-
-
-		string ansStr = String.Join ("", q.Ans);
-		string dumStr = ansList.ToString ();
-		string strAS = ansStr + dumStr;
-
-		if (strAS.Length > 10) {
-			ansBase = GameObject.Find ("LongAnswer");
-		} else {
-			ansBase = GameObject.Find ("ShortAnswer");
-
-		}
-
-		ansBase.transform.position = new Vector3 (0, 0, 0);
-
-		correct = ansBase.transform.Find ("correct").gameObject;
-		wrong = ansBase.transform.Find ("wrong").gameObject;
-
-		level0 = ansBase.transform.Find ("level0").gameObject;
-		level1 = ansBase.transform.Find ("level1").gameObject;
-		level2 = ansBase.transform.Find ("level2").gameObject;
-		level3 = ansBase.transform.Find ("level3").gameObject;
-
-		zyun = ansBase.transform.Find ("zyun").gameObject;
-
-		next = ansBase.transform.Find ("next").gameObject;
-		nextQ = ansBase.transform.Find ("nextQ").gameObject;
-
-		hide = ansBase.transform.Find ("hide").gameObject;
-		ok = ansBase.transform.Find ("ok").gameObject;
-		bad = ansBase.transform.Find ("bad").gameObject;
-
-		setIconActive ();
-
-
-
-		if (ansRandom == true) {
-			Fisher_Yates_CardDeck_Shuffle ();
-		} else {
-			StringComparer cmp = StringComparer.OrdinalIgnoreCase;
-			ansList.Sort (cmp);
-		}
-
-
-		ansContent = ansBase.transform.Find ("choose/scroll/Scroll View/Viewport/AnsContent").gameObject;
-		sentakuContent = ansBase.transform.Find ("answer/scroll/Scroll View/Viewport/SentakuContent").gameObject;
-
-
-		foreach (Transform n in ansContent.transform) {
-			GameObject.Destroy (n.gameObject);
-		}
-
-		foreach (Transform n in sentakuContent.transform) {
-			GameObject.Destroy (n.gameObject);
-		}
-
-		for (int i = 0; i < ansList.Count; i++) {
-			GameObject ans = Instantiate (ansP);
-
-			ans.GetComponent<AnsPrefab> ().ansText = ansList [i];
-			ans.transform.Find ("textBack").GetComponent<Image> ().color = Col [1];
-
-			StartCoroutine (SetText (ans, ansContent)); 
-
-		}
-
-
-		ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques;
-		ansBase.transform.Find ("question/Qtext").GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
-
-
-		questionList.RemoveAt (0);
 
 	}
 
@@ -310,27 +316,19 @@ public class DrillAnsMaster : MonoBehaviour
 		return -1;
 	}
 
-	void setIconActive ()
+	public void setTagLevActive ()
 	{
-		open.SetActive (true);
-		ok.SetActive (false);
-		bad.SetActive (false);
 
-		hide.SetActive (true);
-		hide.GetComponent<ScrollRect> ().enabled = false;
-		hide.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "";
-
-		correct.SetActive (false);
-		wrong.SetActive (false);
-
-		next.SetActive (false);
-		nextQ.SetActive (false);
-
-		if (nowQData.TEXT.Substring (0, QuesTextEdit.PerKeyCommon.Length) == QuesTextEdit.PerKeyCommon) {
-			zyun.SetActive (true);
+		tagImage = ansBase.transform.Find ("tag").gameObject;
+		if (nowQData.TAG == 0) {
+			tagImage.SetActive (false);
 		} else {
-			zyun.SetActive (false);
+			Color[] tagc = DrillColor.GetColorD (nowQData.TAG);
+
+			tagImage.SetActive (true);
+			tagImage.GetComponent<Image> ().color = tagc [1];
 		}
+
 
 		switch (nowQData.LEVEL) {
 
@@ -363,6 +361,31 @@ public class DrillAnsMaster : MonoBehaviour
 
 			break;
 
+		}
+	}
+
+	void setIconActive ()
+	{
+		hide.GetComponent<Button> ().enabled = true;
+
+		open.SetActive (true);
+		ok.SetActive (false);
+		bad.SetActive (false);
+
+		hide.SetActive (true);
+		hide.GetComponent<ScrollRect> ().enabled = false;
+		hide.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "";
+
+		correct.SetActive (false);
+		wrong.SetActive (false);
+
+		next.SetActive (false);
+		nextQ.SetActive (false);
+
+		if (nowQData.TEXT.Substring (0, QuesTextEdit.PerKeyCommon.Length) == QuesTextEdit.PerKeyCommon) {
+			zyun.SetActive (true);
+		} else {
+			zyun.SetActive (false);
 		}
 
 	}
@@ -446,10 +469,10 @@ public class DrillAnsMaster : MonoBehaviour
 			StartCoroutine (SetText (ansText, sentakuContent)); 
 
 			wrong.SetActive (true);
-
+			questionList.Add (nowQData);
 		}
 
-		if (Statics.strNull (nowQArray.Exp) == false) {
+		if (Statics.StrNull (nowQArray.Exp) == false) {
 			GameObject expText = Instantiate (ansP);
 			expText.GetComponent<Button> ().enabled = false;
 
@@ -496,7 +519,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 		StartCoroutine (SetText (ansText, sentakuContent)); 
 
-		if (Statics.strNull (nowQArray.Exp) == false) {
+		if (Statics.StrNull (nowQArray.Exp) == false) {
 
 			hide.GetComponent<ScrollRect> ().enabled = true;
 			hide.transform.Find ("expText").gameObject.GetComponent<Text> ().text = ("解説:\n" + nowQArray.Exp);
@@ -506,6 +529,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 	public void SelfAnswerNext (bool b)
 	{
+
 		nowQData.LAST = DateTime.Now.ToString ();
 
 		if (b == true) {
@@ -528,6 +552,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			}
 
+
 		} else {
 
 			if (nowQData.LEVEL != 0) {
@@ -537,6 +562,7 @@ public class DrillAnsMaster : MonoBehaviour
 				nowQData.REVIEW = 3;
 			}
 
+			questionList.Add (nowQData);
 		}
 
 		this.GetComponent<DbProcess> ().UpdateQuesData (nowQData);

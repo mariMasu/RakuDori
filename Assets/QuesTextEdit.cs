@@ -79,7 +79,7 @@ public class QuesTextEdit : MonoBehaviour
 		}
 
 		//選択肢があればダミー用を作成
-		if (Statics.strNull (sd.sentaku) == false) {
+		if (Statics.StrNull (sd.sentaku) == false) {
 			string[] kanma = { "," };
 			string[] sen = sd.sentaku.Split (kanma, StringSplitOptions.RemoveEmptyEntries);
 
@@ -128,7 +128,7 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (Statics.strNull (sd.sepKey) == false) {
+			if (Statics.StrNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
@@ -230,7 +230,7 @@ public class QuesTextEdit : MonoBehaviour
 			}
 
 			//解説の分離
-			if (Statics.strNull (sd.expKey) == false) {
+			if (Statics.StrNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count; i++) {
 
@@ -260,7 +260,7 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (Statics.strNull (sd.sepKey) == false) {
+			if (Statics.StrNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
@@ -379,7 +379,7 @@ public class QuesTextEdit : MonoBehaviour
 			}
 
 			//解説の分離
-			if (Statics.strNull (sd.expKey) == false) {
+			if (Statics.StrNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count; i++) {
 
@@ -409,7 +409,7 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (Statics.strNull (sd.sepKey) == false) {
+			if (Statics.StrNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
@@ -537,7 +537,7 @@ public class QuesTextEdit : MonoBehaviour
 
 
 			//解説の分離
-			if (Statics.strNull (sd.expKey) == false) {
+			if (Statics.StrNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count; i++) {
 
@@ -567,7 +567,7 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (Statics.strNull (sd.sepKey) == false) {
+			if (Statics.StrNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
@@ -674,7 +674,7 @@ public class QuesTextEdit : MonoBehaviour
 			if (rowA.Length == listRow.Count + 1) {
 				
 				//解説の分離[0]
-				if (Statics.strNull (sd.expKey) == false) {
+				if (Statics.StrNull (sd.expKey) == false) {
 					string[] sep2 = { sd.expKey };
 					string lr = listRow [listRow.Count - 1];
 					string[] rowE = lr.Split (sep2, StringSplitOptions.RemoveEmptyEntries);
@@ -706,7 +706,7 @@ public class QuesTextEdit : MonoBehaviour
 
 
 			//解説の分離
-			if (Statics.strNull (sd.expKey) == false) {
+			if (Statics.StrNull (sd.expKey) == false) {
 
 				for (int i = 0; i < listA.Count - 1; i++) {
 
@@ -736,7 +736,7 @@ public class QuesTextEdit : MonoBehaviour
 			//完全一致コマンドの置き換え
 			ConvertPerfectCommand (ref listQ);
 
-			if (Statics.strNull (sd.sepKey) == false) {
+			if (Statics.StrNull (sd.sepKey) == false) {
 
 				//解答群の分割
 				for (int i = 0; i < listQ.Count; i++) {
@@ -881,7 +881,7 @@ public class QuesTextEdit : MonoBehaviour
 		string[] spl = Regex.Split (s, kaigyo);
 
 		foreach (string sp in spl) {
-			if (Statics.strNull (sp)) {
+			if (Statics.StrNull (sp)) {
 			} else {
 				ns += sp;
 			}
@@ -920,7 +920,7 @@ public class QuesTextEdit : MonoBehaviour
 	public void SeparateDummy (ref List<string> listA, ref List<string> listD)
 	{
 
-		if (Statics.strNull (sd.dummyKey) == false) {
+		if (Statics.StrNull (sd.dummyKey) == false) {
 			string[] dum = { sd.dummyKey };
 			for (int i = 0; i < listA.Count; i++) {
 				string[] strD = listA [i].Split (dum, StringSplitOptions.RemoveEmptyEntries);
@@ -958,7 +958,7 @@ public class QuesTextEdit : MonoBehaviour
 
 	public void ConvertPerfectCommand (ref List<string> listQ)
 	{
-		if (Statics.strNull (sd.perKey) == false) {
+		if (Statics.StrNull (sd.perKey) == false) {
 
 			for (int i = 0; i < listQ.Count; i++) {
 				if (listQ [i].Substring (0, sd.perKey.Length) == sd.perKey) {

@@ -41,7 +41,7 @@ public class DbProcess : MonoBehaviour
 				DRILL_ID = qd.DRILL_ID,
 				TEXT = qd.TEXT,
 				JUN = jun,
-				REVIEW = 1,
+				REVIEW = 0,
 				IMAGE = "なし",
 				LAST = "なし"
 			};
