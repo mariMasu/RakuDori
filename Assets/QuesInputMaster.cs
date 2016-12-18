@@ -124,19 +124,26 @@ public class QuesInputMaster : MonoBehaviour
 
 			QuesArray qa = DbTextToQA.DbToQA (d);
 
-			string sento = qa.Ques.Substring (0, QuesTextEdit.PerKeyCommon.Length);
+			if (qa.Ques.Length > QuesTextEdit.PerKeyCommon.Length) {
+				
+				string sento = qa.Ques.Substring (0, QuesTextEdit.PerKeyCommon.Length);
 
-			if (sento != QuesTextEdit.PerKeyCommon) {
+				if (sento != QuesTextEdit.PerKeyCommon) {
+					zyun.SetActive (false);
+					ques.GetComponent<Text> ().text = "問題文：" + qa.Ques;
+				} else {
+					ques.GetComponent<Text> ().text = "問題文：" + qa.Ques.Substring (QuesTextEdit.PerKeyCommon.Length);
+
+				}
+			} else {
 				zyun.SetActive (false);
 				ques.GetComponent<Text> ().text = "問題文：" + qa.Ques;
-			} else {
-				ques.GetComponent<Text> ().text = "問題文：" + qa.Ques.Substring (QuesTextEdit.PerKeyCommon.Length - 1);
 			}
 
 			string ansS = "";
 
 			foreach (string s in qa.Ans) {
-				ansS += (" " + s);
+				ansS += ("/" + s);
 			}
 
 			ans.GetComponent<Text> ().text = "正答：" + ansS;
@@ -147,7 +154,7 @@ public class QuesInputMaster : MonoBehaviour
 
 				foreach (string s in qa.Dummy) {
 
-					dumS += (" " + s);
+					dumS += ("/" + s);
 				}
 
 				dum.GetComponent<Text> ().text = "ダミー：" + dumS;

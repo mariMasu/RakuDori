@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class QuesSentakuMaster : MonoBehaviour
 {
 	
-	public SimpleSQL.SimpleSQLManager dbManager;
 	public GameObject quesP;
 	private GameObject content;
 
@@ -33,8 +32,7 @@ public class QuesSentakuMaster : MonoBehaviour
 
 	public void SentakuQuesView ()
 	{
-		dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
-		                             select ps);
+		dbData = this.GetComponent<DbProcess> ().GetDbDataAll ();
 		
 		dbData = dbData.FindAll (s => s.DRILL_ID == Statics.nowDrill);
 
@@ -115,20 +113,18 @@ public class QuesSentakuMaster : MonoBehaviour
 
 			QuesArray qa = DbTextToQA.DbToQA (d.TEXT);
 
-			string sento = qa.Ques.Substring (0, QuesTextEdit.PerKeyCommon.Length);
-
-			if (sento != QuesTextEdit.PerKeyCommon) {
+			if (DbTextToQA.IsPer (qa.Ques)) {
+				zyun.SetActive (true);
+				ques.GetComponent<Text> ().text = qa.Ques.Substring (QuesTextEdit.PerKeyCommon.Length);
+			} else {
 				zyun.SetActive (false);
 				ques.GetComponent<Text> ().text = qa.Ques;
-			} else {
-				ques.GetComponent<Text> ().text = qa.Ques.Substring (QuesTextEdit.PerKeyCommon.Length - 1);
 			}
-
-
+				
 			string ansS = "";
 
 			foreach (string s in qa.Ans) {
-				ansS += (" " + s);
+				ansS += ("/" + s);
 			}
 
 			ans.GetComponent<Text> ().text = ansS;
@@ -157,6 +153,13 @@ public class QuesSentakuMaster : MonoBehaviour
 		if (b == true) {
 			this.sentakuMode = true;
 
+			foreach (Transform n in content.transform) {
+				GameObject editB = n.gameObject.transform.FindChild ("editB").gameObject;
+				editB.GetComponent<Button> ().enabled = false;
+				editB.GetComponent<Image> ().enabled = false;
+			}
+
+
 			if (dbData.Count > 0) {
 				deleteDrillB.SetActive (false);
 			} else {
@@ -165,6 +168,11 @@ public class QuesSentakuMaster : MonoBehaviour
 
 		} else {
 			this.sentakuMode = false;
+			foreach (Transform n in content.transform) {
+				GameObject editB = n.gameObject.transform.FindChild ("editB").gameObject;
+				editB.GetComponent<Image> ().enabled = true;
+				editB.GetComponent<Button> ().enabled = true;	
+			}
 		}
 	}
 

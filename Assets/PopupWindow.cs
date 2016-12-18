@@ -11,6 +11,8 @@ public class PopupWindow : MonoBehaviour
 	public GameObject pop4;
 	public GameObject pop5;
 	public GameObject pop6;
+	public GameObject pop7;
+
 
 
 	public GameObject input1;
@@ -126,12 +128,14 @@ public class PopupWindow : MonoBehaviour
 			pop = pop5;
 		} else if (num == 6) {
 			pop = pop6;
+		} else if (num == 7) {
+			pop = pop7;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
 		}
 
-		pop.transform.position = GameObject.Find ("backGround").transform.position;
+		pop.transform.position = GameObject.Find ("mainBackGround").transform.position;
 	}
 
 	public void Popdown (int num = 1)
@@ -150,6 +154,8 @@ public class PopupWindow : MonoBehaviour
 			pop = pop5;
 		} else if (num == 6) {
 			pop = pop6;
+		} else if (num == 7) {
+			pop = pop7;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
@@ -225,10 +231,12 @@ public class PopupWindow : MonoBehaviour
 
 	public void PopDrillOrder (int i)
 	{
-		GameObject drop1 = GameObject.Find ("OrderDrop");
-		GameObject drop2 = GameObject.Find ("DummyDrop1");
-		GameObject drop3 = GameObject.Find ("DummyDrop2");
-		GameObject drop4 = GameObject.Find ("OrderDrop2");
+		GameObject parent = GameObject.Find ("PopAnsOrder");
+
+		GameObject drop1 = parent.transform.Find ("OrderDrop1").gameObject;
+		GameObject drop2 = parent.transform.Find ("DummyDrop1").gameObject;
+		GameObject drop3 = parent.transform.Find ("DummyDrop2").gameObject;
+		GameObject drop4 = parent.transform.Find ("OrderDrop2").gameObject;
 
 		drop1.GetComponent<Dropdown> ().value = 1;
 		drop2.GetComponent<Dropdown> ().value = 1;
@@ -241,6 +249,50 @@ public class PopupWindow : MonoBehaviour
 		drop4.GetComponent<Dropdown> ().value = 0;
 
 		Popup (i);
+	}
+
+	public void PopQuesEdit (int id)
+	{
+		QuesData qd = this.GetComponent<DbProcess> ().GetDbData (id);
+		QuesArray data = DbTextToQA.DbToQA (qd.TEXT);
+
+		GameObject parent = GameObject.Find ("PopQuesEdit");
+
+		GameObject toggle = parent.transform.Find ("toggle").gameObject;
+		GameObject qText = parent.transform.Find ("qText").gameObject;
+		GameObject aText = parent.transform.Find ("aText").gameObject;
+		GameObject eText = parent.transform.Find ("eText").gameObject;
+		GameObject dText = parent.transform.Find ("dText").gameObject;
+
+		if (DbTextToQA.IsPer (data.Ques)) {
+			toggle.GetComponent<Toggle> ().isOn = true;
+			data.Ques = data.Ques.Substring (QuesTextEdit.PerKeyCommon.Length);
+		} else {
+			toggle.GetComponent<Toggle> ().isOn = false;
+		}
+
+
+		qText.GetComponent<InputField> ().text = data.Ques;
+		eText.GetComponent<InputField> ().text = data.Exp;
+
+
+		string tempText = "";
+		string sepkey = QuesTextEdit.SepKeyCommon;
+
+		foreach (string s in data.Ans) {
+			tempText += (sepkey + s);
+		}
+		aText.GetComponent<InputField> ().text = tempText.Substring (sepkey.Length);
+
+		tempText = "";
+		foreach (string s in data.Dummy) {
+			tempText += (sepkey + s);
+		}
+		if (tempText.Length > sepkey.Length) {
+			dText.GetComponent<InputField> ().text = tempText.Substring (sepkey.Length);
+		}
+
+		Popup (7);
 	}
 
 }

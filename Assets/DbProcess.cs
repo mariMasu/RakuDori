@@ -9,6 +9,25 @@ public class DbProcess : MonoBehaviour
 
 	public SimpleSQL.SimpleSQLManager dbManager;
 
+	public List<QuesData> GetDbDataAll ()
+	{
+		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
+		                                            select ps);
+
+		return dbData;
+	}
+
+	public QuesData GetDbData (int i)
+	{
+		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
+		                                            select ps);
+
+		QuesData qd = dbData.Find (s => s.ID == i);
+
+		return qd;
+	}
+
+
 	public void AddFirst (List<string> text)
 	{
 

@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class AnsOrder : MonoBehaviour
+public class SimpleToTemp : MonoBehaviour
 {
-
+	
 	public GameObject baseOb;
 	TempData temp;
 
@@ -16,7 +16,19 @@ public class AnsOrder : MonoBehaviour
 		temp = baseOb.GetComponent<TempData> ();
 	}
 
-	public void SetTemp ()
+	public void SetTempInputField ()
+	{
+		string text = this.GetComponent<InputField> ().text;
+
+		if (Statics.StrNull (text)) {
+			temp.temp [tempNum] = "";
+		}
+
+
+
+	}
+
+	public void SetTempAnsOrder ()
 	{
 		switch ((this.GetComponent<Dropdown> ().captionText).text) {
 
@@ -68,5 +80,4 @@ public class AnsOrder : MonoBehaviour
 		}
 
 	}
-
 }

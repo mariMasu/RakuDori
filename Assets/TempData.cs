@@ -230,5 +230,20 @@ public class TempData : MonoBehaviour
 		es.GetComponent<DbProcess> ().UpdateDrillOrder (orderQ, orderA, dumU, dumT);
 
 	}
+
+	public void QuesEditSend ()
+	{
+		int orderQ = int.Parse (temp [0]);
+		int orderA = (int.Parse (temp [1]) - 1);
+		int dumU = int.Parse (temp [2]);
+		int dumT = int.Parse (temp [3]);
+
+		if (orderQ == 0) {
+			orderQ = 1;
+		}
+
+		es.GetComponent<DbProcess> ().UpdateDrillOrder (orderQ, orderA, dumU, dumT);
+
+	}
 		
 }

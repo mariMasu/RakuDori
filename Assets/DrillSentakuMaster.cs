@@ -28,7 +28,7 @@ public class DrillSentakuMaster : MonoBehaviour
 	{
 
 		foreach (DrillData dbData in _dbData) {
-			Debug.Log (dbData.ID + dbData.NAME + dbData.COLOR);
+			//Debug.Log (dbData.ID + dbData.NAME + dbData.COLOR);
 
 			GameObject go = Instantiate (drill);
 

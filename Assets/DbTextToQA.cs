@@ -82,4 +82,22 @@ public class DbTextToQA : MonoBehaviour
 		return qa;
 
 	}
+
+	public static bool IsPer (string qtext)
+	{
+
+		if (qtext.Length > QuesTextEdit.PerKeyCommon.Length) {
+
+			string sento = qtext.Substring (0, QuesTextEdit.PerKeyCommon.Length);
+
+			if (sento == QuesTextEdit.PerKeyCommon) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+	}
 }

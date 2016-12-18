@@ -35,4 +35,9 @@ public class QuesBannar : MonoBehaviour
 			qv.SetSentakuId (this.id);
 		}
 	}
+
+	public void QuesEditNext ()
+	{
+		es.GetComponent<PopupWindow> ().PopQuesEdit (id);
+	}
 }

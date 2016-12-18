@@ -264,7 +264,7 @@ public class DrillAnsMaster : MonoBehaviour
 			}
 
 			if (zyun.activeSelf == true) {
-				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length - 1));
+				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length));
 			} else {
 				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques;
 			}
