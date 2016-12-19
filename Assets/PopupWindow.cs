@@ -258,6 +258,8 @@ public class PopupWindow : MonoBehaviour
 
 		GameObject parent = GameObject.Find ("PopQuesEdit");
 
+		parent.GetComponent<TempData> ().temp [5] = id.ToString ();
+
 		GameObject toggle = parent.transform.Find ("toggle").gameObject;
 		GameObject qText = parent.transform.Find ("qText").gameObject;
 		GameObject aText = parent.transform.Find ("aText").gameObject;
@@ -291,6 +293,13 @@ public class PopupWindow : MonoBehaviour
 		if (tempText.Length > sepkey.Length) {
 			dText.GetComponent<InputField> ().text = tempText.Substring (sepkey.Length);
 		}
+
+		toggle.GetComponent<SimpleToTemp> ().SetTempToggle ();
+		qText.GetComponent<SimpleToTemp> ().SetTempInputField ();
+		aText.GetComponent<SimpleToTemp> ().SetTempInputField ();
+		dText.GetComponent<SimpleToTemp> ().SetTempInputField ();
+		eText.GetComponent<SimpleToTemp> ().SetTempInputField ();
+
 
 		Popup (7);
 	}

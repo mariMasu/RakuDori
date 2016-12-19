@@ -24,6 +24,7 @@ public class QuesTextEdit : MonoBehaviour
 	public static string PerKeyCommon = ";;;";
 	public static string NullKeyCommon = "!!!";
 
+	public static string Kaigyo = "\n";
 
 	void Awake ()
 	{
@@ -859,26 +860,23 @@ public class QuesTextEdit : MonoBehaviour
 		return mlist.Substring (key.Length);
 	}
 
-	public string RemoveEnterZengo (string s)
+	public static string RemoveEnterZengo (string s)
 	{
-		string kaigyo = "\n";
-
-		while (s.Substring (0, kaigyo.Length) == kaigyo) {
-			s = s.Substring (kaigyo.Length);
+		while (s.Substring (0, Kaigyo.Length) == Kaigyo) {
+			s = s.Substring (Kaigyo.Length);
 		}
-		while (s.Substring (s.Length - kaigyo.Length) == kaigyo) {
-			s = s.Substring (0, s.Length - kaigyo.Length);
+		while (s.Substring (s.Length - Kaigyo.Length) == Kaigyo) {
+			s = s.Substring (0, s.Length - Kaigyo.Length);
 		}
 
 		return s;
 
 	}
 
-	public string RemoveEnterAll (string s)
+	public static string RemoveEnterAll (string s)
 	{
-		string kaigyo = "\n";
 		string ns = "";
-		string[] spl = Regex.Split (s, kaigyo);
+		string[] spl = Regex.Split (s, Kaigyo);
 
 		foreach (string sp in spl) {
 			if (Statics.StrNull (sp)) {

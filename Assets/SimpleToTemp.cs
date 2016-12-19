@@ -22,9 +22,23 @@ public class SimpleToTemp : MonoBehaviour
 
 		if (Statics.StrNull (text)) {
 			temp.temp [tempNum] = "";
+		} else {
+			temp.temp [tempNum] = text;
+
 		}
 
+	}
 
+	public void SetTempToggle ()
+	{
+		bool b = this.GetComponent<Toggle> ().isOn;
+
+		if (b == true) {
+			temp.temp [tempNum] = "1";
+		} else {
+			temp.temp [tempNum] = "0";
+
+		}
 
 	}
 

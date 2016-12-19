@@ -233,16 +233,65 @@ public class TempData : MonoBehaviour
 
 	public void QuesEditSend ()
 	{
-		int orderQ = int.Parse (temp [0]);
-		int orderA = (int.Parse (temp [1]) - 1);
-		int dumU = int.Parse (temp [2]);
-		int dumT = int.Parse (temp [3]);
+		string p = temp [4];
 
-		if (orderQ == 0) {
-			orderQ = 1;
+		string q = temp [0];
+		string a = temp [1];
+		string e = temp [2];
+		string d = temp [3];
+
+		string sepkey = QuesTextEdit.SepKeyCommon;
+
+		if (Statics.StrNull (q) || Statics.StrNull (a)) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題文か正答が空欄です");
+			return;
 		}
 
-		es.GetComponent<DbProcess> ().UpdateDrillOrder (orderQ, orderA, dumU, dumT);
+		q = QuesTextEdit.RemoveEnterZengo (q);
+
+		if (p == "1") {
+			q = (QuesTextEdit.PerKeyCommon + q);
+		}
+
+
+		a = QuesTextEdit.RemoveEnterAll (a);
+
+		if (a.Length > sepkey.Length) {
+			while (a.Substring (sepkey.Length) == sepkey) {
+				a = a.Substring (sepkey.Length);
+			}
+			while (a.Substring (a.Length - sepkey.Length) == sepkey) {
+				a = a.Substring (0, a.Length - sepkey.Length);
+			}
+		}
+
+		a = (QuesTextEdit.AnsKeyCommon + a);
+
+		if (Statics.StrNull (d) == false) {
+
+			d = QuesTextEdit.RemoveEnterAll (d);
+
+			if (d.Length > sepkey.Length) {
+				while (d.Substring (sepkey.Length) == sepkey) {
+					d = d.Substring (sepkey.Length);
+				}
+				while (a.Substring (a.Length - sepkey.Length) == sepkey) {
+					d = a.Substring (0, a.Length - sepkey.Length);
+				}
+			}
+			d = (QuesTextEdit.DummyKeyCommon + d);
+
+		}
+
+		if (Statics.StrNull (e) == false) {
+			e = QuesTextEdit.RemoveEnterZengo (e);
+			e = (QuesTextEdit.ExpKeyCommon + e);
+		}
+		QuesData qd = es.GetComponent<DbProcess> ().GetDbData (int.Parse (temp [5]));
+
+		qd.TEXT = (q + a + d + e);
+
+		es.GetComponent<DbProcess> ().UpdateQuesData (qd);
 
 	}
 		
