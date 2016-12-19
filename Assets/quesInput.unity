@@ -1102,7 +1102,7 @@ GameObject:
   - 222: {fileID: 142453955}
   - 114: {fileID: 142453954}
   m_Layer: 5
-  m_Name: backGround
+  m_Name: mainBackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8309,6 +8309,7 @@ MonoBehaviour:
   pop4: {fileID: 1952734650}
   pop5: {fileID: 0}
   pop6: {fileID: 0}
+  pop7: {fileID: 0}
   input1: {fileID: 1879631561}
   input2: {fileID: 137429939}
   input3: {fileID: 374616750}
