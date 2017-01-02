@@ -10,11 +10,11 @@ public class DrillSentakuMaster : MonoBehaviour
 
 	private List<DrillData> _dbData;
 
-	public SimpleSQL.SimpleSQLManager dbManager;
-
 	public GameObject drill;
 
 	private GameObject content;
+
+	public int[] nowNumQA;
 
 
 	void Awake ()
@@ -56,6 +56,8 @@ public class DrillSentakuMaster : MonoBehaviour
 			go.GetComponent<DrillNum> ().nameD = dbData.NAME;
 			go.GetComponent<DrillNum> ().orderQ = dbData.QUES_ORDER;
 			go.GetComponent<DrillNum> ().orderA = dbData.ANS_ORDER;
+			go.GetComponent<DrillNum> ().numQA = num;
+
 
 			if (num [2] > 0) {
 				go.GetComponent<DrillNum> ().existQ = true;
@@ -75,13 +77,12 @@ public class DrillSentakuMaster : MonoBehaviour
 		int qNum;
 		int okNum;
 
-		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
-		                                            select ps);
+		List<QuesData> dbData = this.GetComponent<DbProcess> ().GetDbDataAll ();
 
 		dbData = dbData.FindAll (s => s.DRILL_ID == drillId);
 
 		qNum = dbData.Count;
-		okNum = dbData.FindAll (s => s.LEVEL == 4).Count;
+		okNum = dbData.FindAll (s => s.LEVEL == 5).Count;
 
 		foreach (QuesData qd in dbData) {
 			if (qd.LAST.Length > 5) {
@@ -97,16 +98,14 @@ public class DrillSentakuMaster : MonoBehaviour
 	}
 
 
-	private void Reset ()
+	public void Reset ()
 	{
 		
 		foreach (Transform n in content.transform) {
 			GameObject.Destroy (n.gameObject);
 		}
 
-		// Loads the player stats from the database using Linq
-		_dbData = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
-		                               select ps);
+		_dbData = this.GetComponent<DbProcess> ().GetDbDrillDataAll ();
 
 		View ();
 
@@ -120,7 +119,7 @@ public class DrillSentakuMaster : MonoBehaviour
 
 		DrillData data = new DrillData { NAME = name, COLOR = col };
 
-		dbManager.Insert (data);
+		this.GetComponent<DbProcess> ().AddDrill (data);
 
 		Reset ();
 	}

@@ -54,7 +54,12 @@ public class TimeFunctions : MonoBehaviour
 			if (gapD > 6) {
 				r = true;
 			}
+
 		} else if (level == 3) {
+			if (gapD > 13) {
+				r = true;
+			}
+		} else if (level == 4) {
 			if (gapD > 29) {
 				r = true;
 			}

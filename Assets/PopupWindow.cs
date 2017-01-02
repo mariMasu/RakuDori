@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 using UnityEngine.UI;
 
 public class PopupWindow : MonoBehaviour
@@ -12,7 +15,10 @@ public class PopupWindow : MonoBehaviour
 	public GameObject pop5;
 	public GameObject pop6;
 	public GameObject pop7;
-
+	public GameObject pop8;
+	public GameObject pop9;
+	public GameObject pop10;
+	public GameObject pop11;
 
 
 	public GameObject input1;
@@ -60,17 +66,68 @@ public class PopupWindow : MonoBehaviour
 		Popup (3);
 	}
 
-	public void TagLevPopReset ()
+	public void TagLevPopReset (int i = 1)
 	{
-		GameObject go = GameObject.Find ("PopTagColor");
-
+		GameObject go = GameObject.Find ("PopTagLevel");
 		go.GetComponent<TempData> ().ResetTemp ();
-		GameObject col = go.transform.Find ("Scroll View/Viewport/Content/colSelect").gameObject;
-		GameObject lev = go.transform.Find ("Scroll View/Viewport/Content/levSelect").gameObject;
-		col.transform.position = new Vector3 (10000, 0, 0);
-		lev.transform.position = new Vector3 (10000, 0, 0);
 
-		Popup (1);
+		GameObject content = go.transform.Find ("Scroll View/Viewport/Content").gameObject;
+
+		//GameObject col = content.transform.Find ("colSelect").gameObject;
+		GameObject lev = content.transform.Find ("levSelect").gameObject;
+
+		switch (Statics.nowTag) {
+
+		case 0:
+			content.transform.Find ("none").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 1:
+			content.transform.Find ("pink").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 2:
+			content.transform.Find ("yellow").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 3:
+			content.transform.Find ("green").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 4:
+			content.transform.Find ("orange").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 5:
+			content.transform.Find ("blue").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		default:
+			Debug.Log ("Incorrect data");
+			break;
+		}
+
+		switch (Statics.nowLevel) {
+
+		case 0:
+			go.GetComponent<TempData> ().temp [1] = "0";
+			lev.transform.position = new Vector3 (10000, 0, 0);
+			break;
+		case 1:
+			content.transform.Find ("level1").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 2:
+			content.transform.Find ("level2").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 3:
+			content.transform.Find ("level3").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 4:
+			content.transform.Find ("level4").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		case 5:
+			content.transform.Find ("level5").GetComponent<ButtonPoint> ().OnClick ();
+			break;
+		default:
+			Debug.Log ("Incorrect data");
+			break;
+		}
+
+		Popup (i);
 	}
 
 	public void DrillPatReset ()
@@ -130,6 +187,14 @@ public class PopupWindow : MonoBehaviour
 			pop = pop6;
 		} else if (num == 7) {
 			pop = pop7;
+		} else if (num == 8) {
+			pop = pop8;
+		} else if (num == 9) {
+			pop = pop9;
+		} else if (num == 10) {
+			pop = pop10;
+		} else if (num == 11) {
+			pop = pop11;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
@@ -156,6 +221,14 @@ public class PopupWindow : MonoBehaviour
 			pop = pop6;
 		} else if (num == 7) {
 			pop = pop7;
+		} else if (num == 8) {
+			pop = pop8;
+		} else if (num == 9) {
+			pop = pop9;
+		} else if (num == 10) {
+			pop = pop10;
+		} else if (num == 11) {
+			pop = pop11;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
@@ -213,6 +286,12 @@ public class PopupWindow : MonoBehaviour
 
 	public void PopTagSort ()
 	{
+
+		QuesSentakuMaster qv = this.GetComponent<QuesSentakuMaster> ();
+		if (qv.GetPlainQuesCount () == 0) {
+			return;
+		}
+
 		GameObject go = GameObject.Find ("PopTagSort");
 		go.GetComponent<TempData> ().temp [0] = "0";
 
@@ -221,12 +300,11 @@ public class PopupWindow : MonoBehaviour
 		go.transform.FindChild ("none").GetComponent<ButtonPoint> ().OnClickTagSort ();
 	}
 
-	public void PopupCaution (string t)
+	public void PopupCaution (string t, int i = 4)
 	{
-		GameObject pop = pop4;
 
 		GameObject.Find ("CautionText").GetComponent<Text> ().text = t;
-		pop.transform.position = GameObject.Find ("backGround").transform.position;
+		Popup (i);
 	}
 
 	public void PopDrillOrder (int i)
@@ -251,14 +329,16 @@ public class PopupWindow : MonoBehaviour
 		Popup (i);
 	}
 
-	public void PopQuesEdit (int id)
+	public void PopQuesEdit (QuesData qd)
 	{
-		QuesData qd = this.GetComponent<DbProcess> ().GetDbData (id);
 		QuesArray data = DbTextToQA.DbToQA (qd.TEXT);
+
+		Statics.nowTag = qd.TAG;
+		Statics.nowLevel = qd.LEVEL;
 
 		GameObject parent = GameObject.Find ("PopQuesEdit");
 
-		parent.GetComponent<TempData> ().temp [5] = id.ToString ();
+		parent.GetComponent<TempData> ().temp [5] = qd.ID.ToString ();
 
 		GameObject toggle = parent.transform.Find ("toggle").gameObject;
 		GameObject qText = parent.transform.Find ("qText").gameObject;
@@ -302,6 +382,58 @@ public class PopupWindow : MonoBehaviour
 
 
 		Popup (7);
+	}
+
+	public void PopExport ()
+	{
+		GameObject parent = GameObject.Find ("PopExport");
+		GameObject text = parent.transform.Find ("exportText").gameObject;
+
+		List<QuesData> qdl = this.GetComponent<DbProcess> ().GetDbDataDrillId (Statics.nowDrill);
+		string exText = "";
+
+		foreach (QuesData qd in qdl) {
+			exText += ("@@@" + qd.TEXT);
+		}
+
+		text.GetComponent<InputField> ().text = exText;
+		Popup (10);
+	}
+
+	public void PopCopyQues ()
+	{
+		QuesSentakuMaster qv = this.GetComponent<QuesSentakuMaster> ();
+
+		if (qv.SentakuNull ()) {
+			return;
+		}
+
+
+		GameObject parent = GameObject.Find ("PopCopyQues");
+		GameObject drop = parent.transform.Find ("drillNameDrop").gameObject;
+		GameObject toggle1 = parent.transform.Find ("toggle1").gameObject;
+		GameObject toggle2 = parent.transform.Find ("toggle2").gameObject;
+
+
+		List<DrillData> ddl = this.GetComponent<DbProcess> ().GetDbDrillDataAll ();
+
+		drop.GetComponent<Dropdown> ().options.Clear ();
+		drop.GetComponent<Dropdown> ().options.Add (new Dropdown.OptionData { text = "ドリルを選択" });
+
+
+		foreach (DrillData dd in ddl) {
+			drop.GetComponent<Dropdown> ().options.Add (new Dropdown.OptionData { text = dd.NAME });
+		}
+
+		drop.GetComponent<Dropdown> ().value = 0;
+		drop.GetComponent<Dropdown> ().RefreshShownValue ();
+
+		toggle1.GetComponent<Toggle> ().isOn = false;
+		toggle2.GetComponent<Toggle> ().isOn = false;
+
+
+		Popup (11);
+
 	}
 
 }

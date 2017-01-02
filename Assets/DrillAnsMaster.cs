@@ -37,6 +37,8 @@ public class DrillAnsMaster : MonoBehaviour
 	GameObject level1;
 	GameObject level2;
 	GameObject level3;
+	GameObject level4;
+	GameObject level5;
 
 	GameObject tagImage;
 	GameObject zyun;
@@ -83,6 +85,18 @@ public class DrillAnsMaster : MonoBehaviour
 
 		questionList = qd.FindAll (s => s.DRILL_ID == dd.ID);
 
+		string coution = GetChooseQues ();
+		if (coution != "") {
+			QuesData vqd = new QuesData ();
+			vqd.TEXT = (" " + QuesTextEdit.AnsKeyCommon + " ");
+
+			questionList.Add (vqd);
+
+			dummyKouhoList = new List<QuesData> ();
+			this.GetComponent<PopupWindow> ().PopupCaution ("エラー\n" + coution, 2);
+			return;
+		}
+
 		if (dd.DUMMY_USE == 0) {
 			dummyKouhoList = new List<QuesData> ();
 
@@ -120,6 +134,43 @@ public class DrillAnsMaster : MonoBehaviour
 		} else {
 			ansRandom = false;
 		}
+	}
+
+	string GetChooseQues ()
+	{
+		
+		string s = "";
+
+		if (Statics.ansChoose == 1) {
+			List<QuesData> removeList = new List<QuesData> ();
+
+			s = "要復習問題が存在しません";
+
+			foreach (QuesData q in questionList) {
+				
+				if (q.LAST.Length > 5) {
+					if (TimeFunctions.NeedReview (q.LAST, q.LEVEL) == false) {
+						removeList.Add (q);
+					}
+				}
+
+			}
+
+			foreach (QuesData q in removeList) {
+				questionList.Remove (q);
+			}
+
+
+			
+		} else if (Statics.ansChoose == 2) {
+			s = "未完了問題が存在しません";
+			questionList.RemoveAll (q => q.LEVEL == 5);
+		} else if (Statics.ansChoose == 3) {
+			s = "完了問題が存在しません";
+			questionList.RemoveAll (q => q.LEVEL != 5);
+		}
+		return s;
+
 	}
 
 	public void Fisher_Yates_CardDeck_Shuffle (List<QuesData> aList)
@@ -172,6 +223,9 @@ public class DrillAnsMaster : MonoBehaviour
 			QuesArray q = DbTextToQA.DbToQA (nowQData.TEXT);
 			nowQArray = q;
 
+			Statics.nowTag = nowQData.TAG;
+			Statics.nowLevel = nowQData.LEVEL;
+
 			ansList = new List<string> ();
 			senAnsList = new List<string[]> ();
 
@@ -201,10 +255,10 @@ public class DrillAnsMaster : MonoBehaviour
 
 
 			string ansStr = String.Join ("", q.Ans);
-			string dumStr = ansList.ToString ();
+			string dumStr = String.Join ("", q.Dummy);
 			string strAS = ansStr + dumStr;
 
-			if (strAS.Length > 10) {
+			if (strAS.Length > 15) {
 				ansBase = GameObject.Find ("LongAnswer");
 			} else {
 				ansBase = GameObject.Find ("ShortAnswer");
@@ -220,6 +274,8 @@ public class DrillAnsMaster : MonoBehaviour
 			level1 = ansBase.transform.Find ("level1").gameObject;
 			level2 = ansBase.transform.Find ("level2").gameObject;
 			level3 = ansBase.transform.Find ("level3").gameObject;
+			level4 = ansBase.transform.Find ("level4").gameObject;
+
 
 			zyun = ansBase.transform.Find ("zyun").gameObject;
 
@@ -354,6 +410,15 @@ public class DrillAnsMaster : MonoBehaviour
 
 			break;
 		case 4:
+			level4.SetActive (true);
+			level3.SetActive (false);
+			level2.SetActive (false);
+			level1.SetActive (false);
+			level0.SetActive (false);
+
+			break;
+		case 5:
+			level4.SetActive (false);
 			level3.SetActive (false);
 			level2.SetActive (false);
 			level1.SetActive (false);
@@ -432,7 +497,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			if (nowQData.REVIEW < 0) {
 
-				if (nowQData.LEVEL != 4) {
+				if (nowQData.LEVEL != 5) {
 					nowQData.LEVEL += 1;
 				}
 
@@ -539,7 +604,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			if (nowQData.REVIEW < 0) {
 
-				if (nowQData.LEVEL != 4) {
+				if (nowQData.LEVEL != 5) {
 					nowQData.LEVEL += 1;
 				}
 

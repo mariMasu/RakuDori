@@ -26,12 +26,28 @@ public class ButtonPoint : MonoBehaviour
 
 	}
 
+	public void OnClickLevel ()
+	{
+
+		if (temp.temp [1] == data) {
+			select.transform.position = new Vector3 (10000, 0, 0);
+
+			temp.SetTemp ("0", tempNum);
+		} else {
+
+			select.transform.position = this.transform.position;
+
+			temp.SetTemp (data, tempNum);
+		}
+
+	}
+
 	public void OnClickTagSort ()
 	{
 		//Debug.Log (this.name + "click");
 
 		if (temp.temp [0] == data) {
-			select.transform.position = new Vector3 (Screen.width * 2, 0, 0);
+			select.transform.position = new Vector3 (10000, 0, 0);
 
 			temp.SetTemp ("6", tempNum);
 		} else {

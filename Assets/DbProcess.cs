@@ -17,12 +17,40 @@ public class DbProcess : MonoBehaviour
 		return dbData;
 	}
 
+	public List<QuesData> GetDbDataDrillId (int i)
+	{
+		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
+		                                            select ps);
+
+		dbData = dbData.FindAll (s => s.DRILL_ID == i);
+
+		return dbData;
+	}
+
 	public QuesData GetDbData (int i)
 	{
 		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
 		                                            select ps);
 
 		QuesData qd = dbData.Find (s => s.ID == i);
+
+		return qd;
+	}
+
+	public List<DrillData> GetDbDrillDataAll ()
+	{
+		List<DrillData> dbData = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
+		                                              select ps);
+
+		return dbData;
+	}
+
+	public DrillData GetDbDrillData (int i)
+	{
+		List<DrillData> dbData = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
+		                                              select ps);
+
+		DrillData qd = dbData.Find (s => s.ID == i);
 
 		return qd;
 	}
@@ -92,6 +120,26 @@ public class DbProcess : MonoBehaviour
 			dbManager.Delete<QuesData> (qd);
 
 		}
+	}
+
+	public void AddQues (QuesData qd)
+	{
+		int jun;
+		if (qd.ID == 0) {
+			jun = -1000;
+		} else {
+			jun = qd.ID * 1000;
+		}
+
+		qd.JUN = jun;
+
+		dbManager.Insert (qd);
+	}
+
+	public void AddDrill (DrillData dd)
+	{
+
+		dbManager.Insert (dd);
 	}
 
 	public void DeleteDrill ()

@@ -5076,21 +5076,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1019962105}
-    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
-        type: 2}
-      propertyPath: m_FontData.m_BestFit
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
-        type: 2}
-      propertyPath: m_Text
-      value: "\u30A8\u30E9\u30FC\n\u30A8\u30E9\u30FC\u30E1\u30C3\u30BB\u30FC\u30B8\n\u30A8\u30E9\u30FC\u30E1\u30C3\u30BB\u30FC\u30B8"
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
-        type: 2}
-      propertyPath: m_FontData.m_VerticalOverflow
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c11e92999f35944159ae2f5bcc268e8d, type: 2}
   m_IsPrefabParent: 0
@@ -8310,6 +8295,8 @@ MonoBehaviour:
   pop5: {fileID: 0}
   pop6: {fileID: 0}
   pop7: {fileID: 0}
+  pop8: {fileID: 0}
+  pop9: {fileID: 0}
   input1: {fileID: 1879631561}
   input2: {fileID: 137429939}
   input3: {fileID: 374616750}

@@ -209,14 +209,14 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b6cc351bdd1cc4903b7d604ec62cdf03, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 181
     m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 1
+    m_VerticalOverflow: 0
     m_LineSpacing: 0.72
   m_Text: "\u30A8\u30E9\u30FC\n\u30A8\u30E9\u30FC\u30E1\u30C3\u30BB\u30FC\u30B8\n\u30A8\u30E9\u30FC\u30E1\u30C3\u30BB\u30FC\u30B8"
 --- !u!114 &114000012874476552
@@ -349,7 +349,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3130, y: -3906}
+  m_AnchoredPosition: {x: 19, y: -3906}
   m_SizeDelta: {x: 1925, y: 3422.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000011167799436

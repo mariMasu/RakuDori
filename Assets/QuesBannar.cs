@@ -36,8 +36,13 @@ public class QuesBannar : MonoBehaviour
 		}
 	}
 
+	public void SentakuFalse ()
+	{
+		sele.SetActive (false);
+	}
+
 	public void QuesEditNext ()
 	{
-		es.GetComponent<PopupWindow> ().PopQuesEdit (id);
+		es.GetComponent<QuesSentakuMaster> ().SetPopQuesEdit (id);
 	}
 }

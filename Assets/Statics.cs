@@ -11,6 +11,10 @@ public class Statics : MonoBehaviour
 	public static int nowDrill = 0;
 	public static int nowColor = 0;
 	public static string nowName = "";
+	public static int ansChoose = 0;
+	public static int nowTag = 0;
+	public static int nowLevel = 0;
+
 	public static List<int> reviewList = new List<int> ();
 	public static float prefabX = 0;
 

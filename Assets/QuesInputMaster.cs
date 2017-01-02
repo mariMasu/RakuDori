@@ -146,7 +146,7 @@ public class QuesInputMaster : MonoBehaviour
 				ansS += ("/" + s);
 			}
 
-			ans.GetComponent<Text> ().text = "正答：" + ansS;
+			ans.GetComponent<Text> ().text = "正答：" + ansS.Substring (1);
 
 
 			if (qa.Dummy.Length > 0) {
@@ -157,7 +157,7 @@ public class QuesInputMaster : MonoBehaviour
 					dumS += ("/" + s);
 				}
 
-				dum.GetComponent<Text> ().text = "ダミー：" + dumS;
+				dum.GetComponent<Text> ().text = "ダミー：" + dumS.Substring (1);
 			} else {
 				dum.GetComponent<Text> ().text = "ダミー：なし";
 			}

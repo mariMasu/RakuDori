@@ -20,10 +20,13 @@ public class QuesSentakuMaster : MonoBehaviour
 
 	public int sortTag = 6;
 
+	public List<QuesData> dbDataPlain;
 	public List<QuesData> dbData;
+	public QuesData nowQData;
 
 	void Awake ()
 	{
+		senList = new List<int> ();
 
 		content = GameObject.Find ("QuesContent");
 		SentakuQuesView ();
@@ -32,9 +35,9 @@ public class QuesSentakuMaster : MonoBehaviour
 
 	public void SentakuQuesView ()
 	{
-		dbData = this.GetComponent<DbProcess> ().GetDbDataAll ();
 		
-		dbData = dbData.FindAll (s => s.DRILL_ID == Statics.nowDrill);
+		dbDataPlain = this.GetComponent<DbProcess> ().GetDbDataDrillId (Statics.nowDrill);
+		dbData = dbDataPlain;
 
 		if (sortTag != 6) {
 			dbData = dbData.FindAll (s => s.TAG == sortTag);
@@ -42,7 +45,7 @@ public class QuesSentakuMaster : MonoBehaviour
 
 		dbData.Sort ((a, b) => a.JUN - b.JUN);
 
-		senList = new List<int> ();
+		senList.Clear ();
 
 		foreach (Transform n in content.transform) {
 			GameObject.Destroy (n.gameObject);
@@ -66,6 +69,8 @@ public class QuesSentakuMaster : MonoBehaviour
 			GameObject level2 = go.transform.FindChild ("level2").gameObject;
 			GameObject level3 = go.transform.FindChild ("level3").gameObject;
 			GameObject level4 = go.transform.FindChild ("level4").gameObject;
+			GameObject level5 = go.transform.FindChild ("level5").gameObject;
+
 
 			//Debug.Log (d);
 
@@ -99,6 +104,8 @@ public class QuesSentakuMaster : MonoBehaviour
 			level2.SetActive (false);
 			level3.SetActive (false);
 			level4.SetActive (false);
+			level5.SetActive (false);
+
 
 			if (d.LEVEL == 0) {
 			} else if (d.LEVEL == 1) {
@@ -107,8 +114,10 @@ public class QuesSentakuMaster : MonoBehaviour
 				level2.SetActive (true);
 			} else if (d.LEVEL == 3) {
 				level3.SetActive (true);
-			} else {
+			} else if (d.LEVEL == 4) {
 				level4.SetActive (true);
+			} else {
+				level5.SetActive (true);
 			}
 
 			QuesArray qa = DbTextToQA.DbToQA (d.TEXT);
@@ -127,13 +136,18 @@ public class QuesSentakuMaster : MonoBehaviour
 				ansS += ("/" + s);
 			}
 
-			ans.GetComponent<Text> ().text = ansS;
+			ans.GetComponent<Text> ().text = ansS.Substring (1);
 
 			go.transform.SetParent (content.transform);
 			go.transform.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
 
 		}
 
+		if (dbData.Count > 0) {
+			deleteDrillB.SetActive (false);
+		} else {
+			deleteDrillB.SetActive (true);
+		}
 	}
 
 	public void SetSentakuId (int i)
@@ -146,6 +160,13 @@ public class QuesSentakuMaster : MonoBehaviour
 		}
 	}
 
+	public void SetPopQuesEdit (int id)
+	{
+
+		nowQData = this.GetComponent<DbProcess> ().GetDbData (id);
+		this.GetComponent<PopupWindow> ().PopQuesEdit (nowQData);
+
+	}
 
 	public void SetSentakuMode (bool b)
 	{
@@ -157,13 +178,6 @@ public class QuesSentakuMaster : MonoBehaviour
 				GameObject editB = n.gameObject.transform.FindChild ("editB").gameObject;
 				editB.GetComponent<Button> ().enabled = false;
 				editB.GetComponent<Image> ().enabled = false;
-			}
-
-
-			if (dbData.Count > 0) {
-				deleteDrillB.SetActive (false);
-			} else {
-				deleteDrillB.SetActive (true);
 			}
 
 		} else {
@@ -199,6 +213,33 @@ public class QuesSentakuMaster : MonoBehaviour
 
 	}
 
+	public void CopyQuesB (int drillId, bool tagCopy, bool levelCopy)
+	{
+
+		foreach (int s in senList) {
+			
+			QuesData qd = this.GetComponent<DbProcess> ().GetDbData (s);
+			QuesData newqd = new QuesData { DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE = "なし", LAST = "なし"
+			};
+
+			if (tagCopy) {
+				newqd.TAG = qd.TAG;
+			}
+
+			if (levelCopy) {
+				newqd.LEVEL = qd.LEVEL;
+				newqd.LAST = qd.LAST;
+				newqd.REVIEW = qd.REVIEW;
+			}
+
+			this.GetComponent<DbProcess> ().AddQues (newqd);
+
+		}
+
+		SentakuQuesView ();
+
+	}
+
 	public bool SentakuNull ()
 	{
 		if (senList.Count == 0) {
@@ -210,13 +251,27 @@ public class QuesSentakuMaster : MonoBehaviour
 
 	public void SentakuAll ()
 	{
-		foreach (Transform c in content.transform) {
-			c.GetComponent<QuesBannar> ().OnSentaku ();
+		if (SentakuNull () == true) {
+
+			foreach (Transform c in content.transform) {
+				c.GetComponent<QuesBannar> ().OnSentaku ();
+			}
+		} else {
+			foreach (Transform c in content.transform) {
+				c.GetComponent<QuesBannar> ().SentakuFalse ();
+			}
+			senList.Clear ();
+			
 		}
 	}
 
 	public int GetQuesCount ()
 	{
 		return dbData.Count;
+	}
+
+	public int GetPlainQuesCount ()
+	{
+		return dbDataPlain.Count;
 	}
 }

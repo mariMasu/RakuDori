@@ -13,12 +13,15 @@ public class DrillNum : MonoBehaviour
 	public int orderQ = 0;
 	public int orderA = 0;
 	public bool existQ = false;
+	public int[] numQA;
 
 	public void DrillEdit ()
 	{
 		GameObject es = GameObject.Find ("EventSystem");
 		Statics.nowDrill = id;
 		Statics.nowColor = color;
+		Statics.nowName = nameD;
+
 
 		es.GetComponent<LoadButton> ().LoadQuesSentaku ();
 	}
@@ -28,13 +31,14 @@ public class DrillNum : MonoBehaviour
 		if (existQ) {
 
 			GameObject es = GameObject.Find ("EventSystem");
+			es.GetComponent<DrillSentakuMaster> ().nowNumQA = numQA;
 			Statics.nowDrill = id;
 			Statics.nowColor = color;
 
 			if (orderQ == 0) {
 				es.GetComponent<PopupWindow> ().PopDrillOrder (2);
 			} else {
-				es.GetComponent<LoadButton> ().LoadDrillAnsSingle ();
+				es.GetComponent<PopupWindow> ().Popup (3);
 			}
 		}
 	}

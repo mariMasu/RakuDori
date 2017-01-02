@@ -21,6 +21,24 @@ public class TempData : MonoBehaviour
 		sv.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
 	}
 
+	public void DrillAddSend ()
+	{
+		string name = temp [1];
+
+		if (Statics.StrNull (name)) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\nドリルの名前が未入力です");
+			return;
+		}
+
+		int col = int.Parse (temp [0]);
+
+		es.GetComponent<DrillSentakuMaster> ().AddSimple (col, name);
+
+		es.GetComponent<PopupWindow> ().Popdown (1);
+
+		es.GetComponent<PopupWindow> ().ResetInputField (1);
+	}
+
 	public void DrillPatSend ()
 	{
 
@@ -53,26 +71,49 @@ public class TempData : MonoBehaviour
 		es.GetComponent<PopupWindow> ().Popdown (2);
 	}
 
-	public void TagLevelSend ()
+	public void TagLevelSendQuesEdit ()
+	{
+		if (Statics.nowTag.ToString () == temp [0] && Statics.nowLevel.ToString () == temp [1]) {
+			es.GetComponent<PopupWindow> ().Popdown (9);
+		}
+
+		QuesSentakuMaster mas = es.GetComponent<QuesSentakuMaster> ();
+
+
+		if (Statics.nowTag.ToString () != temp [0]) {
+			mas.nowQData.TAG = int.Parse (temp [0]);
+		}
+
+		if (Statics.nowLevel.ToString () != temp [1]) {
+			mas.nowQData.LEVEL = int.Parse (temp [1]);
+		}
+
+		es.GetComponent<DbProcess> ().UpdateQuesData (mas.nowQData);
+		es.GetComponent<PopupWindow> ().Popdown (9);
+	}
+
+	public void TagLevelSendDrillAns ()
 	{
 
-		if (Statics.StrNull (temp [0]) && Statics.StrNull (temp [1])) {
-			return;
+		if (Statics.nowTag.ToString () == temp [0] && Statics.nowLevel.ToString () == temp [1]) {
+			es.GetComponent<PopupWindow> ().Popdown (1);
 		}
 
-		DrillAnsMaster dam = es.GetComponent<DrillAnsMaster> ();
+
+		DrillAnsMaster mas = es.GetComponent<DrillAnsMaster> ();
 
 
-		if (Statics.StrNull (temp [0]) == false) {
-			dam.nowQData.TAG = int.Parse (temp [0]);
+		if (Statics.nowTag.ToString () != temp [0]) {
+			mas.nowQData.TAG = int.Parse (temp [0]);
 		}
 
-		if (Statics.StrNull (temp [1]) == false) {
-			dam.nowQData.LEVEL = int.Parse (temp [1]);
+		if (Statics.nowLevel.ToString () != temp [1]) {
+			mas.nowQData.LEVEL = int.Parse (temp [1]);
 		}
 
-		es.GetComponent<DbProcess> ().UpdateQuesData (dam.nowQData);
-		dam.setTagLevActive ();
+
+		es.GetComponent<DbProcess> ().UpdateQuesData (mas.nowQData);
+		mas.setTagLevActive ();
 		es.GetComponent<PopupWindow> ().Popdown (1);
 	}
 
@@ -122,9 +163,15 @@ public class TempData : MonoBehaviour
 	public void DrillEditSend ()
 	{
 
+
+		string name = temp [1];
+
+		if (Statics.StrNull (name)) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\nドリルの名前が未入力です", 8);
+			return;
+		}
+
 		int col = int.Parse (temp [0]);
-		GameObject input = es.GetComponent<PopupWindow> ().input1;
-		string name = input.GetComponent<InputField> ().text;
 
 		es.GetComponent<DbProcess> ().UpdateDrillNC (col, name);
 
@@ -139,11 +186,11 @@ public class TempData : MonoBehaviour
 
 		int tag = int.Parse (temp [0]);
 
-		QuesSentakuMaster qv = es.GetComponent<QuesSentakuMaster> ();
+		QuesSentakuMaster qs = es.GetComponent<QuesSentakuMaster> ();
 
-		qv.sortTag = tag;
+		qs.sortTag = tag;
 
-		qv.SentakuQuesView ();
+		qs.SentakuQuesView ();
 
 		es.GetComponent<PopupWindow> ().Popdown (5);
 	}
@@ -231,6 +278,38 @@ public class TempData : MonoBehaviour
 
 	}
 
+	public void AnsChooseSet ()
+	{
+		int i;
+		int[] num = es.GetComponent<DrillSentakuMaster> ().nowNumQA;
+		string s = "";
+
+
+		if (temp [0] == "") {
+			i = 0;
+		} else {
+			i = int.Parse (temp [0]);
+
+		}
+
+
+		if (i == 1 && (num [0] == 0)) {
+			s = "要復習問題が存在しません";
+
+		} else if (i == 2 && (num [1] == num [2])) {
+			s = "未完了問題が存在しません";
+		} else if (i == 3 && (num [1] == 0)) {
+			s = "完了問題が存在しません";
+		}
+			
+		if (s == "") {
+			Statics.ansChoose = i;
+			es.GetComponent<LoadButton> ().LoadDrillAnsSingle ();
+		} else {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n" + s, 4);
+		}
+	}
+
 	public void QuesEditSend ()
 	{
 		string p = temp [4];
@@ -294,5 +373,39 @@ public class TempData : MonoBehaviour
 		es.GetComponent<DbProcess> ().UpdateQuesData (qd);
 
 	}
-		
+
+	public void QuesCopySend ()
+	{
+		if (Statics.StrNull (temp [0])) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\nコピー先のドリルを選択してください");
+			return;
+		}
+
+		List<DrillData> ddl = es.GetComponent<DbProcess> ().GetDbDrillDataAll ();
+		DrillData dd = ddl.Find (s => s.NAME == temp [0]);
+		int drillId = dd.ID;
+
+		bool tagCopy = StringToBool (temp [1]);
+		bool levelCopy = StringToBool (temp [2]);
+
+		QuesSentakuMaster qs = es.GetComponent<QuesSentakuMaster> ();
+		qs.CopyQuesB (drillId, tagCopy, levelCopy);
+
+		es.GetComponent<PopupWindow> ().Popdown (11);
+		es.GetComponent<PopupWindow> ().Popdown (2);
+
+
+	}
+
+	public bool StringToBool (string s)
+	{
+		if (s == "0") {
+			return false;
+		} else if (s == "1") {
+			return true;
+		} else {
+			Debug.Log ("err");
+			return false;
+		}
+	}
 }

@@ -42,6 +42,13 @@ public class SimpleToTemp : MonoBehaviour
 
 	}
 
+	public void SetTempDrillName ()
+	{
+		string name = this.GetComponent<Dropdown> ().captionText.text;
+
+		temp.temp [tempNum] = name;
+	}
+
 	public void SetTempAnsOrder ()
 	{
 		switch ((this.GetComponent<Dropdown> ().captionText).text) {
