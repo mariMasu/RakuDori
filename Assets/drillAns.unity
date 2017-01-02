@@ -4895,6 +4895,8 @@ MonoBehaviour:
   pop7: {fileID: 0}
   pop8: {fileID: 0}
   pop9: {fileID: 0}
+  pop10: {fileID: 0}
+  pop11: {fileID: 0}
   input1: {fileID: 0}
   input2: {fileID: 0}
   input3: {fileID: 0}
@@ -7021,6 +7023,26 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c11e92999f35944159ae2f5bcc268e8d, type: 2}
   m_IsPrefabParent: 0
@@ -8209,7 +8231,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.15
-  m_Text: "\u30FB\u7FD2\u5F97\u72B6\u614B\u306E\u5909\u66F4\n"
+  m_Text: "\u30FB\u7FD2\u5F97\u5EA6\u306E\u5909\u66F4\n"
 --- !u!222 &1711539510
 CanvasRenderer:
   m_ObjectHideFlags: 0

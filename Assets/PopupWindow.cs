@@ -19,6 +19,8 @@ public class PopupWindow : MonoBehaviour
 	public GameObject pop9;
 	public GameObject pop10;
 	public GameObject pop11;
+	public GameObject pop12;
+
 
 
 	public GameObject input1;
@@ -195,6 +197,8 @@ public class PopupWindow : MonoBehaviour
 			pop = pop10;
 		} else if (num == 11) {
 			pop = pop11;
+		} else if (num == 12) {
+			pop = pop12;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
@@ -229,6 +233,8 @@ public class PopupWindow : MonoBehaviour
 			pop = pop10;
 		} else if (num == 11) {
 			pop = pop11;
+		} else if (num == 12) {
+			pop = pop12;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
@@ -382,6 +388,15 @@ public class PopupWindow : MonoBehaviour
 
 
 		Popup (7);
+	}
+
+	public void PopImport ()
+	{
+		GameObject parent = GameObject.Find ("PopImport");
+		GameObject text = parent.transform.Find ("importText").gameObject;
+
+		text.GetComponent<InputField> ().text = "";
+		Popup (5);
 	}
 
 	public void PopExport ()

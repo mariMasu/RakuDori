@@ -3175,6 +3175,26 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1019962105}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c11e92999f35944159ae2f5bcc268e8d, type: 2}
   m_IsPrefabParent: 0
@@ -4255,6 +4275,8 @@ MonoBehaviour:
   pop7: {fileID: 0}
   pop8: {fileID: 0}
   pop9: {fileID: 0}
+  pop10: {fileID: 0}
+  pop11: {fileID: 0}
   input1: {fileID: 137429939}
   input2: {fileID: 0}
   input3: {fileID: 0}
@@ -4273,7 +4295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c534d9857555421ca2f8caf059fc769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dbManager: {fileID: 1702985830}
   drill: {fileID: 1000010866080454, guid: 2691ab809165c439fbf8897546031bb7, type: 2}
   nowNumQA: 
 --- !u!114 &1019962107

@@ -46,6 +46,16 @@ public class QuesTextEdit : MonoBehaviour
 		es.GetComponent<PopupWindow> ().Popup (3);
 	}
 
+	public void ImportQaTest (string[] stra)
+	{
+		q = new List<string> ();
+		q.AddRange (stra);
+
+		es.GetComponent<QuesInputMaster> ().TestQuesView (q);
+
+		es.GetComponent<PopupWindow> ().Popup (3);
+	}
+
 	public void QaSend ()
 	{
 		if (q == null || q.Count == 0) {

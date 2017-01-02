@@ -852,7 +852,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 112, y: 1492.0001}
+  m_AnchoredPosition: {x: 182.99994, y: 1496.1002}
   m_SizeDelta: {x: 224, y: 218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &79683746
@@ -4073,10 +4073,10 @@ RectTransform:
   - {fileID: 1410433744}
   - {fileID: 292665093}
   - {fileID: 995758680}
-  - {fileID: 747394275}
   - {fileID: 1199949457}
   - {fileID: 1254816308}
   - {fileID: 1080395040}
+  - {fileID: 747394275}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
@@ -9307,7 +9307,7 @@ Prefab:
     - target: {fileID: 224000010798361066, guid: c11e92999f35944159ae2f5bcc268e8d,
         type: 2}
       propertyPath: m_RootOrder
-      value: 19
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 224000010798361066, guid: c11e92999f35944159ae2f5bcc268e8d,
         type: 2}
@@ -9373,6 +9373,26 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_MinSize
+      value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012326839664, guid: c11e92999f35944159ae2f5bcc268e8d,
+        type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c11e92999f35944159ae2f5bcc268e8d, type: 2}
@@ -12119,7 +12139,7 @@ RectTransform:
   - {fileID: 445201527}
   - {fileID: 380040179}
   m_Father: {fileID: 288070619}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 2785, y: -12121.997}
@@ -13512,7 +13532,7 @@ Transform:
   - {fileID: 259586827}
   - {fileID: 491724885}
   m_Father: {fileID: 288070619}
-  m_RootOrder: 20
+  m_RootOrder: 19
 --- !u!114 &1199949458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14103,7 +14123,7 @@ RectTransform:
   - {fileID: 1355533712}
   - {fileID: 300800797}
   m_Father: {fileID: 288070619}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 4, y: -12122}
@@ -14701,8 +14721,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -202, y: 1491.9999}
-  m_SizeDelta: {x: 198, y: 224.79}
+  m_AnchoredPosition: {x: -146.5, y: 1496.1001}
+  m_SizeDelta: {x: 235, y: 234.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1348090547
 MonoBehaviour:
@@ -14775,7 +14795,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 5330f8e09baec4118ab444be81220817, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 114616a3e0b6e43cab851394f120dbac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14837,7 +14857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -17722,7 +17742,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -527, y: 1492.0001}
+  m_AnchoredPosition: {x: -502, y: 1492.0001}
   m_SizeDelta: {x: 249, y: 218}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1613636648

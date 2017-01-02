@@ -8,6 +8,7 @@ using System;
 
 public class DbTextToQA : MonoBehaviour
 {
+	static string[] QuesKeyCommon = { "@@@" };
 
 	static string[] AnsKeyCommon = { QuesTextEdit.AnsKeyCommon };
 	static string[] DummyKeyCommon = { QuesTextEdit.DummyKeyCommon };
@@ -29,6 +30,10 @@ public class DbTextToQA : MonoBehaviour
 
 
 		string[] rowQA = raw.Split (AnsKeyCommon, StringSplitOptions.RemoveEmptyEntries);
+
+		if (rowQA.Length < 2) {
+			return new QuesArray ();
+		}
 
 		q = rowQA [0];
 
@@ -81,6 +86,21 @@ public class DbTextToQA : MonoBehaviour
 
 		return qa;
 
+	}
+
+	public static string[] ImportToText (string raw)
+	{
+		string[] ques = raw.Split (QuesKeyCommon, StringSplitOptions.RemoveEmptyEntries);
+
+		foreach (string s in ques) {
+			QuesArray qa = DbToQA (s);
+
+			if (Statics.StrNull (qa.Ques) || Statics.StrNull (qa.Ans [0])) {
+				return  ques = new string[]{ };
+			}
+		}
+
+		return ques;
 	}
 
 	public static bool IsPer (string qtext)

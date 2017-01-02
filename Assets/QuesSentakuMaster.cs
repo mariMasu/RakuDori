@@ -190,16 +190,24 @@ public class QuesSentakuMaster : MonoBehaviour
 		}
 	}
 
-	public void DeleteSenB ()
+	public void PopDelete ()
 	{
-
 		if (senList.Count == 0) {
 			return;
 		} else {
-			this.GetComponent<DbProcess> ().DeleteSelection (senList);
-			SentakuQuesView ();
-			this.GetComponent<PopupWindow> ().Popdown (2);
+			this.GetComponent<PopupWindow> ().Popup (12);
+
 		}
+	}
+
+	public void DeleteSenB ()
+	{
+
+		this.GetComponent<DbProcess> ().DeleteSelection (senList);
+		SentakuQuesView ();
+		this.GetComponent<PopupWindow> ().Popdown (12);
+		this.GetComponent<PopupWindow> ().Popdown (2);
+
 	}
 
 	public void TagSenB (int tagC)

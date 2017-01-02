@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
 public class TempData : MonoBehaviour
 {
 
@@ -407,5 +408,24 @@ public class TempData : MonoBehaviour
 			Debug.Log ("err");
 			return false;
 		}
+	}
+
+	public void ImportSend ()
+	{
+
+		if (Statics.StrNull (temp [0]) == true) {
+			return;
+		}
+
+		string[] strA = DbTextToQA.ImportToText (temp [0]);
+
+		if (strA.Length == 0) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\nコピーペーストに間違いが\nないか確かめてください");
+
+		} else {
+			es.GetComponent<QuesTextEdit> ().ImportQaTest (strA);
+
+		}
+
 	}
 }
