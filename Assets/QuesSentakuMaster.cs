@@ -185,8 +185,12 @@ public class QuesSentakuMaster : MonoBehaviour
 			foreach (Transform n in content.transform) {
 				GameObject editB = n.gameObject.transform.FindChild ("editB").gameObject;
 				editB.GetComponent<Image> ().enabled = true;
-				editB.GetComponent<Button> ().enabled = true;	
+				editB.GetComponent<Button> ().enabled = true;
+
+				GameObject go = n.gameObject;
+				go.GetComponent<QuesBannar> ().SentakuFalse ();
 			}
+			senList.Clear ();
 		}
 	}
 

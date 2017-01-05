@@ -314,6 +314,13 @@ public class DrillAnsMaster : MonoBehaviour
 				GameObject.Destroy (n.gameObject);
 			}
 
+			GameObject ansS = ansBase.transform.Find ("choose/scroll").gameObject;
+			GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
+
+			ansContent.GetComponent<RectTransform> ().sizeDelta = ansS.GetComponent<RectTransform> ().sizeDelta;
+			sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
+
+
 			for (int i = 0; i < ansList.Count; i++) {
 				GameObject ans = Instantiate (ansP);
 
@@ -331,7 +338,8 @@ public class DrillAnsMaster : MonoBehaviour
 			} else {
 				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques;
 			}
-			ansBase.transform.Find ("question/Qtext").GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+			GameObject view = ansBase.transform.Find ("question/Qtext").gameObject;
+			StartCoroutine (CorScrollNormalize (view)); 
 
 
 			questionList.RemoveAt (0);
@@ -349,7 +357,6 @@ public class DrillAnsMaster : MonoBehaviour
 			con = sentakuContent;
 		}
 
-		Vector3 conPos = con.transform.position;
 		Vector2 conwh = con.GetComponent<RectTransform> ().sizeDelta;
 
 
@@ -406,7 +413,7 @@ public class DrillAnsMaster : MonoBehaviour
 			}
 			Vector2 size = new Vector2 (maxWidth, (float)(nowHeight + (maxWidth * 0.2)));
 			con.GetComponent<RectTransform> ().sizeDelta = size;
-			view.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+			StartCoroutine (CorScrollNormalize (view)); 
 		}
 
 
@@ -420,7 +427,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 	}
 
-	private IEnumerator SentakuNarabi ()
+	private IEnumerator CorSentakuNarabi ()
 	{  
 		yield return StartCoroutine (Wait ());  
 		ContentNarabi (1);
@@ -444,6 +451,8 @@ public class DrillAnsMaster : MonoBehaviour
 		foreach (Transform n in sentakuContent.transform) {
 			GameObject.Destroy (n.gameObject);
 		}
+		GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
+		sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
 
 		gol.Clear ();
 
@@ -460,7 +469,7 @@ public class DrillAnsMaster : MonoBehaviour
 			StartCoroutine (SetText (sen, sentakuContent)); 
 		}
 
-		StartCoroutine (SentakuNarabi ()); 
+		StartCoroutine (CorSentakuNarabi ()); 
 
 	}
 
@@ -573,6 +582,12 @@ public class DrillAnsMaster : MonoBehaviour
 			GameObject.Destroy (n.gameObject);
 		}
 
+		GameObject ansS = ansBase.transform.Find ("choose/scroll").gameObject;
+		GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
+
+		ansContent.GetComponent<RectTransform> ().sizeDelta = ansS.GetComponent<RectTransform> ().sizeDelta;
+		sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
+
 		GameObject ansText = Instantiate (textP);
 
 
@@ -677,6 +692,8 @@ public class DrillAnsMaster : MonoBehaviour
 		foreach (Transform n in sentakuContent.transform) {
 			GameObject.Destroy (n.gameObject);
 		}
+		GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
+		sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
 
 		GameObject ansText = Instantiate (textP);
 
@@ -739,10 +756,16 @@ public class DrillAnsMaster : MonoBehaviour
 
 	string[] GetUserAns ()
 	{
+		string kaigyo = "\n";
+
 		List<string> ls = new List<string> ();
 
 		foreach (string[] s in senAnsList) {
-			ls.Add (s [1]);
+			string text = s [1];
+
+			text = text.Replace (kaigyo.ToString (), "");
+
+			ls.Add (text);
 		}
 
 		string[] userAns = ls.ToArray ();

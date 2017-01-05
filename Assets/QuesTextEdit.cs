@@ -885,15 +885,8 @@ public class QuesTextEdit : MonoBehaviour
 
 	public static string RemoveEnterAll (string s)
 	{
-		string ns = "";
-		string[] spl = Regex.Split (s, Kaigyo);
-
-		foreach (string sp in spl) {
-			if (Statics.StrNull (sp)) {
-			} else {
-				ns += sp;
-			}
-		}
+		
+		string ns = s.Replace (Kaigyo, "");
 
 		return ns;
 

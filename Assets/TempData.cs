@@ -31,6 +31,14 @@ public class TempData : MonoBehaviour
 			return;
 		}
 
+		List<DrillData> ddl = es.GetComponent<DbProcess> ().GetDbDrillDataAll ();
+		foreach (DrillData dd in ddl) {
+			if (dd.NAME == name) {
+				es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n同名のドリルは作れません");
+				return;
+			}
+		}
+
 		int col = int.Parse (temp [0]);
 
 		es.GetComponent<DrillSentakuMaster> ().AddSimple (col, name);
@@ -170,6 +178,16 @@ public class TempData : MonoBehaviour
 		if (Statics.StrNull (name)) {
 			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\nドリルの名前が未入力です", 8);
 			return;
+		}
+
+		if (Statics.nowName != name) {
+			List<DrillData> ddl = es.GetComponent<DbProcess> ().GetDbDrillDataAll ();
+			foreach (DrillData dd in ddl) {
+				if (dd.NAME == name) {
+					es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n同名のドリルが存在します", 8);
+					return;
+				}
+			}
 		}
 
 		int col = int.Parse (temp [0]);
