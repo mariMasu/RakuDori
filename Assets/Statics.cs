@@ -16,7 +16,7 @@ public class Statics : MonoBehaviour
 	public static int nowLevel = 0;
 
 	public static List<int> reviewList = new List<int> ();
-	public static float prefabX = 0;
+	public static float prefabGap = 0;
 
 
 	public static void ResetReviewList ()
@@ -27,6 +27,16 @@ public class Statics : MonoBehaviour
 	public static void AddReviewList ()
 	{
 		reviewList.Add (nowDrill);
+	}
+
+	public static bool HaveKaigyo (string s)
+	{
+		if (0 <= s.IndexOf ("\n")) {
+			return true;
+		} else {
+			return false;
+
+		}
 	}
 
 	public static bool StrNull (string s)

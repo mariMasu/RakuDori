@@ -11,6 +11,7 @@ public class DrillAnsMaster : MonoBehaviour
 	public SimpleSQL.SimpleSQLManager dbManager;
 	public GameObject ansP;
 	public GameObject sentakuP;
+	public GameObject textP;
 
 	public GameObject open;
 
@@ -28,6 +29,8 @@ public class DrillAnsMaster : MonoBehaviour
 
 	public List<QuesData> questionList;
 	public List<QuesData> dummyKouhoList;
+
+	List<GameObject> gol = new List<GameObject> ();
 
 	public List<string> ansList;
 
@@ -56,6 +59,7 @@ public class DrillAnsMaster : MonoBehaviour
 	{
 		if (Statics.reviewList.Count == 0) {
 			this.GetComponent<LoadButton> ().LoadDrillSentaku ();
+			return;
 
 		} else {
 
@@ -64,7 +68,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 		}
 
-		Statics.prefabX = ((GameObject.Find ("back").GetComponent<RectTransform> ().sizeDelta.x) / 2);
+		Statics.prefabGap = ((GameObject.Find ("help").GetComponent<RectTransform> ().sizeDelta.x) / 2);
 
 		Col = DrillColor.GetColorD (Statics.nowColor);
 
@@ -300,6 +304,7 @@ public class DrillAnsMaster : MonoBehaviour
 			ansContent = ansBase.transform.Find ("choose/scroll/Scroll View/Viewport/AnsContent").gameObject;
 			sentakuContent = ansBase.transform.Find ("answer/scroll/Scroll View/Viewport/SentakuContent").gameObject;
 
+			gol.Clear ();
 
 			foreach (Transform n in ansContent.transform) {
 				GameObject.Destroy (n.gameObject);
@@ -311,6 +316,8 @@ public class DrillAnsMaster : MonoBehaviour
 
 			for (int i = 0; i < ansList.Count; i++) {
 				GameObject ans = Instantiate (ansP);
+
+				gol.Add (ans);
 
 				ans.GetComponent<AnsPrefab> ().ansText = ansList [i];
 				ans.transform.Find ("textBack").GetComponent<Image> ().color = Col [1];
@@ -332,11 +339,103 @@ public class DrillAnsMaster : MonoBehaviour
 
 	}
 
+	public void ContentNarabi (int i)
+	{
+		GameObject con;
+
+		if (i == 0) {
+			con = ansContent;
+		} else {
+			con = sentakuContent;
+		}
+
+		Vector3 conPos = con.transform.position;
+		Vector2 conwh = con.GetComponent<RectTransform> ().sizeDelta;
+
+
+		float maxWidth = con.GetComponent<RectTransform> ().sizeDelta.x;
+		if (maxWidth < 0) {
+			maxWidth *= -1f;
+		}
+
+		float nowHeight = 0f;
+
+		float rowWidth = 0f;
+		float rowHeight = 0f;
+
+		foreach (GameObject go in gol) {
+
+			Vector2 wh = go.GetComponent<RectTransform> ().sizeDelta;
+
+			Vector2 newanpo = new Vector2 (wh.x / 2, -(wh.y / 2));
+
+			if ((rowWidth + wh.x) > maxWidth) {
+
+				nowHeight += rowHeight;
+				rowHeight = wh.y;
+
+				newanpo.y -= nowHeight;
+
+				rowWidth = 0f;
+				
+			} else {
+				if (wh.y > rowHeight) {
+					rowHeight = wh.y;
+				}
+
+				newanpo.x += rowWidth;
+				newanpo.y -= nowHeight;
+				
+			}
+
+			go.GetComponent<RectTransform> ().anchoredPosition = newanpo;
+
+			rowWidth += wh.x;
+
+		}
+
+		nowHeight += rowHeight;
+
+		if (conwh.y < nowHeight) {
+			GameObject view;
+			if (i == 0) {
+				view = ansBase.transform.Find ("answer/scroll/Scroll View").gameObject;
+			} else {
+				view = ansBase.transform.Find ("choose/scroll/Scroll View").gameObject;
+
+			}
+			Vector2 size = new Vector2 (maxWidth, (float)(nowHeight + (maxWidth * 0.2)));
+			con.GetComponent<RectTransform> ().sizeDelta = size;
+			view.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+		}
+
+
+	}
+
 	private IEnumerator SetText (GameObject ans, GameObject parent)
 	{  
 		yield return StartCoroutine (ans.GetComponent<AnsPrefab> ().SetTextC1 ());  
 		ans.transform.SetParent (parent.transform);
 		ans.transform.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+
+	}
+
+	private IEnumerator SentakuNarabi ()
+	{  
+		yield return StartCoroutine (Wait ());  
+		ContentNarabi (1);
+
+	}
+
+	private IEnumerator Wait (float f = 0.1f)
+	{  
+		yield return new WaitForSeconds (f); 
+	}
+
+	private IEnumerator CorContentText (GameObject go, int i)
+	{  
+		yield return StartCoroutine (Wait ());  
+		SetContentText (go, i);
 
 	}
 
@@ -346,8 +445,13 @@ public class DrillAnsMaster : MonoBehaviour
 			GameObject.Destroy (n.gameObject);
 		}
 
+		gol.Clear ();
+
+
 		for (int i = 0; i < senAnsList.Count; i++) {
 			GameObject sen = Instantiate (sentakuP);
+
+			gol.Add (sen);
 
 			sen.GetComponent<AnsPrefab> ().id = senAnsList [i] [0];
 			sen.GetComponent<AnsPrefab> ().ansText = senAnsList [i] [1];
@@ -355,6 +459,8 @@ public class DrillAnsMaster : MonoBehaviour
 
 			StartCoroutine (SetText (sen, sentakuContent)); 
 		}
+
+		StartCoroutine (SentakuNarabi ()); 
 
 	}
 
@@ -467,8 +573,7 @@ public class DrillAnsMaster : MonoBehaviour
 			GameObject.Destroy (n.gameObject);
 		}
 
-		GameObject ansText = Instantiate (ansP);
-		ansText.GetComponent<Button> ().enabled = false;
+		GameObject ansText = Instantiate (textP);
 
 
 		string[] userAns = GetUserAns ();
@@ -510,10 +615,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			}
 
-			ansText.GetComponent<AnsPrefab> ().ansText = ("正答:\n" + String.Join (" ", nowQArray.Ans));
-			ansText.transform.Find ("textBack").GetComponent<Image> ().color = Col [1];
-
-			StartCoroutine (SetText (ansText, sentakuContent)); 
+			ansText.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans));
 
 			correct.SetActive (true);
 
@@ -528,23 +630,22 @@ public class DrillAnsMaster : MonoBehaviour
 
 			string[] ss = GetUserAns ();
 
-			ansText.GetComponent<AnsPrefab> ().ansText = ("正答:\n" + String.Join (" ", nowQArray.Ans) + "\n\nあなたの回答:\n" + String.Join ("", ss));
-			ansText.transform.Find ("textBack").GetComponent<Image> ().color = Col [1];
-
-			StartCoroutine (SetText (ansText, sentakuContent)); 
+			ansText.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans) + "\n\nあなたの回答:\n" + String.Join ("", ss));
 
 			wrong.SetActive (true);
 			questionList.Add (nowQData);
 		}
 
+		ansText.transform.SetParent (sentakuContent.transform);
+		StartCoroutine (CorContentText (ansText, 1)); 
+
 		if (Statics.StrNull (nowQArray.Exp) == false) {
-			GameObject expText = Instantiate (ansP);
-			expText.GetComponent<Button> ().enabled = false;
+			GameObject expText = Instantiate (textP);
 
-			expText.GetComponent<AnsPrefab> ().ansText = ("解説：\n" + nowQArray.Exp);
-			expText.transform.Find ("textBack").GetComponent<Image> ().color = Col [1];
+			expText.GetComponent<Text> ().text = ("解説：\n" + nowQArray.Exp);
 
-			StartCoroutine (SetText (expText, ansContent)); 
+			expText.transform.SetParent (ansContent.transform);
+			StartCoroutine (CorContentText (expText, 0)); 
 		}
 
 		this.GetComponent<DbProcess> ().UpdateQuesData (nowQData);
@@ -556,6 +657,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 	public void ChooseOpen ()
 	{
+		ContentNarabi (0);
 		open.SetActive (false);
 		hide.SetActive (false);
 
@@ -576,19 +678,18 @@ public class DrillAnsMaster : MonoBehaviour
 			GameObject.Destroy (n.gameObject);
 		}
 
-		GameObject ansText = Instantiate (ansP);
-		ansText.GetComponent<Button> ().enabled = false;
+		GameObject ansText = Instantiate (textP);
 
-		ansText.GetComponent<AnsPrefab> ().ansText = ("正答:\n" + String.Join (" ", nowQArray.Ans));
-		ansText.transform.Find ("textBack").GetComponent<Image> ().color = Col [1];
-
-		StartCoroutine (SetText (ansText, sentakuContent)); 
+		ansText.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans));
+		ansText.transform.SetParent (sentakuContent.transform);
+		StartCoroutine (CorContentText (ansText, 1)); 
 
 		if (Statics.StrNull (nowQArray.Exp) == false) {
 
 			hide.GetComponent<ScrollRect> ().enabled = true;
 			hide.transform.Find ("expText").gameObject.GetComponent<Text> ().text = ("解説:\n" + nowQArray.Exp);
-			hide.GetComponent<ScrollRect> ().verticalNormalizedPosition = 0f;
+
+			StartCoroutine (CorScrollNormalize (hide)); 
 		}
 	}
 
@@ -649,5 +750,46 @@ public class DrillAnsMaster : MonoBehaviour
 		return userAns;
 	}
 
+	private void SetContentText (GameObject text, int i)
+	{ 
+
+		GameObject con;
+
+		if (i == 0) {
+			con = ansContent;
+		} else {
+			con = sentakuContent;
+		}
+
+		text.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+
+		Vector2 conwh = con.GetComponent<RectTransform> ().sizeDelta;
+		Vector2 wh = text.GetComponent<RectTransform> ().sizeDelta;
+
+		Vector2 newanpo = new Vector2 (0, 0);
+
+		text.GetComponent<RectTransform> ().anchoredPosition = newanpo;
+
+
+		GameObject view;
+		if (i == 0) {
+			view = ansBase.transform.Find ("choose/scroll/Scroll View").gameObject;
+		} else {
+			view = ansBase.transform.Find ("answer/scroll/Scroll View").gameObject;
+		}
+
+		if (conwh.y < wh.y) {
+			Vector2 size = new Vector2 (conwh.x, (float)(wh.y + (conwh.x * 0.2)));
+			con.GetComponent<RectTransform> ().sizeDelta = size;
+		}
+		StartCoroutine (CorScrollNormalize (view)); 
+
+	}
+
+	private IEnumerator CorScrollNormalize (GameObject scroll)
+	{ 
+		yield return StartCoroutine (Wait (0.01f));  
+		scroll.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+	}
 }
 
