@@ -17,6 +17,16 @@ public class DbProcess : MonoBehaviour
 		return dbData;
 	}
 
+	public List<QuesData> GetDbDataLevel (int i)
+	{
+		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
+		                                            select ps);
+
+		dbData = dbData.FindAll (s => s.LEVEL == i);
+
+		return dbData;
+	}
+
 	public List<QuesData> GetDbDataDrillId (int i)
 	{
 		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()

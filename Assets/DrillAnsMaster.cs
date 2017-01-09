@@ -90,6 +90,7 @@ public class DrillAnsMaster : MonoBehaviour
 		questionList = qd.FindAll (s => s.DRILL_ID == dd.ID);
 
 		string coution = GetChooseQues ();
+
 		if (coution != "") {
 			QuesData vqd = new QuesData ();
 			vqd.TEXT = (" " + QuesTextEdit.AnsKeyCommon + " ");
@@ -173,7 +174,12 @@ public class DrillAnsMaster : MonoBehaviour
 			s = "完了問題が存在しません";
 			questionList.RemoveAll (q => q.LEVEL != 5);
 		}
-		return s;
+
+		if (questionList.Count == 0) {
+			return s;
+		} else {
+			return "";
+		}
 
 	}
 
@@ -624,6 +630,10 @@ public class DrillAnsMaster : MonoBehaviour
 				nowQData.REVIEW = 0;
 
 			} else if (nowQData.REVIEW == 0) {
+
+				if (nowQData.LEVEL == 0) {
+					nowQData.LEVEL = 1;
+				}
 				
 			} else {
 				questionList.Add (nowQData);
@@ -729,6 +739,10 @@ public class DrillAnsMaster : MonoBehaviour
 				nowQData.REVIEW = 0;
 
 			} else if (nowQData.REVIEW == 0) {
+				
+				if (nowQData.LEVEL == 0) {
+					nowQData.LEVEL = 1;
+				}
 
 			} else {
 				questionList.Add (nowQData);

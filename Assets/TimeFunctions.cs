@@ -78,4 +78,39 @@ public class TimeFunctions : MonoBehaviour
 
 		return retT;
 	}
+
+	public static float GetNextTime (string lastTime, int level)
+	{
+		double retT;
+		DateTime last = DateTime.Parse (lastTime);
+		TimeSpan diff = DateTime.Now.Subtract (last);
+
+		if (level == 1) {
+			retT = (30d - diff.TotalSeconds);
+		} else if (level == 2) {		
+			retT = (60d - diff.TotalSeconds);
+		} else if (level == 3) {
+			retT = (90d - diff.TotalSeconds);
+		} else if (level == 4) {
+			retT = (120d - diff.TotalSeconds);
+		} else {
+			retT = 0d;
+		}
+
+
+//		if (level == 1) {
+//			retT = (86400d - diff.TotalSeconds);
+//		} else if (level == 2) {		
+//			retT = (604800d - diff.TotalSeconds);
+//		} else if (level == 3) {
+//			retT = (1209600d - diff.TotalSeconds);
+//		} else if (level == 4) {
+//			retT = (2592000d - diff.TotalSeconds);
+//		} else {
+//			retT = 0d;
+//		}
+
+
+		return (float)retT;
+	}
 }
