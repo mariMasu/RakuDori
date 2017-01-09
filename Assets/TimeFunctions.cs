@@ -40,30 +40,53 @@ public class TimeFunctions : MonoBehaviour
 		DateTime last = DateTime.Parse (lastTime);
 		TimeSpan diff = DateTime.Now.Subtract (last);
 
-		int gapD = (int)diff.TotalDays;
-
 		bool r = false;
+
+		double gapS = diff.TotalSeconds;
 
 		if (level == 0) {
 			r = true;
 		} else if (level == 1) {
-			if (gapD > 0) {
+			if (gapS > 30d) {
 				r = true;
 			}
 		} else if (level == 2) {
-			if (gapD > 6) {
+			if (gapS > 60d) {
 				r = true;
 			}
 
 		} else if (level == 3) {
-			if (gapD > 13) {
+			if (gapS > 90d) {
 				r = true;
 			}
 		} else if (level == 4) {
-			if (gapD > 29) {
+			if (gapS > 120d) {
 				r = true;
 			}
 		}
+
+//		int gapD = (int)diff.TotalDays;
+//
+//		if (level == 0) {
+//			r = true;
+//		} else if (level == 1) {
+//			if (gapD > 0) {
+//				r = true;
+//			}
+//		} else if (level == 2) {
+//			if (gapD > 6) {
+//				r = true;
+//			}
+//
+//		} else if (level == 3) {
+//			if (gapD > 13) {
+//				r = true;
+//			}
+//		} else if (level == 4) {
+//			if (gapD > 29) {
+//				r = true;
+//			}
+//		}
 
 
 		return r;

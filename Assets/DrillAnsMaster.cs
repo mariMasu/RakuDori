@@ -151,11 +151,11 @@ public class DrillAnsMaster : MonoBehaviour
 
 			s = "要復習問題が存在しません";
 
-			foreach (QuesData q in questionList) {
+			foreach (QuesData qd in questionList) {
 				
-				if (q.LAST.Length > 5) {
-					if (TimeFunctions.NeedReview (q.LAST, q.LEVEL) == false) {
-						removeList.Add (q);
+				if (qd.LAST.Length > 5 && qd.REVIEW == 0) {
+					if (TimeFunctions.NeedReview (qd.LAST, qd.LEVEL) == false) {
+						removeList.Add (qd);
 					}
 				}
 
@@ -655,7 +655,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			string[] ss = GetUserAns ();
 
-			ansText.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans) + "\n\nあなたの回答:\n" + String.Join ("", ss));
+			ansText.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans) + "\n\nあなたの回答:\n" + String.Join (" ", ss));
 
 			wrong.SetActive (true);
 			questionList.Add (nowQData);

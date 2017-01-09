@@ -95,10 +95,15 @@ public class TempData : MonoBehaviour
 
 		if (Statics.nowLevel.ToString () != temp [1]) {
 			mas.nowQData.LEVEL = int.Parse (temp [1]);
+			mas.nowQData.REVIEW = 0;
 		}
 
 		es.GetComponent<DbProcess> ().UpdateQuesData (mas.nowQData);
 		es.GetComponent<PopupWindow> ().Popdown (9);
+
+		Statics.nowLevel = mas.nowQData.LEVEL;
+		Statics.nowTag = mas.nowQData.TAG;
+
 	}
 
 	public void TagLevelSendDrillAns ()
@@ -118,12 +123,17 @@ public class TempData : MonoBehaviour
 
 		if (Statics.nowLevel.ToString () != temp [1]) {
 			mas.nowQData.LEVEL = int.Parse (temp [1]);
+			mas.nowQData.REVIEW = 1;
+
 		}
 
 
 		es.GetComponent<DbProcess> ().UpdateQuesData (mas.nowQData);
 		mas.setTagLevActive ();
 		es.GetComponent<PopupWindow> ().Popdown (1);
+
+		Statics.nowLevel = mas.nowQData.LEVEL;
+		Statics.nowTag = mas.nowQData.TAG;
 	}
 
 	public void SortSend ()

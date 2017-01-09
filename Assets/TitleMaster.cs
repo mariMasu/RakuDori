@@ -31,7 +31,7 @@ public class TitleMaster : MonoBehaviour
 			dbData = dbData.FindAll (s => s.LEVEL != 5);
 
 			foreach (QuesData qd in dbData) {
-				if (qd.LAST.Length > 5) {
+				if (qd.LAST.Length > 5 && qd.REVIEW == 0) {
 					if (TimeFunctions.NeedReview (qd.LAST, qd.LEVEL)) {
 						reviewId.Add (qd.DRILL_ID);
 						reviewC++;
@@ -88,6 +88,8 @@ public class TitleMaster : MonoBehaviour
 	{
 		if (isPause == false) {
 			SearchReviewQues ();
+
+			Debug.Log ("タイトル最表示");
 		}
 	}
 }

@@ -85,7 +85,7 @@ public class DrillSentakuMaster : MonoBehaviour
 		okNum = dbData.FindAll (s => s.LEVEL == 5).Count;
 
 		foreach (QuesData qd in dbData) {
-			if (qd.LAST.Length > 5) {
+			if (qd.LAST.Length > 5 && qd.REVIEW == 0) {
 				if (TimeFunctions.NeedReview (qd.LAST, qd.LEVEL)) {
 					rNum++;
 				}

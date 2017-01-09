@@ -11,6 +11,7 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 using LocalNotification = UnityEngine.iOS.LocalNotification;
 using NotificationServices = UnityEngine.iOS.NotificationServices;
 
+
 public class UpdateReviewNotice : MonoBehaviour
 {
 
@@ -22,12 +23,12 @@ public class UpdateReviewNotice : MonoBehaviour
 
 	public struct ReviewTimes
 	{
-		public int levelNum;
+		public int needReviewNum;
 		public float maxTime;
 
 		public ReviewTimes (int p1, float p2)
 		{
-			levelNum = p1;
+			needReviewNum = p1;
 			maxTime = p2;
 		}
 	}
@@ -47,13 +48,9 @@ public class UpdateReviewNotice : MonoBehaviour
 		l.fireDate = System.DateTime.Now.AddSeconds (delayTime);
 		l.alertBody = message;
 		NotificationServices.ScheduleLocalNotification (l);
-	}
 
-	public void SetBadgeNotification (int badgeNumber)
-	{
-		var l = new LocalNotification ();
-		l.applicationIconBadgeNumber = badgeNumber;
-		NotificationServices.ScheduleLocalNotification (l);
+		Debug.Log ("通知セット" + message + delayTime + "秒後" + badgeNumber);
+	
 	}
 
 	//	void Update ()
@@ -73,72 +70,81 @@ public class UpdateReviewNotice : MonoBehaviour
 			SetReviewNotice ();
 		} else {
 			NotificationServices.CancelAllLocalNotifications ();
+
+			Debug.Log ("通知消去");
+
 		}
 	}
 
 	void OnApplicationQuit ()
 	{
 		SetReviewNotice ();
+
 	}
 
 	void SetReviewNotice ()
 	{
-
 		NotificationServices.CancelAllLocalNotifications ();
+		
+		List<QuesData> qdall = this.GetComponent<DbProcess> ().GetDbDataAll ();
 
+		if (qdall == null || qdall.Count == 0) {
+			ObC.SetBadge (0);
+
+			return;
+		}
 
 		int nowNeedReview = 0;
 		rta = new ReviewTimes[4];
 
 		List<QuesData> dbzero = this.GetComponent<DbProcess> ().GetDbDataLevel (0);
 
-		if (dbzero != null) {
-			nowNeedReview = dbzero.Count;
+		nowNeedReview = dbzero.Count;
 
-			for (int i = 1; i < 5; i++) {
-				List<QuesData> dbData = this.GetComponent<DbProcess> ().GetDbDataLevel (i);
+		for (int i = 1; i < 5; i++) {
+			List<QuesData> dbData = this.GetComponent<DbProcess> ().GetDbDataLevel (i);
 
-				DateTime oldest = new DateTime (9999, 1, 1, 0, 0, 0);
+			DateTime latest = new DateTime (1000, 1, 1, 0, 0, 0);
 
-				foreach (QuesData qd in dbData) {
-					if (qd.LAST.Length > 5) {
-						DateTime d = DateTime.Parse (qd.LAST);
+			foreach (QuesData qd in dbData) {
+				if (qd.LAST.Length > 5 && qd.REVIEW == 0) {
+					DateTime d = DateTime.Parse (qd.LAST);
 
-						if (TimeFunctions.NeedReview (qd.LAST, i)) {
-							nowNeedReview++;
-						}
+					if (TimeFunctions.NeedReview (qd.LAST, i)) {
+						nowNeedReview++;
+					}
 
-						if (oldest < d) {
-							oldest = d;
-						}
+					if (latest < d) {
+						latest = d;
 					}
 				}
-				if (oldest.Year != 9999) {
-					rta [i - 1].maxTime = TimeFunctions.GetNextTime (oldest.ToString (), i);
-				} else {
-					rta [i - 1].maxTime = 0f;
-				}
-
-				if (i == 1) {
-					rta [i - 1].levelNum = (dbzero.Count + dbData.Count);
-				} else {
-					rta [i - 1].levelNum = dbData.Count;
-				}
 			}
 
-			for (int i = 2; i < 5; i++) {
-				rta [i - 1].levelNum += rta [i - 2].levelNum;
+			if (latest.Year != 1000) {
+				rta [i - 1].maxTime = TimeFunctions.GetNextTime (latest.ToString (), i);
+			} else {
+				rta [i - 1].maxTime = 0f;
 			}
 
-			foreach (ReviewTimes rt in rta) {
-				if (rt.levelNum != 0) {
-					SetNotification ("要復習の問題が" + rt.levelNum + "問あります", (int)rt.maxTime, rt.levelNum);
-				}
+			if (i == 1) {
+				rta [i - 1].needReviewNum = (dbzero.Count + dbData.Count);
+			} else {
+				rta [i - 1].needReviewNum = dbData.Count;
 			}
-
-			SetBadgeNotification (nowNeedReview);
-
 		}
+
+		for (int i = 2; i < 5; i++) {
+			rta [i - 1].needReviewNum += rta [i - 2].needReviewNum;
+		}
+
+		foreach (ReviewTimes rt in rta) {
+			if (rt.needReviewNum > 0 && rt.maxTime > 0) {
+				SetNotification ("要復習の問題が" + rt.needReviewNum + "問あります", (int)rt.maxTime, rt.needReviewNum);
+			}
+		}
+
+		ObC.SetBadge (nowNeedReview);
+
 
 	}
 }

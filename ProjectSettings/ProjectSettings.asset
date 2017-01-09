@@ -66,7 +66,7 @@ PlayerSettings:
   disableDepthAndStencilBuffers: 0
   defaultIsFullScreen: 1
   defaultIsNativeResolution: 1
-  runInBackground: 0
+  runInBackground: 1
   captureSingleScreen: 0
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
@@ -153,7 +153,7 @@ PlayerSettings:
   uIRequiresFullScreen: 1
   uIStatusBarHidden: 0
   uIExitOnSuspend: 0
-  uIStatusBarStyle: 1
+  uIStatusBarStyle: 0
   iPhoneSplashScreen: {fileID: 0}
   iPhoneHighResSplashScreen: {fileID: 0}
   iPhoneTallHighResSplashScreen: {fileID: 0}
