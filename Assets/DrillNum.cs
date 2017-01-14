@@ -11,7 +11,6 @@ public class DrillNum : MonoBehaviour
 	public int color = 0;
 	public string nameD = "";
 	public int orderQ = 0;
-	public int orderA = 0;
 	public bool existQ = false;
 	public int[] numQA;
 

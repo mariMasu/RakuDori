@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Text;
+using System.Collections.Generic;
+
 
 public class AnsPrefab : MonoBehaviour
 {
@@ -10,31 +13,40 @@ public class AnsPrefab : MonoBehaviour
 	public string ansText = "";
 	public string id = "";
 
-	int textR = 13;
+	int textR = 26;
 
 	public IEnumerator SetTextC1 ()
 	{  
-		if (Statics.HaveKaigyo (ansText) != true && ansText.Length >= textR) {
+
+		Encoding sjisEnc = Encoding.GetEncoding ("Shift_JIS");
+		int ansLen = sjisEnc.GetByteCount (ansText);
+
+		if (Statics.HaveKaigyo (ansText) == false && ansLen > textR) {
 
 			string editText = ansText;
 
-			int leng = ansText.Length;
-			int gyo = leng / textR;
-			string[] stra = new string[gyo + 1];
+			List<string> strl = new List<string> ();
+			char[] chars = ansText.ToCharArray ();
+			int byteNum = 0;
 
-			for (int i = 0; i < gyo + 1; i++) {
+			for (int i = 0; i < chars.Length; i++) {
+				byteNum += sjisEnc.GetByteCount (chars, i, 1);
 
-				if (i == gyo) {
-					stra [i] = editText;
-				} else {
-					stra [i] = editText.Substring (0, textR);
-					editText = editText.Substring (textR);
+				if (byteNum > textR) {
+					strl.Add (editText.Substring (0, i));
+					editText = editText.Substring (i);
+
+					byteNum = 0;
 				}
+			}
+
+			if (editText.Length > 0) {
+				strl.Add (editText);
 			}
 
 			editText = "";
 
-			foreach (string s in stra) {
+			foreach (string s in strl) {
 				editText += "\n" + s;
 			}
 

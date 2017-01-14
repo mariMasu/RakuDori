@@ -107,7 +107,8 @@ public class PopupWindow : MonoBehaviour
 
 		case 0:
 			go.GetComponent<TempData> ().temp [1] = "0";
-			lev.transform.position = new Vector3 (10000, 0, 0);
+			lev.GetComponent<RectTransform> ().localPosition = new Vector3 (10000, 0, 0);
+			//lev.transform.position = new Vector3 (10000, 0, 0);
 			break;
 		case 1:
 			content.transform.Find ("level1").GetComponent<ButtonPoint> ().OnClick ();
@@ -240,7 +241,7 @@ public class PopupWindow : MonoBehaviour
 			pop = pop1;
 		}
 
-		pop.transform.position = new Vector3 (Screen.width * 2, 0, 0);
+		pop.transform.position = new Vector3 (10000, 0, 0);
 	}
 
 	public void BG ()
@@ -331,6 +332,35 @@ public class PopupWindow : MonoBehaviour
 		drop2.GetComponent<Dropdown> ().value = 0;
 		drop3.GetComponent<Dropdown> ().value = 0;
 		drop4.GetComponent<Dropdown> ().value = 0;
+
+		Popup (i);
+	}
+
+	public void PopDrillOrderSet (int i)
+	{
+
+		DrillData dd = this.GetComponent<DbProcess> ().GetDbDrillData (Statics.nowDrill);
+
+		GameObject parent = GameObject.Find ("PopAnsOrder");
+
+		GameObject drop1 = parent.transform.Find ("OrderDrop1").gameObject;
+		GameObject drop2 = parent.transform.Find ("DummyDrop1").gameObject;
+		GameObject drop3 = parent.transform.Find ("DummyDrop2").gameObject;
+		GameObject drop4 = parent.transform.Find ("OrderDrop2").gameObject;
+
+		drop1.GetComponent<Dropdown> ().value = 1;
+		drop2.GetComponent<Dropdown> ().value = 1;
+		drop3.GetComponent<Dropdown> ().value = 1;
+		drop4.GetComponent<Dropdown> ().value = 1;
+
+		if (dd.QUES_ORDER == 0) {
+			drop1.GetComponent<Dropdown> ().value = 1;
+		} else {
+			drop1.GetComponent<Dropdown> ().value = (dd.QUES_ORDER - 1);
+		}
+		drop2.GetComponent<Dropdown> ().value = dd.ANS_ORDER;
+		drop3.GetComponent<Dropdown> ().value = dd.DUMMY_USE;
+		drop4.GetComponent<Dropdown> ().value = dd.DUMMY_TAG;
 
 		Popup (i);
 	}

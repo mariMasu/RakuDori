@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine.UI;
 using System.Collections;
-
+using System.Text;
 
 public class DrillAnsMaster : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 	public List<string[]> senAnsList;
 
-	public bool ansRandom = false;
+	public int ansOrder = 0;
 
 	GameObject ansBase;
 
@@ -133,12 +133,9 @@ public class DrillAnsMaster : MonoBehaviour
 		} else {
 			Debug.Log ("err");
 		}
+			
+		ansOrder = dd.ANS_ORDER;
 
-		if (dd.ANS_ORDER == 0) {
-			ansRandom = true;
-		} else {
-			ansRandom = false;
-		}
 	}
 
 	string GetChooseQues ()
@@ -229,6 +226,12 @@ public class DrillAnsMaster : MonoBehaviour
 			this.GetComponent<LoadButton> ().LoadDrillAns ();
 		} else {
 
+			if (ansBase != null) {
+				
+				ansBase.transform.position = new Vector3 (10000, 0, 0);
+
+			}
+
 			nowQData = questionList [0];
 			QuesArray q = DbTextToQA.DbToQA (nowQData.TEXT);
 			nowQArray = q;
@@ -268,7 +271,10 @@ public class DrillAnsMaster : MonoBehaviour
 			string dumStr = String.Join ("", q.Dummy);
 			string strAS = ansStr + dumStr;
 
-			if (strAS.Length > 15) {
+			Encoding sjisEnc = Encoding.GetEncoding ("Shift_JIS");
+			int ansLen = sjisEnc.GetByteCount (strAS);
+
+			if (ansLen > 26 && q.Ans.Length > 1) {
 				ansBase = GameObject.Find ("LongAnswer");
 			} else {
 				ansBase = GameObject.Find ("ShortAnswer");
@@ -299,9 +305,9 @@ public class DrillAnsMaster : MonoBehaviour
 			setTagLevActive ();
 			setIconActive ();
 
-			if (ansRandom == true) {
+			if (ansOrder == 0) {
 				Fisher_Yates_CardDeck_Shuffle ();
-			} else {
+			} else if (ansOrder == 1) {
 				StringComparer cmp = StringComparer.OrdinalIgnoreCase;
 				ansList.Sort (cmp);
 			}

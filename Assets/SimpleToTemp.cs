@@ -64,6 +64,9 @@ public class SimpleToTemp : MonoBehaviour
 		case "abc順":
 			temp.SetTemp ("2", tempNum);
 			break;
+		case "登録順":
+			temp.SetTemp ("3", tempNum);
+			break;
 		case "昇順":
 			temp.SetTemp ("2", tempNum);
 			break;

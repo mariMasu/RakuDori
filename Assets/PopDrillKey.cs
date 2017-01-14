@@ -57,10 +57,10 @@ public class PopDrillKey : MonoBehaviour
 		if (sd.inputPat == 0 || sd.inputPat == 1) {
 			quesDrop.GetComponent<Dropdown> ().options [0].text = "改行";
 
-			ansDrop.transform.position = new Vector3 (Screen.width * 2, 0, 0);
-			ansInput.transform.position = new Vector3 (Screen.width * 2, 0, 0);
-			expDrop.transform.position = new Vector3 (Screen.width * 2, 0, 0);
-			expInput.transform.position = new Vector3 (Screen.width * 2, 0, 0);
+			ansDrop.transform.position = new Vector3 (10000, 0, 0);
+			ansInput.transform.position = new Vector3 (10000, 0, 0);
+			expDrop.transform.position = new Vector3 (10000, 0, 0);
+			expInput.transform.position = new Vector3 (10000, 0, 0);
 
 			sepDrop.GetComponent<RectTransform> ().localPosition = new Vector3 (quesPos.x, quesPos.y - gapY, 0);
 			sepInput.GetComponent<RectTransform> ().localPosition = new Vector3 ((quesPos.x + gapX), quesPos.y - gapY, 0);

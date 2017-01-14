@@ -55,7 +55,6 @@ public class DrillSentakuMaster : MonoBehaviour
 			go.GetComponent<DrillNum> ().color = dbData.COLOR;
 			go.GetComponent<DrillNum> ().nameD = dbData.NAME;
 			go.GetComponent<DrillNum> ().orderQ = dbData.QUES_ORDER;
-			go.GetComponent<DrillNum> ().orderA = dbData.ANS_ORDER;
 			go.GetComponent<DrillNum> ().numQA = num;
 
 

@@ -149,13 +149,19 @@ public class TempData : MonoBehaviour
 		int nowJun = int.Parse (input1.text);
 		int newJun = int.Parse (input2.text);
 
-		if (nowJun == newJun) {
+		if (nowJun == newJun || newJun < 0) {
 			return;
 		}
 
 		QuesSentakuMaster qv = es.GetComponent<QuesSentakuMaster> ();
 		int nowQuesCount = qv.GetQuesCount ();
 
+		if (nowJun < 1 || nowJun > nowQuesCount) {
+
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n" + nowJun + "番の問題は存在しません", 8);
+
+			return;
+		}
 
 		nowJun = JunModify (nowJun, nowQuesCount);
 
@@ -178,6 +184,8 @@ public class TempData : MonoBehaviour
 		if (i < 1) {
 			return 1;
 		} else if (i > c) {
+			es.GetComponent<PopupWindow> ().PopupCaution (c + "番へ移動しました", 8);
+
 			return c;
 		}
 		return i;
