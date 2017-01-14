@@ -9,6 +9,9 @@ public class SimpleToTemp : MonoBehaviour
 	public GameObject baseOb;
 	TempData temp;
 
+	public GameObject connectOb;
+
+
 	public int tempNum;
 
 	void Awake ()
@@ -51,7 +54,9 @@ public class SimpleToTemp : MonoBehaviour
 
 	public void SetTempAnsOrder ()
 	{
-		switch ((this.GetComponent<Dropdown> ().captionText).text) {
+		Dropdown dd = this.GetComponent<Dropdown> ();
+
+		switch (dd.captionText.text) {
 
 		case "ランダム":
 			temp.SetTemp ("1", tempNum);
@@ -66,12 +71,18 @@ public class SimpleToTemp : MonoBehaviour
 			temp.SetTemp ("3", tempNum);
 			break;
 		case "ダミーなし":
+			connectOb.SetActive (false);
+
 			temp.SetTemp ("0", tempNum);
 			break;
 		case "このドリルから":
+			connectOb.SetActive (true);
+
 			temp.SetTemp ("1", tempNum);
 			break;
 		case "全ドリルから":
+			connectOb.SetActive (true);
+
 			temp.SetTemp ("2", tempNum);
 			break;
 		case "タグ問わず":

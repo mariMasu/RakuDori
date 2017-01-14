@@ -89,7 +89,8 @@ public class TitleMaster : MonoBehaviour
 		if (isPause == false) {
 			SearchReviewQues ();
 
-			Debug.Log ("タイトル最表示");
+			if (Debug.isDebugBuild)
+				Debug.Log ("タイトル最表示");
 		}
 	}
 }

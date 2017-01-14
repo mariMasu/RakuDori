@@ -49,7 +49,8 @@ public class UpdateReviewNotice : MonoBehaviour
 		l.alertBody = message;
 		NotificationServices.ScheduleLocalNotification (l);
 
-		Debug.Log ("通知セット" + message + delayTime + "秒後" + badgeNumber);
+		if (Debug.isDebugBuild)
+			Debug.Log ("通知セット" + message + delayTime + "秒後" + badgeNumber);
 	
 	}
 
@@ -71,7 +72,8 @@ public class UpdateReviewNotice : MonoBehaviour
 		} else {
 			NotificationServices.CancelAllLocalNotifications ();
 
-			Debug.Log ("通知消去");
+			if (Debug.isDebugBuild)
+				Debug.Log ("通知消去");
 
 		}
 	}

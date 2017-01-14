@@ -44,50 +44,51 @@ public class TimeFunctions : MonoBehaviour
 
 		double gapS = diff.TotalSeconds;
 
-		if (level == 0) {
-			r = true;
-		} else if (level == 1) {
-			if (gapS > 30d) {
+		if (Debug.isDebugBuild) {
+			if (level == 0) {
 				r = true;
-			}
-		} else if (level == 2) {
-			if (gapS > 60d) {
-				r = true;
-			}
+			} else if (level == 1) {
+				if (gapS > 30d) {
+					r = true;
+				}
+			} else if (level == 2) {
+				if (gapS > 60d) {
+					r = true;
+				}
 
-		} else if (level == 3) {
-			if (gapS > 90d) {
-				r = true;
+			} else if (level == 3) {
+				if (gapS > 90d) {
+					r = true;
+				}
+			} else if (level == 4) {
+				if (gapS > 120d) {
+					r = true;
+				}
 			}
-		} else if (level == 4) {
-			if (gapS > 120d) {
+		} else {
+			int gapD = (int)diff.TotalDays;
+
+			if (level == 0) {
 				r = true;
+			} else if (level == 1) {
+				if (gapD > 0) {
+					r = true;
+				}
+			} else if (level == 2) {
+				if (gapD > 6) {
+					r = true;
+				}
+
+			} else if (level == 3) {
+				if (gapD > 13) {
+					r = true;
+				}
+			} else if (level == 4) {
+				if (gapD > 29) {
+					r = true;
+				}
 			}
 		}
-
-//		int gapD = (int)diff.TotalDays;
-//
-//		if (level == 0) {
-//			r = true;
-//		} else if (level == 1) {
-//			if (gapD > 0) {
-//				r = true;
-//			}
-//		} else if (level == 2) {
-//			if (gapD > 6) {
-//				r = true;
-//			}
-//
-//		} else if (level == 3) {
-//			if (gapD > 13) {
-//				r = true;
-//			}
-//		} else if (level == 4) {
-//			if (gapD > 29) {
-//				r = true;
-//			}
-//		}
-
 
 		return r;
 	}
@@ -108,31 +109,32 @@ public class TimeFunctions : MonoBehaviour
 		DateTime last = DateTime.Parse (lastTime);
 		TimeSpan diff = DateTime.Now.Subtract (last);
 
-		if (level == 1) {
-			retT = (30d - diff.TotalSeconds);
-		} else if (level == 2) {		
-			retT = (60d - diff.TotalSeconds);
-		} else if (level == 3) {
-			retT = (90d - diff.TotalSeconds);
-		} else if (level == 4) {
-			retT = (120d - diff.TotalSeconds);
+
+		if (Debug.isDebugBuild) {
+			if (level == 1) {
+				retT = (30d - diff.TotalSeconds);
+			} else if (level == 2) {		
+				retT = (60d - diff.TotalSeconds);
+			} else if (level == 3) {
+				retT = (90d - diff.TotalSeconds);
+			} else if (level == 4) {
+				retT = (120d - diff.TotalSeconds);
+			} else {
+				retT = 0d;
+			}
 		} else {
-			retT = 0d;
+			if (level == 1) {
+				retT = (86400d - diff.TotalSeconds);
+			} else if (level == 2) {		
+				retT = (604800d - diff.TotalSeconds);
+			} else if (level == 3) {
+				retT = (1209600d - diff.TotalSeconds);
+			} else if (level == 4) {
+				retT = (2592000d - diff.TotalSeconds);
+			} else {
+				retT = 0d;
+			}
 		}
-
-
-//		if (level == 1) {
-//			retT = (86400d - diff.TotalSeconds);
-//		} else if (level == 2) {		
-//			retT = (604800d - diff.TotalSeconds);
-//		} else if (level == 3) {
-//			retT = (1209600d - diff.TotalSeconds);
-//		} else if (level == 4) {
-//			retT = (2592000d - diff.TotalSeconds);
-//		} else {
-//			retT = 0d;
-//		}
-
 
 		return (float)retT;
 	}

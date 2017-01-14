@@ -24,31 +24,37 @@ public class NendEvent : MonoBehaviour
 
 	public void OnFinishLoadBannerAd (object sender, EventArgs args)
 	{
-		UnityEngine.Debug.Log ("広告のロードが完了しました。");
+		if (Debug.isDebugBuild)
+			UnityEngine.Debug.Log ("広告のロードが完了しました。");
 	}
 
 	public void OnClickBannerAd (object sender, EventArgs args)
 	{
-		UnityEngine.Debug.Log ("広告がクリックされました。");
+		if (Debug.isDebugBuild)
+			UnityEngine.Debug.Log ("広告がクリックされました。");
 	}
 
 	public void OnReceiveBannerAd (object sender, EventArgs args)
 	{
-		UnityEngine.Debug.Log ("広告の受信に成功しました。");
+		if (Debug.isDebugBuild)
+			UnityEngine.Debug.Log ("広告の受信に成功しました。");
 	}
 
 	public void OnFailToReceiveBannerAd (object sender, NendAdErrorEventArgs args)
 	{
-		UnityEngine.Debug.Log ("広告の受信に失敗しました。エラーメッセージ: " + args.Message);
+		if (Debug.isDebugBuild)
+			UnityEngine.Debug.Log ("広告の受信に失敗しました。エラーメッセージ: " + args.Message);
 	}
 
 	public void OnDismissScreen (object sender, EventArgs args)
 	{
-		UnityEngine.Debug.Log ("広告が画面上に復帰しました。");
+		if (Debug.isDebugBuild)
+			UnityEngine.Debug.Log ("広告が画面上に復帰しました。");
 	}
 
 	public void OnClickInformation (object sender, EventArgs args)
 	{
-		UnityEngine.Debug.Log ("インフォメーションボタンがクリックされオプトアウトページに遷移しました。");
+		if (Debug.isDebugBuild)
+			UnityEngine.Debug.Log ("インフォメーションボタンがクリックされオプトアウトページに遷移しました。");
 	}
 }

@@ -154,9 +154,13 @@ public class TempData : MonoBehaviour
 		}
 
 		QuesSentakuMaster qv = es.GetComponent<QuesSentakuMaster> ();
+		int nowQuesCount = qv.GetQuesCount ();
 
-		nowJun = JunModify (nowJun, qv.GetQuesCount ());
-		newJun = JunModify (newJun, qv.GetQuesCount ());
+
+		nowJun = JunModify (nowJun, nowQuesCount);
+
+
+		newJun = JunModify (newJun, nowQuesCount);
 
 		es.GetComponent<DbProcess> ().UpdateQuesJun (nowJun - 1, newJun - 1);
 
