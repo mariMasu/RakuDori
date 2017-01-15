@@ -7,12 +7,15 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
+#if UNITY_IOS
 using NotificationType = UnityEngine.iOS.NotificationType;
 using LocalNotification = UnityEngine.iOS.LocalNotification;
 using NotificationServices = UnityEngine.iOS.NotificationServices;
+#endif
 
+#if UNITY_ANDROID
 using Assets.SimpleAndroidNotifications;
-
+#endif
 
 public class UpdateReviewNotice : MonoBehaviour
 {
@@ -37,14 +40,19 @@ public class UpdateReviewNotice : MonoBehaviour
 
 	void Start ()
 	{
+
+		#if UNITY_IOS
 		NotificationServices.RegisterForNotifications (
 			NotificationType.Alert |
 			NotificationType.Badge |
 			NotificationType.Sound);
+		#endif
+
 	}
 
 	public void SetNotification (string message, int delayTime, int badgeNumber = 1)
 	{
+		#if UNITY_IOS
 		var l = new LocalNotification ();
 		l.applicationIconBadgeNumber = badgeNumber;
 		l.fireDate = System.DateTime.Now.AddSeconds (delayTime);
@@ -53,6 +61,7 @@ public class UpdateReviewNotice : MonoBehaviour
 
 		if (Debug.isDebugBuild)
 			Debug.Log ("通知セット" + message + delayTime + "秒後" + badgeNumber);
+		#endif
 	
 	}
 
@@ -73,16 +82,14 @@ public class UpdateReviewNotice : MonoBehaviour
 			SetReviewNotice ();
 		} else {
 
-			if (Application.platform == RuntimePlatform.Android) {
-				// Android
-				NotificationManager.CancelAll ();
-			} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
-				// iOS
-				NotificationServices.CancelAllLocalNotifications ();
+			#if UNITY_IOS
+			NotificationServices.CancelAllLocalNotifications ();
 
-			} else {
+			#endif
 
-			}
+			#if UNITY_ANDROID
+			NotificationManager.CancelAll ();
+			#endif
 
 			if (Debug.isDebugBuild)
 				Debug.Log ("通知消去");
@@ -99,16 +106,14 @@ public class UpdateReviewNotice : MonoBehaviour
 	void SetReviewNotice ()
 	{
 
-		if (Application.platform == RuntimePlatform.Android) {
-			// Android
-			NotificationManager.CancelAll ();
-		} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
-			// iOS
-			NotificationServices.CancelAllLocalNotifications ();
+		#if UNITY_IOS
+		NotificationServices.CancelAllLocalNotifications ();
 
-		} else {
+		#endif
 
-		}
+		#if UNITY_ANDROID
+		NotificationManager.CancelAll ();
+		#endif
 		
 		List<QuesData> qdall = this.GetComponent<DbProcess> ().GetDbDataAll ();
 
