@@ -2762,8 +2762,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   account:
     android:
-      apiKey: 
-      spotID: 0
+      apiKey: c5cb8bc474345961c6e7a9778c947957ed8e1e4f
+      spotID: 3174
     iOS:
       apiKey: a6eca9dd074372c898dd1df549301f277c53f2b9
       spotID: 3172
@@ -4701,7 +4701,7 @@ MonoBehaviour:
   sentakuP: {fileID: 1000010249570554, guid: 776ac271bc45b4c8d8d8b1ab12aa50c7, type: 2}
   textP: {fileID: 1000011817008916, guid: e1dfcc22765ab4db0b14b31ecc432d8c, type: 2}
   open: {fileID: 549556597}
-  ansRandom: 0
+  ansOrder: 0
   ansList: []
 --- !u!114 &1019962109
 MonoBehaviour:

@@ -11,6 +11,8 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 using LocalNotification = UnityEngine.iOS.LocalNotification;
 using NotificationServices = UnityEngine.iOS.NotificationServices;
 
+using Assets.SimpleAndroidNotifications;
+
 
 public class UpdateReviewNotice : MonoBehaviour
 {
@@ -70,7 +72,17 @@ public class UpdateReviewNotice : MonoBehaviour
 		if (pauseStatus) {
 			SetReviewNotice ();
 		} else {
-			NotificationServices.CancelAllLocalNotifications ();
+
+			if (Application.platform == RuntimePlatform.Android) {
+				// Android
+				NotificationManager.CancelAll ();
+			} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
+				// iOS
+				NotificationServices.CancelAllLocalNotifications ();
+
+			} else {
+
+			}
 
 			if (Debug.isDebugBuild)
 				Debug.Log ("通知消去");
@@ -86,12 +98,31 @@ public class UpdateReviewNotice : MonoBehaviour
 
 	void SetReviewNotice ()
 	{
-		NotificationServices.CancelAllLocalNotifications ();
+
+		if (Application.platform == RuntimePlatform.Android) {
+			// Android
+			NotificationManager.CancelAll ();
+		} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
+			// iOS
+			NotificationServices.CancelAllLocalNotifications ();
+
+		} else {
+
+		}
 		
 		List<QuesData> qdall = this.GetComponent<DbProcess> ().GetDbDataAll ();
 
 		if (qdall == null || qdall.Count == 0) {
-			ObC.SetBadge (0);
+
+			if (Application.platform == RuntimePlatform.Android) {
+				// Android
+			} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
+				// iOS
+				ObC.SetBadge (0);
+
+			} else {
+
+			}
 
 			return;
 		}
@@ -139,14 +170,28 @@ public class UpdateReviewNotice : MonoBehaviour
 			rta [i - 1].needReviewNum += rta [i - 2].needReviewNum;
 		}
 
-		foreach (ReviewTimes rt in rta) {
-			if (rt.needReviewNum > 0 && rt.maxTime > 0) {
-				SetNotification ("要復習の問題が" + rt.needReviewNum + "問あります", (int)rt.maxTime, rt.needReviewNum);
+
+
+		if (Application.platform == RuntimePlatform.Android) {
+			// Android
+			foreach (ReviewTimes rt in rta) {
+				if (rt.needReviewNum > 0 && rt.maxTime > 0) {
+					NotificationManager.SendWithAppIcon (TimeSpan.FromSeconds ((double)rt.maxTime), "要復習のお知らせ", rt.needReviewNum + "問の問題があります", new Color (0, 0.6f, 1), NotificationIcon.Bell);
+				}
 			}
+		} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
+			// iOS
+			foreach (ReviewTimes rt in rta) {
+				if (rt.needReviewNum > 0 && rt.maxTime > 0) {
+					SetNotification ("要復習の問題が" + rt.needReviewNum + "問あります", (int)rt.maxTime, rt.needReviewNum);
+				}
+			}
+
+			ObC.SetBadge (nowNeedReview);
+
+		} else {
+
 		}
-
-		ObC.SetBadge (nowNeedReview);
-
 
 	}
 }
