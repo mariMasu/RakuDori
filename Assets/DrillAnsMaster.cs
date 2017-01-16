@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using UnityEngine.UI;
 using System.Collections;
-using System.Text;
 
 public class DrillAnsMaster : MonoBehaviour
 {
@@ -12,6 +11,9 @@ public class DrillAnsMaster : MonoBehaviour
 	public GameObject ansP;
 	public GameObject sentakuP;
 	public GameObject textP;
+
+	public GameObject longBase;
+	public GameObject shortBase;
 
 	public GameObject open;
 
@@ -57,6 +59,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 	void Awake ()
 	{
+
 		if (Statics.reviewList.Count == 0) {
 			this.GetComponent<LoadButton> ().LoadDrillSentaku ();
 			return;
@@ -67,15 +70,16 @@ public class DrillAnsMaster : MonoBehaviour
 			Statics.reviewList.RemoveAt (0);
 
 		}
-
+			
 		Statics.prefabGap = ((GameObject.Find ("help").GetComponent<RectTransform> ().sizeDelta.x) / 2);
-
-		Col = DrillColor.GetColorD (Statics.nowColor);
 
 		List<DrillData> dd = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
 		                                          select ps);
 
 		MakeReviewList (dd.Find (s => s.ID == Statics.nowDrill));
+
+		longBase.transform.position = new Vector3 (10000, 0, 0);
+		shortBase.transform.position = new Vector3 (10000, 0, 0);
 
 		ViewQuestion ();
 
@@ -84,6 +88,10 @@ public class DrillAnsMaster : MonoBehaviour
 
 	void MakeReviewList (DrillData dd)
 	{
+
+		Statics.nowColor = dd.COLOR;
+		Col = DrillColor.GetColorD (dd.COLOR);
+
 		List<QuesData> qd = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
 		                                        select ps);
 
@@ -99,6 +107,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			dummyKouhoList = new List<QuesData> ();
 			this.GetComponent<PopupWindow> ().PopupCaution ("エラー\n" + coution, 2);
+
 			return;
 		}
 
@@ -135,6 +144,9 @@ public class DrillAnsMaster : MonoBehaviour
 		}
 			
 		ansOrder = dd.ANS_ORDER;
+
+
+		return;
 
 	}
 
@@ -271,17 +283,26 @@ public class DrillAnsMaster : MonoBehaviour
 			string dumStr = String.Join ("", q.Dummy);
 			string strAS = ansStr + dumStr;
 
-			Encoding sjisEnc = Encoding.GetEncoding ("Shift_JIS");
-			int ansLen = sjisEnc.GetByteCount (strAS);
+
+
+			char[] chars = strAS.ToCharArray ();
+			int[] charsByte = Statics.GetByteLengthSJis (chars);
+
+			int ansLen = Statics.IntSum (charsByte);
 
 			if (ansLen > 26 && q.Ans.Length > 1) {
-				ansBase = GameObject.Find ("LongAnswer");
+				ansBase = longBase;
 			} else {
-				ansBase = GameObject.Find ("ShortAnswer");
-
+				ansBase = shortBase;
 			}
 
 			ansBase.transform.position = new Vector3 (0, 0, 0);
+
+			if (ansBase.activeSelf == false) {
+				ansBase.SetActive (true);
+				Debug.Log ("ansbase false");
+
+			}
 
 			correct = ansBase.transform.Find ("correct").gameObject;
 			wrong = ansBase.transform.Find ("wrong").gameObject;
@@ -305,13 +326,13 @@ public class DrillAnsMaster : MonoBehaviour
 			setTagLevActive ();
 			setIconActive ();
 
+
 			if (ansOrder == 0) {
 				Fisher_Yates_CardDeck_Shuffle ();
 			} else if (ansOrder == 1) {
 				StringComparer cmp = StringComparer.OrdinalIgnoreCase;
 				ansList.Sort (cmp);
 			}
-
 
 			ansContent = ansBase.transform.Find ("choose/scroll/Scroll View/Viewport/AnsContent").gameObject;
 			sentakuContent = ansBase.transform.Find ("answer/scroll/Scroll View/Viewport/SentakuContent").gameObject;
@@ -326,12 +347,12 @@ public class DrillAnsMaster : MonoBehaviour
 				GameObject.Destroy (n.gameObject);
 			}
 
+
 			GameObject ansS = ansBase.transform.Find ("choose/scroll").gameObject;
 			GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
 
 			ansContent.GetComponent<RectTransform> ().sizeDelta = ansS.GetComponent<RectTransform> ().sizeDelta;
 			sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
-
 
 			for (int i = 0; i < ansList.Count; i++) {
 				GameObject ans = Instantiate (ansP);
@@ -429,6 +450,7 @@ public class DrillAnsMaster : MonoBehaviour
 		}
 
 
+		return;
 	}
 
 	private IEnumerator SetText (GameObject ans, GameObject parent)
@@ -554,6 +576,7 @@ public class DrillAnsMaster : MonoBehaviour
 			break;
 
 		}
+
 	}
 
 	void setIconActive ()

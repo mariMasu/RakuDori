@@ -319,9 +319,9 @@ public class PopupWindow : MonoBehaviour
 		GameObject parent = GameObject.Find ("PopAnsOrder");
 
 		GameObject drop1 = parent.transform.Find ("OrderDrop1").gameObject;
-		GameObject drop2 = parent.transform.Find ("DummyDrop1").gameObject;
-		GameObject drop3 = parent.transform.Find ("DummyDrop2").gameObject;
-		GameObject drop4 = parent.transform.Find ("OrderDrop2").gameObject;
+		GameObject drop2 = parent.transform.Find ("OrderDrop2").gameObject;
+		GameObject drop3 = parent.transform.Find ("DummyDrop1").gameObject;
+		GameObject drop4 = parent.transform.Find ("DummyDrop2").gameObject;
 
 		drop1.GetComponent<Dropdown> ().value = 1;
 		drop2.GetComponent<Dropdown> ().value = 1;
@@ -344,9 +344,9 @@ public class PopupWindow : MonoBehaviour
 		GameObject parent = GameObject.Find ("PopAnsOrder");
 
 		GameObject drop1 = parent.transform.Find ("OrderDrop1").gameObject;
-		GameObject drop2 = parent.transform.Find ("DummyDrop1").gameObject;
-		GameObject drop3 = parent.transform.Find ("DummyDrop2").gameObject;
-		GameObject drop4 = parent.transform.Find ("OrderDrop2").gameObject;
+		GameObject drop2 = parent.transform.Find ("OrderDrop2").gameObject;
+		GameObject drop3 = parent.transform.Find ("DummyDrop1").gameObject;
+		GameObject drop4 = parent.transform.Find ("DummyDrop2").gameObject;
 
 		drop1.GetComponent<Dropdown> ().value = 1;
 		drop2.GetComponent<Dropdown> ().value = 1;
@@ -354,7 +354,7 @@ public class PopupWindow : MonoBehaviour
 		drop4.GetComponent<Dropdown> ().value = 1;
 
 		if (dd.QUES_ORDER == 0) {
-			drop1.GetComponent<Dropdown> ().value = 1;
+			drop1.GetComponent<Dropdown> ().value = 0;
 		} else {
 			drop1.GetComponent<Dropdown> ().value = (dd.QUES_ORDER - 1);
 		}

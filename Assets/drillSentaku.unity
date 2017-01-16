@@ -8844,6 +8844,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: "abc\u9806"
       m_Image: {fileID: 0}
+    - m_Text: "\u767B\u9332\u9806"
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:

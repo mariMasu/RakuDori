@@ -74,17 +74,24 @@ public class SimpleToTemp : MonoBehaviour
 			temp.SetTemp ("3", tempNum);
 			break;
 		case "ダミーなし":
-			connectOb.SetActive (false);
+
+			if (connectOb != null) {
+				connectOb.SetActive (false);
+			}
 
 			temp.SetTemp ("0", tempNum);
 			break;
 		case "このドリルから":
-			connectOb.SetActive (true);
+			if (connectOb != null) {
+				connectOb.SetActive (true);
+			}
 
 			temp.SetTemp ("1", tempNum);
 			break;
 		case "全ドリルから":
-			connectOb.SetActive (true);
+			if (connectOb != null) {
+				connectOb.SetActive (true);
+			}
 
 			temp.SetTemp ("2", tempNum);
 			break;

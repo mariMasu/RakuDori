@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using System.Text;
 using System.Collections.Generic;
 
 
@@ -18,25 +17,27 @@ public class AnsPrefab : MonoBehaviour
 	public IEnumerator SetTextC1 ()
 	{  
 
-		Encoding sjisEnc = Encoding.GetEncoding ("Shift_JIS");
-		int ansLen = sjisEnc.GetByteCount (ansText);
+		char[] chars = ansText.ToCharArray ();
+		int[] charsByte = Statics.GetByteLengthSJis (chars);
+
+		int ansLen = Statics.IntSum (charsByte);
 
 		if (Statics.HaveKaigyo (ansText) == false && ansLen > textR) {
 
 			string editText = ansText;
 
 			List<string> strl = new List<string> ();
-			char[] chars = ansText.ToCharArray ();
-			int byteNum = 0;
+			int gyoLength = 0;
 
 			for (int i = 0; i < chars.Length; i++) {
-				byteNum += sjisEnc.GetByteCount (chars, i, 1);
 
-				if (byteNum > textR) {
+				gyoLength += charsByte [i];
+
+				if (gyoLength > textR) {
 					strl.Add (editText.Substring (0, i));
 					editText = editText.Substring (i);
 
-					byteNum = 0;
+					gyoLength = 0;
 				}
 			}
 
@@ -58,12 +59,12 @@ public class AnsPrefab : MonoBehaviour
 
 		Vector2 rt = text.GetComponent<RectTransform> ().sizeDelta;
 
-		rt.x += Statics.prefabGap;
+		rt.x += (Statics.prefabGap * 2.2f);
 		rt.y += (Statics.prefabGap * 0.4f);
 
 		back.GetComponent<RectTransform> ().sizeDelta = rt;
 
-		Vector2 nsize = new Vector2 (rt.x + (Statics.prefabGap * 0.8f), rt.y + (Statics.prefabGap * 0.8f));
+		Vector2 nsize = new Vector2 (rt.x + (Statics.prefabGap * 1.1f), rt.y + (Statics.prefabGap * 0.8f));
 		this.GetComponent<RectTransform> ().sizeDelta = nsize;
 
 	}

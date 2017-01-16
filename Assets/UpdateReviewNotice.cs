@@ -119,15 +119,11 @@ public class UpdateReviewNotice : MonoBehaviour
 
 		if (qdall == null || qdall.Count == 0) {
 
-			if (Application.platform == RuntimePlatform.Android) {
-				// Android
-			} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
-				// iOS
-				ObC.SetBadge (0);
 
-			} else {
+			#if UNITY_IOS
+			ObC.SetBadge (0);
 
-			}
+			#endif
 
 			return;
 		}
@@ -176,27 +172,24 @@ public class UpdateReviewNotice : MonoBehaviour
 		}
 
 
-
-		if (Application.platform == RuntimePlatform.Android) {
-			// Android
-			foreach (ReviewTimes rt in rta) {
-				if (rt.needReviewNum > 0 && rt.maxTime > 0) {
-					NotificationManager.SendWithAppIcon (TimeSpan.FromSeconds ((double)rt.maxTime), "要復習のお知らせ", rt.needReviewNum + "問の問題があります", new Color (0, 0.6f, 1), NotificationIcon.Bell);
-				}
+		#if UNITY_IOS
+		foreach (ReviewTimes rt in rta) {
+			if (rt.needReviewNum > 0 && rt.maxTime > 0) {
+				SetNotification ("要復習の問題が" + rt.needReviewNum + "問あります", (int)rt.maxTime, rt.needReviewNum);
 			}
-		} else if (Application.platform == RuntimePlatform.IPhonePlayer) {
-			// iOS
-			foreach (ReviewTimes rt in rta) {
-				if (rt.needReviewNum > 0 && rt.maxTime > 0) {
-					SetNotification ("要復習の問題が" + rt.needReviewNum + "問あります", (int)rt.maxTime, rt.needReviewNum);
-				}
-			}
-
-			ObC.SetBadge (nowNeedReview);
-
-		} else {
-
 		}
+
+		ObC.SetBadge (nowNeedReview);
+		#endif
+
+		#if UNITY_ANDROID
+		foreach (ReviewTimes rt in rta) {
+		if (rt.needReviewNum > 0 && rt.maxTime > 0) {
+		NotificationManager.SendWithAppIcon (TimeSpan.FromSeconds ((double)rt.maxTime), "要復習のお知らせ", rt.needReviewNum + "問の問題があります", new Color (0, 0.6f, 1), NotificationIcon.Bell);
+		}
+		}
+		#endif
+
 
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine.UI;
-
+using System.Text;
 
 public class Statics : MonoBehaviour
 {
@@ -46,6 +46,36 @@ public class Statics : MonoBehaviour
 		} else {
 			return false;
 		}
+	}
+
+	public static int[] GetByteLengthSJis (char[] chars)
+	{
+
+		Encoding utfEnc = Encoding.GetEncoding ("utf-8");
+		int[] charsByte = new int[chars.Length];
+
+		for (int i = 0; i < chars.Length; i++) {
+			int bytec = utfEnc.GetByteCount (chars, i, 1);
+			if (bytec > 1) {
+				bytec = 2;
+			}
+
+			charsByte [i] = bytec;
+		}
+
+		return charsByte;
+
+	}
+
+	public static int IntSum (int[] ints)
+	{
+
+		int sum = 0;
+		for (int i = 0; i < ints.Length; i++) {
+			sum += ints [i];
+		}
+
+		return sum;
 	}
 
 }
