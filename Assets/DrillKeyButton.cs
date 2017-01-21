@@ -47,10 +47,6 @@ public class DrillKeyButton : MonoBehaviour
 			temp.SetTemp ("\n\n", tempNum);
 			InputOff ();
 			break;
-		case "３改行":
-			temp.SetTemp ("\n\n\n", tempNum);
-			InputOff ();
-			break;
 		case "カスタム":
 			InputOn ();
 

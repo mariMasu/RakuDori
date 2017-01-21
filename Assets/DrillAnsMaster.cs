@@ -589,7 +589,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 		hide.SetActive (true);
 		hide.GetComponent<ScrollRect> ().enabled = false;
-		hide.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "";
+		hide.transform.Find ("Viewport/Content/expText").gameObject.GetComponent<Text> ().text = "";
 
 		correct.SetActive (false);
 		wrong.SetActive (false);
@@ -741,11 +741,10 @@ public class DrillAnsMaster : MonoBehaviour
 		StartCoroutine (CorContentText (ansText, 1)); 
 
 		if (Statics.StrNull (nowQArray.Exp) == false) {
-
 			hide.GetComponent<ScrollRect> ().enabled = true;
-			hide.transform.Find ("expText").gameObject.GetComponent<Text> ().text = ("解説:\n" + nowQArray.Exp);
+			hide.transform.Find ("Viewport/Content/expText").gameObject.GetComponent<Text> ().text = ("解説:\n" + nowQArray.Exp);
 
-			StartCoroutine (CorScrollNormalize (hide)); 
+			StartCoroutine (CorSetAnchor (hide.transform.Find ("Viewport/Content").gameObject, hide.transform.Find ("Viewport/Content/expText").gameObject)); 
 		}
 	}
 
@@ -856,6 +855,15 @@ public class DrillAnsMaster : MonoBehaviour
 	{ 
 		yield return StartCoroutine (Wait (0.01f));  
 		scroll.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+	}
+
+	private IEnumerator CorSetAnchor (GameObject contentGo, GameObject textGo)
+	{  
+		yield return StartCoroutine (Wait ());  
+
+		Vector2 wh = textGo.GetComponent<RectTransform> ().sizeDelta;
+		contentGo.GetComponent<RectTransform> ().sizeDelta = new Vector2 (0, wh.y);
+
 	}
 }
 

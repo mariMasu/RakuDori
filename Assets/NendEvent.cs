@@ -9,6 +9,7 @@ using NendUnityPlugin.Common;
 public class NendEvent : MonoBehaviour
 {
 
+	public GameObject offBanner;
 
 	void Awake ()
 	{
@@ -38,12 +39,16 @@ public class NendEvent : MonoBehaviour
 	{
 		if (Debug.isDebugBuild)
 			UnityEngine.Debug.Log ("広告の受信に成功しました。");
+
+		offBanner.SetActive (false);
 	}
 
 	public void OnFailToReceiveBannerAd (object sender, NendAdErrorEventArgs args)
 	{
 		if (Debug.isDebugBuild)
 			UnityEngine.Debug.Log ("広告の受信に失敗しました。エラーメッセージ: " + args.Message);
+
+		offBanner.SetActive (true);
 	}
 
 	public void OnDismissScreen (object sender, EventArgs args)

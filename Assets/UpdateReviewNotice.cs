@@ -19,10 +19,7 @@ using Assets.SimpleAndroidNotifications;
 
 public class UpdateReviewNotice : MonoBehaviour
 {
-
-	//public float timeOut = 3600f;
-	//private float timeElapsed = 0f;
-	//bool isTitle = false;
+	public GameObject offBanner;
 
 	ReviewTimes[] rta;
 
@@ -65,20 +62,15 @@ public class UpdateReviewNotice : MonoBehaviour
 	
 	}
 
-	//	void Update ()
-	//	{
-	//		timeElapsed += Time.deltaTime;
-	//
-	//		if (timeElapsed >= timeOut) {
-	//			// Do anything
-	//
-	//			timeElapsed = 0.0f;
-	//		}
-	//	}
 
 	void OnApplicationPause (bool pauseStatus)
 	{
 		if (pauseStatus) {
+			
+			if (offBanner != null) {
+				offBanner.GetComponent<OfflineBanner> ().enabled = false;
+			}
+
 			SetReviewNotice ();
 		} else {
 
@@ -91,6 +83,11 @@ public class UpdateReviewNotice : MonoBehaviour
 			NotificationManager.CancelAll ();
 			#endif
 
+
+			if (offBanner != null) {
+				offBanner.GetComponent<OfflineBanner> ().enabled = true;
+			}
+
 			if (Debug.isDebugBuild)
 				Debug.Log ("通知消去");
 
@@ -100,7 +97,6 @@ public class UpdateReviewNotice : MonoBehaviour
 	void OnApplicationQuit ()
 	{
 		SetReviewNotice ();
-
 	}
 
 	void SetReviewNotice ()

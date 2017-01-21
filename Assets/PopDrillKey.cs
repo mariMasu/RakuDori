@@ -21,6 +21,7 @@ public class PopDrillKey : MonoBehaviour
 	public GameObject expInput;
 	public GameObject perDrop;
 	public GameObject perInput;
+	public GameObject toggle1;
 
 	public GameObject[] drops = new GameObject[7];
 	public GameObject[] inputs = new GameObject[7];
@@ -53,6 +54,7 @@ public class PopDrillKey : MonoBehaviour
 		float gapX = quesInput.GetComponent<RectTransform> ().localPosition.x - quesDrop.GetComponent<RectTransform> ().localPosition.x;
 		float gapY = (float)((quesInput.GetComponent<RectTransform> ().sizeDelta.y) * 2.3);
 		Vector3 quesPos = quesDrop.GetComponent<RectTransform> ().localPosition;
+		quesPos.y -= gapY / 2;
 
 		if (sd.inputPat == 0 || sd.inputPat == 1) {
 			quesDrop.GetComponent<Dropdown> ().options [0].text = "改行";
@@ -88,6 +90,10 @@ public class PopDrillKey : MonoBehaviour
 		quesDrop.GetComponent<Dropdown> ().value = 0;
 
 		DropViewReset ();
+
+		toggle1.GetComponent<Toggle> ().isOn = sd.toHankaku;
+
+
 	}
 
 
@@ -97,6 +103,7 @@ public class PopDrillKey : MonoBehaviour
 		foreach (GameObject d in drops) {
 			d.GetComponent<DrillKeyButton> ().ChangeDropByText ();
 		}
+
 	}
 
 	public bool CustomCheck ()
@@ -109,6 +116,5 @@ public class PopDrillKey : MonoBehaviour
 
 		return true;
 	}
-
 
 }

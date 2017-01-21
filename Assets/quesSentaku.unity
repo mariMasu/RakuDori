@@ -1311,8 +1311,9 @@ GameObject:
   - component: {fileID: 592}
   - component: {fileID: 363}
   - component: {fileID: 889}
+  - component: {fileID: 114}
   m_Layer: 5
-  m_Name: offlineAds
+  m_Name: offlineBanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1402,6 +1403,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d19c79b773e446a9881240b01847a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  banner1: {fileID: 21300000, guid: d87f5114b0fb9477c9f9780a0792e660, type: 3}
+  banner2: {fileID: 21300000, guid: 8a12a48219f7e40a3b844a2f7572f00a, type: 3}
+  banner3: {fileID: 21300000, guid: cda0f6916ecf44f8389a130835e00721, type: 3}
+  banner4: {fileID: 21300000, guid: 10d86f0ff51254d1e83d4d91938c760c, type: 3}
+  timeOut: 90
 --- !u!1 &115
 GameObject:
   m_ObjectHideFlags: 0
@@ -11682,6 +11699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3284be7e531ae4245b0410096539505f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offBanner: {fileID: 108}
 --- !u!114 &861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11705,7 +11723,7 @@ MonoBehaviour:
   adjustSize: 1
   size: 0
   backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-  gravity: 08000000
+  gravity: 0800000020000000
   margin:
     left: 0
     top: 0
@@ -13684,8 +13702,8 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b6cc351bdd1cc4903b7d604ec62cdf03, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 45
+    m_BestFit: 1
+    m_MinSize: 25
     m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -13853,6 +13871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990d081a1d3b148228c120a9fe4c8ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offBanner: {fileID: 108}
 --- !u!114 &949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15833,12 +15852,12 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: b6cc351bdd1cc4903b7d604ec62cdf03, type: 3}
-    m_FontSize: 43
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 133
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0

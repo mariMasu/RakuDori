@@ -11,6 +11,9 @@ public class QuesTextEdit : MonoBehaviour
 
 	public GameObject inputQuesText;
 
+	public GameObject viewContent;
+	public GameObject viewText;
+
 	GameObject es;
 	QuesInputMaster sd;
 
@@ -30,6 +33,9 @@ public class QuesTextEdit : MonoBehaviour
 	{
 		es = GameObject.Find ("EventSystem");
 		sd = es.GetComponent<QuesInputMaster> ();
+
+		viewText.GetComponent<Text> ().text = "";
+		InputTextView ();
 	}
 
 	public void QaTest ()
@@ -938,23 +944,26 @@ public class QuesTextEdit : MonoBehaviour
 	public void AnswerToHankaku (ref List<string> listA)
 	{
 
-		//answer群の英数字半角化
-		for (int i = 0; i < listA.Count; i++) {
+		if (sd.toHankaku == true) {
 
-			listA [i] = CSharp.Japanese.Kanaxs.KanaEx.ToHankaku (listA [i]);
+			//answer群の英数字半角化
+			for (int i = 0; i < listA.Count; i++) {
+
+				listA [i] = CSharp.Japanese.Kanaxs.KanaEx.ToHankaku (listA [i]);
+			}
 		}
-
 	}
 
 	public void AnswerToHankaku (ref string[] strA)
 	{
+		if (sd.toHankaku == true) {
+			
+			//answer群の英数字半角化
+			for (int i = 0; i < strA.Length; i++) {
 
-		//answer群の英数字半角化
-		for (int i = 0; i < strA.Length; i++) {
-
-			strA [i] = CSharp.Japanese.Kanaxs.KanaEx.ToHankaku (strA [i]);
+				strA [i] = CSharp.Japanese.Kanaxs.KanaEx.ToHankaku (strA [i]);
+			}
 		}
-
 	}
 
 	public void ConvertPerfectCommand (ref List<string> listQ)
@@ -970,6 +979,420 @@ public class QuesTextEdit : MonoBehaviour
 		}
 	}
 
+	public void InputTextView ()
+	{
+		string text = inputQuesText.GetComponent<InputField> ().text;
+
+		if (Statics.StrNull (text) == true) {
+			text = GetSampleText ();
+		}
+
+		viewText.GetComponent<Text> ().text = text;
+
+		StartCoroutine (CorSetAnchor (viewContent, viewText)); 
+	}
+
+	private IEnumerator CorSetAnchor (GameObject contentGo, GameObject textGo)
+	{  
+		yield return StartCoroutine (Wait ());  
+
+		Vector2 wh = textGo.GetComponent<RectTransform> ().sizeDelta;
+		contentGo.GetComponent<RectTransform> ().sizeDelta = new Vector2 (0, wh.y);
+
+//		yield return StartCoroutine (Wait ());  
+//
+//		Vector2 newanpo = textGo.GetComponent<RectTransform> ().anchoredPosition;
+//		newanpo.y = 0;
+//
+//
+//		textGo.GetComponent<RectTransform> ().anchoredPosition = newanpo;
 
 
+
+	}
+
+	private IEnumerator Wait (float f = 0.1f)
+	{  
+		yield return new WaitForSeconds (f); 
+	}
+
+
+	public string GetSampleText ()
+	{
+		int mode = sd.inputPat;
+		string quesKey = sd.quesKey;
+
+		string pHText = "（問題登録サンプル）\n";
+
+		if (sd.quesKey == Kaigyo) {
+			pHText += "注）区切り文字が「改行」のため他の箇所では改行を使えません。\n\n";
+			quesKey = "";
+		} else {
+			pHText += "\n";
+		}
+
+		switch (mode) {
+
+		case 0:
+
+			pHText += quesKey + "問題①\n";
+			pHText += quesKey + "問題①の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題①の答え⑵";
+			}
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				if (quesKey != "") {
+					pHText += "\n";
+				}
+
+				pHText += sd.dummyKey + "問題①のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+
+					pHText += "⑴" + sd.sepKey + "問題①のダミー⑵" + sd.sepKey + "問題①のダミー⑶\n";
+				} else {
+					pHText += "\n";
+				}
+			} else {
+				pHText += "\n";
+			}
+
+
+
+
+			if (Statics.StrNull (sd.perKey) == false) {
+				pHText += quesKey + sd.perKey + "問題②(答えの並び方を守る)\n";
+			
+			} else {
+				pHText += quesKey + "問題②\n";
+			}
+			pHText += quesKey + "問題②の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題②の答え⑵" + sd.sepKey + "問題②の答え⑶";
+			}
+
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				if (quesKey != "") {
+					pHText += "\n";
+				}
+
+				pHText += sd.dummyKey + "問題②のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+					pHText += "⑴" + sd.sepKey + "問題②のダミー⑵\n";
+				} else {
+					pHText += "\n";
+				}
+			} else {
+				pHText += "\n";
+			}
+
+			pHText += quesKey + "問題③\n...\n..\n.\n";
+
+			break;
+		case 1:
+
+			pHText += quesKey + "問題①\n";
+
+			if (Statics.StrNull (sd.perKey) == false) {
+				pHText += quesKey + sd.perKey + "問題②(答えの並び方を守る)\n";
+
+			} else {
+				pHText += quesKey + "問題②\n";
+			}
+
+			pHText += quesKey + "問題③\n...\n..\n.\n";
+
+
+			pHText += quesKey + "問題①の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題①の答え⑵";
+			}
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				if (quesKey != "") {
+					pHText += "\n";
+				}
+
+				pHText += sd.dummyKey + "問題①のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+
+					pHText += "⑴" + sd.sepKey + "問題①のダミー⑵" + sd.sepKey + "問題①のダミー⑶\n";
+				} else {
+					pHText += "\n";
+				}
+			} else {
+				pHText += "\n";
+			}
+
+
+
+
+			pHText += quesKey + "問題②の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題②の答え⑵" + sd.sepKey + "問題②の答え⑶";
+			}
+
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				if (quesKey != "") {
+					pHText += "\n";
+				}
+
+				pHText += sd.dummyKey + "問題②のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+					pHText += "⑴" + sd.sepKey + "問題②のダミー⑵\n";
+				} else {
+					pHText += "\n";
+				}
+			} else {
+				pHText += "\n";
+			}
+
+			pHText += quesKey + "問題③の答え\n...\n..\n.\n";
+			break;
+		case 2:
+
+			pHText += quesKey + "問題①\n";
+			pHText += sd.ansKey + "問題①の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題①の答え⑵";
+			}
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題①のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+
+					pHText += "⑴" + sd.sepKey + "問題①のダミー⑵" + sd.sepKey + "問題①のダミー⑶\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			pHText += sd.expKey + "問題①の解説\n";
+
+
+			if (Statics.StrNull (sd.perKey) == false) {
+				pHText += quesKey + sd.perKey + "問題②(答えの並び方を守る)\n";
+
+			} else {
+				pHText += quesKey + "問題②\n";
+			}
+			pHText += sd.ansKey + "問題②の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題②の答え⑵" + sd.sepKey + "問題②の答え⑶";
+			}
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題②のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+					pHText += "⑴" + sd.sepKey + "問題②のダミー⑵\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			pHText += sd.expKey + "問題②の解説\n";
+
+			pHText += quesKey + "問題③\n...\n..\n.\n";
+			break;
+		case 3:
+
+			pHText += quesKey + "問題①\n";
+			pHText += sd.expKey + "問題①の解説\n";
+			pHText += sd.ansKey + "問題①の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題①の答え⑵";
+			}
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題①のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+
+					pHText += "⑴" + sd.sepKey + "問題①のダミー⑵" + sd.sepKey + "問題①のダミー⑶\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			if (Statics.StrNull (sd.perKey) == false) {
+				pHText += quesKey + sd.perKey + "問題②(答えの並び方を守る)\n";
+
+			} else {
+				pHText += quesKey + "問題②\n";
+			}
+			pHText += sd.expKey + "問題②の解説\n";
+			pHText += sd.ansKey + "問題②の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題②の答え⑵" + sd.sepKey + "問題②の答え⑶";
+			}
+
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題②のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+					pHText += "⑴" + sd.sepKey + "問題②のダミー⑵\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			pHText += quesKey + "問題③\n...\n..\n.\n";
+
+			break;
+		case 4:
+
+			pHText += quesKey + "問題①\n";
+
+			if (Statics.StrNull (sd.perKey) == false) {
+				pHText += quesKey + sd.perKey + "問題②(答えの並び方を守る)\n";
+
+			} else {
+				pHText += quesKey + "問題②\n";
+			}
+
+			pHText += quesKey + "問題③\n...\n..\n.\n";
+
+			pHText += sd.ansKey + "問題①の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題①の答え⑵";
+			}
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題①のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+
+					pHText += "⑴" + sd.sepKey + "問題①のダミー⑵" + sd.sepKey + "問題①のダミー⑶\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			pHText += sd.expKey + "問題①の解説\n";
+
+
+			pHText += sd.ansKey + "問題②の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題②の答え⑵" + sd.sepKey + "問題②の答え⑶";
+			}
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題②のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+					pHText += "⑴" + sd.sepKey + "問題②のダミー⑵\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			pHText += sd.expKey + "問題②の解説\n";
+
+			pHText += sd.ansKey + "問題③の答え\n...\n..\n.\n";
+
+			break;
+		case 5:
+
+			pHText += quesKey + "問題①\n";
+
+			if (Statics.StrNull (sd.perKey) == false) {
+				pHText += quesKey + sd.perKey + "問題②(答えの並び方を守る)\n";
+
+			} else {
+				pHText += quesKey + "問題②\n";
+			}
+
+			pHText += quesKey + "問題③\n...\n..\n.\n";
+
+			pHText += sd.expKey + "問題①の解説\n";
+			pHText += sd.ansKey + "問題①の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題①の答え⑵";
+			}
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題①のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+
+					pHText += "⑴" + sd.sepKey + "問題①のダミー⑵" + sd.sepKey + "問題①のダミー⑶\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			pHText += sd.expKey + "問題②の解説\n";
+			pHText += sd.ansKey + "問題②の答え";
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+				pHText += "⑴" + sd.sepKey + "問題②の答え⑵" + sd.sepKey + "問題②の答え⑶";
+			}
+
+
+			pHText += "\n";
+
+			if (Statics.StrNull (sd.dummyKey) == false) {
+
+				pHText += sd.dummyKey + "問題②のダミー";
+
+				if (Statics.StrNull (sd.sepKey) == false) {
+					pHText += "⑴" + sd.sepKey + "問題②のダミー⑵\n";
+				} else {
+					pHText += "\n";
+				}
+			}
+
+			pHText += sd.expKey + "問題③の解説\n...\n..\n.\n";
+
+			break;
+		default:
+			break;
+		}
+		return pHText;
+	}
 }

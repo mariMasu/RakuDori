@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class QuesInputMaster : MonoBehaviour
 {
-	public SimpleSQL.SimpleSQLManager dbManager;
 	public GameObject quesP;
 	private GameObject content;
 
@@ -19,12 +18,17 @@ public class QuesInputMaster : MonoBehaviour
 	public string expKey = "##";
 	public string dummyKey;
 	public string perKey;
+
 	public string quesText;
+
+	public bool toHankaku = true;
 
 	public GameObject keyText1;
 	public GameObject senText;
 	public GameObject keyText2;
 	public GameObject patText;
+
+	public GameObject placefolder;
 
 
 	void Awake ()
@@ -174,6 +178,8 @@ public class QuesInputMaster : MonoBehaviour
 
 		}
 
+		SetPlaceholder ();
+
 	}
 
 	public string GetDataByText (string type)
@@ -258,6 +264,87 @@ public class QuesInputMaster : MonoBehaviour
 		} else {
 			return s;
 		}
+	}
+
+	public void SetPlaceholder ()
+	{
+
+		string newPF = "(問題登録サンプル)\n";
+
+		switch (inputPat) {
+
+		case 0:
+
+			if (Statics.StrNull (perKey) == true) {
+				newPF += (quesKey + "A問題");
+			} else {
+				newPF += (perKey + quesKey + "A問題(答えの並び方も重要)");
+			}
+				
+			if (Statics.StrNull (sepKey) == true) {
+				newPF += (ansKey + "A問題の答え");
+			} else {
+				newPF += (ansKey + "A問題の答え1" + "A問題の答え2");
+			}
+
+			if (Statics.StrNull (expKey) == false) {
+				newPF += (ansKey + "A問題の解説");
+			}
+
+			if (Statics.StrNull (dummyKey) == false) {
+				if (Statics.StrNull (sepKey) == true) {
+					newPF += (ansKey + "A問題の答えダミー");
+				} else {
+					newPF += (ansKey + "A問題の答えダミー1" + "A問題の答えダミー2" + "A問題の答えダミー3");
+				}
+			}
+
+			if (Statics.StrNull (perKey) == true) {
+				newPF += (quesKey + "B問題");
+			} else {
+				newPF += (perKey + quesKey + "B問題(答えの並び方も重要)");
+			}
+
+			if (Statics.StrNull (sepKey) == true) {
+				newPF += (ansKey + "B問題の答え");
+			} else {
+				newPF += (ansKey + "B問題の答え1" + "B問題の答え2" + "B問題の答え3");
+			}
+
+			if (Statics.StrNull (expKey) == false) {
+				newPF += (ansKey + "B問題の解説");
+			}
+
+			if (Statics.StrNull (dummyKey) == false) {
+				if (Statics.StrNull (sepKey) == true) {
+					newPF += (ansKey + "B問題の答えダミー");
+				} else {
+					newPF += (ansKey + "B問題の答えダミー1" + "B問題の答えダミー2");
+				}
+			}
+
+			break;
+		case 1:
+
+			break;
+		case 2:
+
+			break;
+		case 3:
+			break;
+		case 4:
+
+			break;
+		case 5:
+
+			break;
+		default:
+			Debug.Log ("Incorrect data");
+			break;
+		}
+
+		placefolder.GetComponent<Text> ().text = newPF;
+
 	}
 
 }

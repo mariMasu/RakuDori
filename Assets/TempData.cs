@@ -9,7 +9,7 @@ public class TempData : MonoBehaviour
 
 	GameObject es;
 
-	public string[] temp = new string[7];
+	public string[] temp = new string[8];
 
 	void Awake ()
 	{
@@ -252,6 +252,10 @@ public class TempData : MonoBehaviour
 		sd.expKey = temp [4];
 		sd.dummyKey = temp [5];
 		sd.perKey = temp [6];
+
+		if (Statics.StrNull (temp [7]) == false) {
+			sd.toHankaku = StringToBool (temp [7]);
+		}
 
 		es.GetComponent<QuesInputMaster> ().DrillKeyPatView ();
 		es.GetComponent<PopDrillKey> ().DropViewReset ();
