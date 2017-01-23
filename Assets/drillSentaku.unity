@@ -791,7 +791,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.11
-  m_Text: "\u30FB\u4ED6\u554F\u984C\u304B\u3089\u306E\u30C0\u30DF\u30FC\n"
+  m_Text: "\u30FB\u30C0\u30DF\u30FC\u9078\u629E\u80A2\u306E\u8A2D\u5B9A\n"
 --- !u!222 &110672718
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6398,7 +6398,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1493282931}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1019962105}
+        m_MethodName: PopHelp
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: http://rakurakudori.webcrow.jp/
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1493282931
@@ -7325,7 +7336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1629108546
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9451,7 +9462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseOb: {fileID: 1765035584}
-  connectOb: {fileID: 0}
+  connectOb: {fileID: 1629108545}
   tempNum: 2
 --- !u!114 &1878581801
 MonoBehaviour:

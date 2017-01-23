@@ -9445,28 +9445,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 945}
-        m_MethodName: SentakuQuesView
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 943}
-        m_MethodName: Popdown
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 7
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &784
@@ -11764,10 +11742,21 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 863}
+  m_TargetGraphic: {fileID: 1035}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 943}
+        m_MethodName: PopHelp
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: http://rakurakudori.webcrow.jp/#quesEdit
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &863
@@ -14318,7 +14307,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.72
-  m_Text: "\u30C9\u30EA\u30EB\u30A8\u30AF\u30B9\u30DD\u30FC\u30C8"
+  m_Text: "\u554F\u984C\u30A8\u30AF\u30B9\u30DD\u30FC\u30C8"
 --- !u!114 &968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14410,7 +14399,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.11
-  m_Text: "\u30FB\u4ED6\u554F\u984C\u304B\u3089\u306E\u30C0\u30DF\u30FC\n"
+  m_Text: "\u30FB\u30C0\u30DF\u30FC\u9078\u629E\u80A2\u306E\u8A2D\u5B9A"
 --- !u!114 &971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15902,7 +15891,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1035}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 943}
+        m_MethodName: PopHelp
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: http://rakurakudori.webcrow.jp/#quesSentaku1
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1035
@@ -16848,7 +16848,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1067}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 943}
+        m_MethodName: PopHelp
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: http://rakurakudori.webcrow.jp/#quesSentaku2
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1067
@@ -17249,7 +17260,7 @@ MonoBehaviour:
   m_Script: {fileID: 1705125264, guid: 8382d7f8352b70544aa11f6729f875f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  databaseFile: {fileID: 4900000, guid: 854bef94c3fad4f59a9fba53efd675ff, type: 3}
+  databaseFile: {fileID: 4900000, guid: 9987420ebdfea4e7f84c61e2a6b82ce2, type: 3}
   changeWorkingName: 1
   workingName: RD
   overwriteIfExists: 0

@@ -73,6 +73,8 @@ public class PopupWindow : MonoBehaviour
 		GameObject go = GameObject.Find ("PopTagLevel");
 		go.GetComponent<TempData> ().ResetTemp ();
 
+		go.transform.Find ("Scroll View").gameObject.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+
 		GameObject content = go.transform.Find ("Scroll View/Viewport/Content").gameObject;
 
 		//GameObject col = content.transform.Find ("colSelect").gameObject;
@@ -275,9 +277,23 @@ public class PopupWindow : MonoBehaviour
 		GameObject go = GameObject.Find ("PopDrillEdit");
 		input1.GetComponent<InputField> ().text = Statics.nowName;
 
-		Popup (1);
+		int num = Statics.nowColor;
+		if (num == 0) {
+			go.transform.FindChild ("sky").GetComponent<ButtonPoint> ().OnClick ();
+		} else if (num == 1) {
+			go.transform.FindChild ("pink").GetComponent<ButtonPoint> ().OnClick ();
+		} else if (num == 2) {
+			go.transform.FindChild ("yellow").GetComponent<ButtonPoint> ().OnClick ();
+		} else if (num == 3) {
+			go.transform.FindChild ("green").GetComponent<ButtonPoint> ().OnClick ();
+		} else if (num == 4) {
+			go.transform.FindChild ("orange").GetComponent<ButtonPoint> ().OnClick ();
+		} else {
+			go.transform.FindChild ("blue").GetComponent<ButtonPoint> ().OnClick ();
 
-		go.transform.FindChild ("sky").GetComponent<ButtonPoint> ().OnClick ();
+		}
+
+		Popup (1);
 
 	}
 
@@ -479,6 +495,20 @@ public class PopupWindow : MonoBehaviour
 
 		Popup (11);
 
+	}
+
+	public void PopHelp (string url)
+	{
+
+		WebViewObject webViewObject;
+
+		webViewObject = (new GameObject ("WebViewObject")).AddComponent<WebViewObject> ();
+		webViewObject.Init ((msg) => {
+			Debug.Log (msg);
+		});
+		webViewObject.LoadURL (url);
+		webViewObject.SetMargins (0, 0, 0, 0);
+		webViewObject.SetVisibility (true);
 	}
 
 }

@@ -357,6 +357,7 @@ public class TempData : MonoBehaviour
 
 	public void QuesEditSend ()
 	{
+
 		string p = temp [4];
 
 		string q = temp [0];
@@ -367,9 +368,33 @@ public class TempData : MonoBehaviour
 		string sepkey = QuesTextEdit.SepKeyCommon;
 
 		if (Statics.StrNull (q) || Statics.StrNull (a)) {
-			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題文か正答が空欄です");
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n問題文か正答が空欄です", 8);
 			return;
 		}
+
+		for (int i = 0; i < 4; i++) {
+			string[] used = {
+				QuesTextEdit.AnsKeyCommon,
+				QuesTextEdit.DummyKeyCommon,
+				QuesTextEdit.ExpKeyCommon,
+				QuesTextEdit.PerKeyCommon
+			};
+			int f = 0;
+
+			foreach (string s in used) {
+				if (temp [i].IndexOf (s) > -1) {
+					f++;
+				}
+			}
+
+			if (f != 0) {
+				es.GetComponent<PopupWindow> ().PopupCaution ("エラー\nテキスト内に" + QuesTextEdit.AnsKeyCommon + "、\n" + QuesTextEdit.ExpKeyCommon + "、" + QuesTextEdit.DummyKeyCommon + "、" + QuesTextEdit.PerKeyCommon + "は使えません", 8);
+				return;
+			}
+		}
+
+
+
 
 		q = QuesTextEdit.RemoveEnterZengo (q);
 
@@ -416,6 +441,9 @@ public class TempData : MonoBehaviour
 		qd.TEXT = (q + a + d + e);
 
 		es.GetComponent<DbProcess> ().UpdateQuesData (qd);
+
+		es.GetComponent<QuesSentakuMaster> ().SentakuQuesView ();
+		es.GetComponent<PopupWindow> ().Popdown (7);
 
 	}
 

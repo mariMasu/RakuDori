@@ -228,10 +228,12 @@ public class QuesSentakuMaster : MonoBehaviour
 	public void CopyQuesB (int drillId, bool tagCopy, bool levelCopy)
 	{
 
+		string time = DateTime.Now.ToString ();
+
 		foreach (int s in senList) {
 			
 			QuesData qd = this.GetComponent<DbProcess> ().GetDbData (s);
-			QuesData newqd = new QuesData { DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE = "なし", LAST = "なし"
+			QuesData newqd = new QuesData { DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE_Q = "なし", IMAGE_A = "なし", SOUND = "なし", LAST = time, EX2 = "なし"
 			};
 
 			if (tagCopy) {

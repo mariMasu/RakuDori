@@ -675,7 +675,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 		} else {
 
-			if (nowQData.LEVEL != 0) {
+			if (nowQData.LEVEL > 1) {
 				nowQData.LEVEL -= 1;
 			}
 			if (nowQData.REVIEW != 3) {
@@ -780,7 +780,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 		} else {
 
-			if (nowQData.LEVEL != 0) {
+			if (nowQData.LEVEL > 1) {
 				nowQData.LEVEL -= 1;
 			}
 			if (nowQData.REVIEW != 3) {

@@ -70,7 +70,7 @@ public class DbProcess : MonoBehaviour
 	{
 
 		foreach (string t in text) {
-			QuesData data = new QuesData { DRILL_ID = Statics.nowDrill, TEXT = t, IMAGE = "なし", LAST = "なし"
+			QuesData data = new QuesData { DRILL_ID = Statics.nowDrill, TEXT = t, IMAGE_Q = "なし", IMAGE_A = "なし", SOUND = "なし", LAST = "なし", EX2 = "なし"
 			};
 
 			dbManager.Insert (data);
@@ -99,8 +99,11 @@ public class DbProcess : MonoBehaviour
 				TEXT = qd.TEXT,
 				JUN = jun,
 				REVIEW = 0,
-				IMAGE = "なし",
-				LAST = "なし"
+				IMAGE_Q = "なし", 
+				IMAGE_A = "なし",
+				SOUND = "なし",
+				LAST = "なし",
+				EX2 = "なし"
 			};
 			dbManager.UpdateTable (dat);
 		}

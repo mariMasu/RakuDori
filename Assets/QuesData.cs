@@ -18,9 +18,6 @@ public class QuesData
 	[Default (0)]
 	public int JUN { get; set; }
 
-	[Default (0)]
-	public int ANSNUM { get; set; }
-
 	[Default ("なし")]
 	public string LAST { get; set; }
 
@@ -31,7 +28,17 @@ public class QuesData
 	public int REVIEW { get; set; }
 
 	[Default ("なし")]
-	public string IMAGE { get; set; }
+	public string IMAGE_Q { get; set; }
 
+	[Default ("なし")]
+	public string IMAGE_A { get; set; }
 
+	[Default ("なし")]
+	public string SOUND { get; set; }
+
+	[Default (0)]
+	public int EX1 { get; set; }
+
+	[Default ("なし")]
+	public string EX2 { get; set; }
 }
