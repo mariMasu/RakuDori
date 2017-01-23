@@ -450,7 +450,7 @@ public class PopupWindow : MonoBehaviour
 		GameObject parent = GameObject.Find ("PopExport");
 		GameObject text = parent.transform.Find ("exportText").gameObject;
 
-		List<QuesData> qdl = this.GetComponent<DbProcess> ().GetDbDataDrillId (Statics.nowDrill);
+		List<QuesData> qdl = this.GetComponent<QuesSentakuMaster> ().dbData;
 		string exText = "";
 
 		foreach (QuesData qd in qdl) {

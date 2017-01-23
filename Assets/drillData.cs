@@ -25,5 +25,11 @@ public class DrillData
 	public int DUMMY_TAG { get; set; }
 
 	[Default (0)]
-	public int FLAG { get; set; }
+	public int SEVERE { get; set; }
+
+	[Default (0)]
+	public int QA_RAND { get; set; }
+
+	[Default (0)]
+	public int TIMER { get; set; }
 }

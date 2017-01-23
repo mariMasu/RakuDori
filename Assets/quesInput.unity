@@ -3860,7 +3860,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 114.8, y: 473}
+  m_AnchoredPosition: {x: 69, y: 473}
   m_SizeDelta: {x: 68.9, y: 67.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &339305477
@@ -8728,7 +8728,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 114.8, y: 473}
+  m_AnchoredPosition: {x: 52, y: 473}
   m_SizeDelta: {x: 68.9, y: 67.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &965303706
@@ -14852,7 +14852,7 @@ MonoBehaviour:
   m_Script: {fileID: 1705125264, guid: 8382d7f8352b70544aa11f6729f875f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  databaseFile: {fileID: 4900000, guid: 9987420ebdfea4e7f84c61e2a6b82ce2, type: 3}
+  databaseFile: {fileID: 4900000, guid: ae6b8691a1b7f4b0a8f09a3ec4a56d33, type: 3}
   changeWorkingName: 1
   workingName: RD
   overwriteIfExists: 0

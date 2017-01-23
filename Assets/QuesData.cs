@@ -34,7 +34,10 @@ public class QuesData
 	public string IMAGE_A { get; set; }
 
 	[Default ("なし")]
-	public string SOUND { get; set; }
+	public string SOUND_Q { get; set; }
+
+	[Default ("なし")]
+	public string SOUND_A { get; set; }
 
 	[Default (0)]
 	public int EX1 { get; set; }

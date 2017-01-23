@@ -143,7 +143,7 @@ public class QuesSentakuMaster : MonoBehaviour
 
 		}
 
-		if (dbData.Count > 0) {
+		if (dbDataPlain.Count > 0) {
 			deleteDrillB.SetActive (false);
 		} else {
 			deleteDrillB.SetActive (true);
@@ -233,7 +233,7 @@ public class QuesSentakuMaster : MonoBehaviour
 		foreach (int s in senList) {
 			
 			QuesData qd = this.GetComponent<DbProcess> ().GetDbData (s);
-			QuesData newqd = new QuesData { DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE_Q = "なし", IMAGE_A = "なし", SOUND = "なし", LAST = time, EX2 = "なし"
+			QuesData newqd = new QuesData { DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE_Q = "なし", IMAGE_A = "なし",  SOUND_Q = "なし", SOUND_A = "なし", LAST = time, EX2 = "なし"
 			};
 
 			if (tagCopy) {
