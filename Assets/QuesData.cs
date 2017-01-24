@@ -27,6 +27,12 @@ public class QuesData
 	[Default (0)]
 	public int REVIEW { get; set; }
 
+	[Default (0)]
+	public int CORRECT { get; set; }
+
+	[Default (0)]
+	public int WRONG { get; set; }
+
 	[Default ("なし")]
 	public string IMAGE_Q { get; set; }
 

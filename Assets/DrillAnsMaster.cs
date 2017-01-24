@@ -177,8 +177,27 @@ public class DrillAnsMaster : MonoBehaviour
 
 			
 		} else if (Statics.ansChoose == 2) {
-			s = "未完了問題が存在しません";
-			questionList.RemoveAll (q => q.LEVEL == 5);
+			List<QuesData> removeList = new List<QuesData> ();
+
+			s = "苦手問題が存在しません";
+
+			foreach (QuesData qd in questionList) {
+
+				int suu = (qd.CORRECT + qd.WRONG);
+				if (suu != 0) {
+					float nigate = ((float)qd.WRONG / (float)suu);
+
+					if (nigate < PlayerPrefs.GetFloat ("NIGATE", 0.25f)) {
+						removeList.Add (qd);
+					}
+				} else {
+					removeList.Add (qd);
+				}
+			}
+
+			foreach (QuesData q in removeList) {
+				questionList.Remove (q);
+			}
 		} else if (Statics.ansChoose == 3) {
 			s = "完了問題が存在しません";
 			questionList.RemoveAll (q => q.LEVEL != 5);
@@ -647,12 +666,13 @@ public class DrillAnsMaster : MonoBehaviour
 
 		if (result == true) {
 
+			nowQData.CORRECT += 1;
 			nowQData.REVIEW -= 1;
 
 
 			if (nowQData.REVIEW < 0) {
 
-				if (nowQData.LEVEL != 5) {
+				if (Statics.youhukusyu == true && nowQData.LEVEL != 5) {
 					nowQData.LEVEL += 1;
 				}
 
@@ -674,6 +694,8 @@ public class DrillAnsMaster : MonoBehaviour
 			correct.SetActive (true);
 
 		} else {
+
+			nowQData.WRONG += 1;
 
 			if (nowQData.LEVEL > 1) {
 				nowQData.LEVEL -= 1;
@@ -755,12 +777,13 @@ public class DrillAnsMaster : MonoBehaviour
 
 		if (b == true) {
 
+			nowQData.CORRECT += 1;
 			nowQData.REVIEW -= 1;
 
 
 			if (nowQData.REVIEW < 0) {
 
-				if (nowQData.LEVEL != 5) {
+				if (Statics.youhukusyu == true && nowQData.LEVEL != 5) {
 					nowQData.LEVEL += 1;
 				}
 
@@ -777,12 +800,15 @@ public class DrillAnsMaster : MonoBehaviour
 
 			}
 
-
 		} else {
+
+			nowQData.WRONG += 1;
 
 			if (nowQData.LEVEL > 1) {
 				nowQData.LEVEL -= 1;
 			}
+
+
 			if (nowQData.REVIEW != 3) {
 				nowQData.REVIEW = 3;
 			}

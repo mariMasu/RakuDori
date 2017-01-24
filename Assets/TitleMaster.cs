@@ -77,6 +77,8 @@ public class TitleMaster : MonoBehaviour
 
 			Statics.ansChoose = 1;
 			Statics.reviewList = reviewDrillId;
+			Statics.youhukusyu = true;
+
 			this.GetComponent<LoadButton> ().LoadDrillAns ();
 		} else {
 			this.GetComponent<PopupWindow> ().PopupCaution ("現在要学習の問題はありません", 2);

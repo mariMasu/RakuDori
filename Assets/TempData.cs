@@ -337,12 +337,16 @@ public class TempData : MonoBehaviour
 
 		}
 
+		if (i == 1) {
+			Statics.youhukusyu = true;
+		} else {
+			Statics.youhukusyu = false;
+
+		}
 
 		if (i == 1 && (num [0] == 0)) {
 			s = "要復習問題が存在しません";
 
-		} else if (i == 2 && (num [1] == num [2])) {
-			s = "未完了問題が存在しません";
 		} else if (i == 3 && (num [1] == 0)) {
 			s = "完了問題が存在しません";
 		}
@@ -499,5 +503,26 @@ public class TempData : MonoBehaviour
 
 		}
 
+	}
+
+	public void DrillConfigSend ()
+	{
+
+		if (Statics.StrNull (temp [0]) == true) {
+			return;
+		}
+
+		float keisu = float.Parse (temp [0]);
+
+		if (keisu < 0 || keisu > 1) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n１〜０の範囲で入力してください");
+
+		} else {
+			
+			PlayerPrefs.SetFloat ("NIGATE", keisu);
+			PlayerPrefs.Save ();
+
+			es.GetComponent<PopupWindow> ().Popdown (5);
+		}
 	}
 }

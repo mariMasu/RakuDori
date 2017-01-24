@@ -513,4 +513,14 @@ public class PopupWindow : MonoBehaviour
 //		webViewObject.SetVisibility (true);
 	}
 
+	public void PopDrillConfig ()
+	{
+
+		float nigate = PlayerPrefs.GetFloat ("NIGATE", 0.25f);
+
+		input2.GetComponent<InputField> ().text = nigate.ToString ();
+
+		Popup (5);
+	}
+
 }
