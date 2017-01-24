@@ -369,8 +369,12 @@ public class DrillAnsMaster : MonoBehaviour
 			}
 
 
+
+
 			GameObject ansS = ansBase.transform.Find ("choose/scroll").gameObject;
 			GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
+
+			senS.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "右上の開錠アイコンで自己評価、\n下の枠をタップで選択肢を表示します";
 
 			ansContent.GetComponent<RectTransform> ().sizeDelta = ansS.GetComponent<RectTransform> ().sizeDelta;
 			sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
@@ -387,10 +391,17 @@ public class DrillAnsMaster : MonoBehaviour
 
 			}
 
-			if (zyun.activeSelf == true) {
-				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length));
+			if (nowQData.REVIEW > 0) {
+				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = "<size=80><color=#CE0606FF>＊不正解だったため復習中です。\nあと" + nowQData.REVIEW + "回正解しましょう</color></size>\n\n";
 			} else {
-				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = q.Ques;
+				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = "";
+			}
+
+
+			if (zyun.activeSelf == true) {
+				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text += q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length));
+			} else {
+				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text += q.Ques;
 			}
 			GameObject view = ansBase.transform.Find ("question/Qtext").gameObject;
 			StartCoroutine (CorScrollNormalize (view)); 
@@ -742,6 +753,9 @@ public class DrillAnsMaster : MonoBehaviour
 
 	public void ChooseOpen ()
 	{
+		GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
+		senS.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "";
+
 		ContentNarabi (0);
 		open.SetActive (false);
 		hide.SetActive (false);
@@ -763,6 +777,8 @@ public class DrillAnsMaster : MonoBehaviour
 			GameObject.Destroy (n.gameObject);
 		}
 		GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
+		senS.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "";
+
 		sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
 
 		GameObject ansText = Instantiate (textP);
