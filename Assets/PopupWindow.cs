@@ -332,51 +332,55 @@ public class PopupWindow : MonoBehaviour
 
 	public void PopDrillOrder (int i)
 	{
-		GameObject parent = GameObject.Find ("PopAnsOrder");
-
-		GameObject drop1 = parent.transform.Find ("OrderDrop1").gameObject;
-		GameObject drop2 = parent.transform.Find ("OrderDrop2").gameObject;
-		GameObject drop3 = parent.transform.Find ("DummyDrop1").gameObject;
-		GameObject drop4 = parent.transform.Find ("DummyDrop2").gameObject;
-
-		drop1.GetComponent<Dropdown> ().value = 1;
-		drop2.GetComponent<Dropdown> ().value = 1;
-		drop3.GetComponent<Dropdown> ().value = 1;
-		drop4.GetComponent<Dropdown> ().value = 1;
-
-		drop1.GetComponent<Dropdown> ().value = 0;
-		drop2.GetComponent<Dropdown> ().value = 0;
-		drop3.GetComponent<Dropdown> ().value = 0;
-		drop4.GetComponent<Dropdown> ().value = 0;
-
-		Popup (i);
+		PopDrillOrderSet (i);
 	}
 
-	public void PopDrillOrderSet (int i)
+	public void PopDrillOrderSet (int i, bool first = false)
 	{
-
-		DrillData dd = this.GetComponent<DbProcess> ().GetDbDrillData (Statics.nowDrill);
-
+		
 		GameObject parent = GameObject.Find ("PopAnsOrder");
 
 		GameObject drop1 = parent.transform.Find ("OrderDrop1").gameObject;
 		GameObject drop2 = parent.transform.Find ("OrderDrop2").gameObject;
 		GameObject drop3 = parent.transform.Find ("DummyDrop1").gameObject;
 		GameObject drop4 = parent.transform.Find ("DummyDrop2").gameObject;
+		GameObject toggle1 = parent.transform.Find ("toggle1").gameObject;
 
 		drop1.GetComponent<Dropdown> ().value = 1;
 		drop2.GetComponent<Dropdown> ().value = 1;
 		drop3.GetComponent<Dropdown> ().value = 1;
 		drop4.GetComponent<Dropdown> ().value = 1;
 
-		if (dd.QUES_ORDER == 0) {
-			drop1.GetComponent<Dropdown> ().value = 0;
+
+		if (first == false) {
+			DrillData dd = this.GetComponent<DbProcess> ().GetDbDrillData (Statics.nowDrill);
+			if (dd.SEVERE == 0) {
+				toggle1.GetComponent<Toggle> ().isOn = false;
+			} else {
+				toggle1.GetComponent<Toggle> ().isOn = true;
+			}
+
+			if (dd.QUES_ORDER == 0) {
+				drop1.GetComponent<Dropdown> ().value = 0;
+			} else {
+				drop1.GetComponent<Dropdown> ().value = (dd.QUES_ORDER - 1);
+			}
+			drop2.GetComponent<Dropdown> ().value = dd.ANS_ORDER;
+			drop3.GetComponent<Dropdown> ().value = dd.DUMMY_USE;
+			drop4.GetComponent<Dropdown> ().value = dd.DUMMY_TAG;
+
+
+			toggle1.GetComponent<SimpleToTemp> ().SetTempToggle ();
+
 		} else {
-			drop1.GetComponent<Dropdown> ().value = (dd.QUES_ORDER - 1);
+			drop1.GetComponent<Dropdown> ().value = 1;
+			drop2.GetComponent<Dropdown> ().value = 1;
+			drop3.GetComponent<Dropdown> ().value = 1;
+			drop4.GetComponent<Dropdown> ().value = 1;
+
+			toggle1.GetComponent<Toggle> ().isOn = false;
+			toggle1.GetComponent<SimpleToTemp> ().SetTempToggle ();
 		}
-		drop2.GetComponent<Dropdown> ().value = dd.ANS_ORDER;
-		drop3.GetComponent<Dropdown> ().value = dd.DUMMY_USE;
-		drop4.GetComponent<Dropdown> ().value = dd.DUMMY_TAG;
 
 		Popup (i);
 	}

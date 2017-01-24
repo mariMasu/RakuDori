@@ -75,8 +75,10 @@ public class DrillAnsMaster : MonoBehaviour
 
 		List<DrillData> dd = new List<DrillData> (from ps in dbManager.Table<DrillData> ()
 		                                          select ps);
+		DrillData drill = dd.Find (s => s.ID == Statics.nowDrill);
 
-		MakeReviewList (dd.Find (s => s.ID == Statics.nowDrill));
+		Statics.nowSevere = Convert.ToBoolean (drill.SEVERE);
+		MakeReviewList (drill);
 
 		longBase.transform.position = new Vector3 (10000, 0, 0);
 		shortBase.transform.position = new Vector3 (10000, 0, 0);
@@ -673,7 +675,14 @@ public class DrillAnsMaster : MonoBehaviour
 			if (nowQData.REVIEW < 0) {
 
 				if (Statics.youhukusyu == true && nowQData.LEVEL != 5) {
-					nowQData.LEVEL += 1;
+
+					if (nowQData.LEVEL > 0) {
+						if (Statics.nowSevere == false) {
+							nowQData.LEVEL += 1;
+						}
+					} else {
+						nowQData.LEVEL += 1;
+					}
 				}
 
 				nowQData.REVIEW = 0;

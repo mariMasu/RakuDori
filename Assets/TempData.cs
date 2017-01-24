@@ -254,7 +254,7 @@ public class TempData : MonoBehaviour
 		sd.perKey = temp [6];
 
 		if (Statics.StrNull (temp [7]) == false) {
-			sd.toHankaku = StringToBool (temp [7]);
+			sd.toHankaku = Statics.StringToBool (temp [7]);
 		}
 
 		es.GetComponent<QuesInputMaster> ().DrillKeyPatView ();
@@ -315,11 +315,13 @@ public class TempData : MonoBehaviour
 		int dumU = int.Parse (temp [2]);
 		int dumT = int.Parse (temp [3]);
 
+		int severe = int.Parse (temp [4]);
+
 		if (orderQ == 0) {
 			orderQ = 1;
 		}
 
-		es.GetComponent<DbProcess> ().UpdateDrillOrder (orderQ, orderA, dumU, dumT);
+		es.GetComponent<DbProcess> ().UpdateDrillOrder (orderQ, orderA, dumU, dumT, severe);
 
 	}
 
@@ -462,8 +464,8 @@ public class TempData : MonoBehaviour
 		DrillData dd = ddl.Find (s => s.NAME == temp [0]);
 		int drillId = dd.ID;
 
-		bool tagCopy = StringToBool (temp [1]);
-		bool levelCopy = StringToBool (temp [2]);
+		bool tagCopy = Statics.StringToBool (temp [1]);
+		bool levelCopy = Statics.StringToBool (temp [2]);
 
 		QuesSentakuMaster qs = es.GetComponent<QuesSentakuMaster> ();
 		qs.CopyQuesB (drillId, tagCopy, levelCopy);
@@ -472,18 +474,6 @@ public class TempData : MonoBehaviour
 		es.GetComponent<PopupWindow> ().Popdown (2);
 
 
-	}
-
-	public bool StringToBool (string s)
-	{
-		if (s == "0") {
-			return false;
-		} else if (s == "1") {
-			return true;
-		} else {
-			Debug.Log ("err");
-			return false;
-		}
 	}
 
 	public void ImportSend ()

@@ -9,6 +9,7 @@ public class Statics : MonoBehaviour
 {
 
 	public static int nowDrill = 0;
+	public static bool nowSevere = false;
 	public static int nowColor = 0;
 	public static string nowName = "";
 	public static int ansChoose = 0;
@@ -78,6 +79,18 @@ public class Statics : MonoBehaviour
 		}
 
 		return sum;
+	}
+
+	public static bool StringToBool (string s)
+	{
+		if (s == "0") {
+			return false;
+		} else if (s == "1") {
+			return true;
+		} else {
+			Debug.Log ("err");
+			return false;
+		}
 	}
 
 }

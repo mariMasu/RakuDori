@@ -203,7 +203,7 @@ public class DbProcess : MonoBehaviour
 		dbManager.UpdateTable (data);
 	}
 
-	public void UpdateDrillOrder (int orderQ, int orderA, int dumU, int dumT)
+	public void UpdateDrillOrder (int orderQ, int orderA, int dumU, int dumT, int severe)
 	{
 
 
@@ -216,7 +216,7 @@ public class DbProcess : MonoBehaviour
 		data.ANS_ORDER = orderA;
 		data.DUMMY_USE = dumU;
 		data.DUMMY_TAG = dumT;
-
+		data.SEVERE = severe;
 
 		dbManager.UpdateTable (data);
 	}

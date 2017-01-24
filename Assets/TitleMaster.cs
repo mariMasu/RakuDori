@@ -70,7 +70,7 @@ public class TitleMaster : MonoBehaviour
 				if (dd.QUES_ORDER == 0) {
 					Statics.nowDrill = dd.ID;
 					orderName.GetComponent<Text> ().text = "ドリル名:" + dd.NAME;
-					this.GetComponent<PopupWindow> ().PopDrillOrder (1);
+					this.GetComponent<PopupWindow> ().PopDrillOrderSet (1, true);
 					return;
 				}
 			}

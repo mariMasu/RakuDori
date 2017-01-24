@@ -35,7 +35,7 @@ public class DrillNum : MonoBehaviour
 			Statics.nowColor = color;
 
 			if (orderQ == 0) {
-				es.GetComponent<PopupWindow> ().PopDrillOrder (2);
+				es.GetComponent<PopupWindow> ().PopDrillOrderSet (2, true);
 			} else {
 				es.GetComponent<PopupWindow> ().Popup (3);
 			}
