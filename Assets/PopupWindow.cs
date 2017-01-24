@@ -500,15 +500,17 @@ public class PopupWindow : MonoBehaviour
 	public void PopHelp (string url)
 	{
 
-		WebViewObject webViewObject;
+		Application.OpenURL (url);
 
-		webViewObject = (new GameObject ("WebViewObject")).AddComponent<WebViewObject> ();
-		webViewObject.Init ((msg) => {
-			Debug.Log (msg);
-		});
-		webViewObject.LoadURL (url);
-		webViewObject.SetMargins (0, 0, 0, 0);
-		webViewObject.SetVisibility (true);
+//		WebViewObject webViewObject;
+//
+//		webViewObject = (new GameObject ("WebViewObject")).AddComponent<WebViewObject> ();
+//		webViewObject.Init ((msg) => {
+//			Debug.Log (msg);
+//		});
+//		webViewObject.LoadURL (url);
+//		webViewObject.SetMargins (0, 0, 0, 0);
+//		webViewObject.SetVisibility (true);
 	}
 
 }

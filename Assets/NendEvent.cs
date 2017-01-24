@@ -27,6 +27,7 @@ public class NendEvent : MonoBehaviour
 	{
 		if (Debug.isDebugBuild)
 			UnityEngine.Debug.Log ("広告のロードが完了しました。");
+		offBanner.SetActive (false);
 	}
 
 	public void OnClickBannerAd (object sender, EventArgs args)
@@ -55,6 +56,8 @@ public class NendEvent : MonoBehaviour
 	{
 		if (Debug.isDebugBuild)
 			UnityEngine.Debug.Log ("広告が画面上に復帰しました。");
+		
+		offBanner.SetActive (false);
 	}
 
 	public void OnClickInformation (object sender, EventArgs args)
