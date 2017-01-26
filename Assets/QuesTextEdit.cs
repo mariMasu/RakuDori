@@ -966,14 +966,20 @@ public class QuesTextEdit : MonoBehaviour
 		}
 	}
 
-	public void ConvertPerfectCommand (ref List<string> listQ)
+	public void ConvertPerfectCommand (ref List<string> listQ, bool text = false)
 	{
 		if (Statics.StrNull (sd.perKey) == false) {
+
+			string key = PerKeyCommon;
+
+			if (text == true) {
+				key = "(回答順守る)";
+			}
 
 			for (int i = 0; i < listQ.Count; i++) {
 				if (listQ [i].Substring (0, sd.perKey.Length) == sd.perKey) {
 					listQ [i] = listQ [i].Substring (sd.perKey.Length);
-					listQ [i] = PerKeyCommon + listQ [i];
+					listQ [i] = key + listQ [i];
 				}
 			}	
 		}
@@ -985,6 +991,8 @@ public class QuesTextEdit : MonoBehaviour
 
 		if (Statics.StrNull (text) == true) {
 			text = GetSampleText ();
+		} else {
+			text = GetSampleText (sd.inputPat, text);
 		}
 
 		viewText.GetComponent<Text> ().text = text;
@@ -1394,5 +1402,900 @@ public class QuesTextEdit : MonoBehaviour
 			break;
 		}
 		return pHText;
+	}
+
+	public string GetSampleText (int mode, string input)
+	{
+		string ret = "";
+
+		string sentaku;
+
+		string[] que = { sd.quesKey };
+		string[] rowText = input.Split (que, StringSplitOptions.RemoveEmptyEntries);
+
+		List<string> listRow = new List<string> ();
+		List<string> listQ = new List<string> ();
+		List<string> listA = new List<string> ();
+		List<string> listD = new List<string> ();
+		List<string> listE = new List<string> ();
+
+		foreach (string s in rowText) {
+			if (s != "\n") {
+				listRow.Add (s);
+			}
+		}
+
+		//選択肢があればダミー用を作成
+		if (Statics.StrNull (sd.sentaku) == false) {
+
+			sentaku = "(選択肢からダミーとして " + sd.sentaku + ")";
+
+		} else {
+			sentaku = "";
+		}
+
+
+		if (mode < 2) {
+
+			if (mode == 0) {
+				for (int i = 0; i < listRow.Count; i++) {
+					if (i % 2 == 0) {
+						listQ.Add (listRow [i]);
+					} else {
+						listA.Add (listRow [i]);
+					}
+
+				}
+			} else {
+				for (int i = 0; i < listRow.Count; i++) {
+					if (i <= (listRow.Count / 2) - 1) {
+						listQ.Add (listRow [i]);
+					} else {
+						listA.Add (listRow [i]);
+					}
+
+				}
+			}
+
+			while (listQ.Count != listA.Count) {
+				if (listQ.Count < listA.Count) {
+					listQ.Add ("---");
+				} else {
+					listA.Add (NullKeyCommon);
+				}
+			}
+
+
+			//ダミーかあれば分離
+			SeparateDummy (ref listA, ref listD);
+
+			RemoveEnter (ref listQ, false);
+
+			//完全一致コマンドの置き換え
+			ConvertPerfectCommand (ref listQ, true);
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+
+				//解答群の分割
+				for (int i = 0; i < listQ.Count; i++) {
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					string[] sep = { sd.sepKey };
+
+
+					if (listA [i] != NullKeyCommon) {
+						string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+						List<string> listAS = new List<string> ();
+
+						foreach (string s in rowAS) {
+							listAS.Add (RemoveEnterAll (s));
+						}
+
+						AnswerToHankaku (ref listAS);
+
+						//### Q $$$ A &&& A &&& A
+
+						for (int tem = 0; tem < listAS.Count; tem++) {
+
+							ret += "(正答" + (i + 1) + "-" + (tem + 1) + ")" + listAS [tem];
+						}
+
+						ret += "\n";
+
+						//ダミー解答の分割
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							string[] rowDS = listD [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+							List<string> listDS = new List<string> ();
+
+							foreach (string s in rowDS) {
+								listDS.Add (s);
+							}
+							RemoveEnter (ref listDS);
+
+							//### Q $$$ A &&& A &&& A %%% D &&& D &&& D
+
+							for (int tem = 0; tem < listDS.Count; tem++) {
+
+								ret += "(ダミー" + (i + 1) + "-" + (tem + 1) + ")" + listDS [tem];
+							}
+
+							//選択肢があれば結合
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+
+
+							ret += "\n";
+						
+						} else {
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+
+						}
+					}
+					ret += "\n";
+				}
+			} else {
+				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
+				for (int i = 0; i < listQ.Count; i++) {
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					if (listA [i] != NullKeyCommon) {
+						ret += "(正答" + (i + 1) + ")" + listA [i];
+						ret += "\n";
+
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							ret += "(ダミー" + (i + 1) + ")" + RemoveEnterAll (listD [i]);
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+							ret += "\n";
+
+						} else {
+
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+					}
+					ret += "\n";
+				}
+			}
+
+		} else if (mode == 2) {
+
+
+
+			for (int i = 0; i < listRow.Count; i++) {
+
+				string[] sep = { sd.ansKey };
+				string[] rowAS = listRow [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+
+				if (rowAS.Length > 2) {
+					string m = rowAS [1];
+
+					listQ.Add (rowAS [0]);
+					for (int tem = 2; tem < rowAS.Length; tem++) {
+						m += rowAS [tem];
+					}
+
+					listA.Add (m);
+
+				} else if (rowAS.Length < 2) {
+					listQ.Add (rowAS [0]);
+					listA.Add (NullKeyCommon);
+				} else {
+
+					listQ.Add (rowAS [0]);
+					listA.Add (rowAS [1]);
+				}
+
+			}
+
+			while (listQ.Count != listA.Count) {
+				if (listQ.Count < listA.Count) {
+					listQ.Add ("---");
+				} else {
+					listA.Add (NullKeyCommon);
+				}
+			}
+
+			//解説の分離
+			if (Statics.StrNull (sd.expKey) == false) {
+
+				for (int i = 0; i < listA.Count; i++) {
+
+					string[] sep = { sd.expKey };
+					string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+					if (rowAS.Length == 2) {
+						listA [i] = rowAS [0];
+						listE.Add (rowAS [1]);
+					} else if (rowAS.Length == 1) {
+						listE.Add (NullKeyCommon);
+					} else if (rowAS.Length > 2) {
+						listA [i] = rowAS [0];
+
+						string m = rowAS [1];
+						for (int tem = 2; tem < rowAS.Length; tem++) {
+							m += rowAS [tem];
+						}
+
+						listE.Add (m);
+					}
+				}
+
+				RemoveEnter (ref listE, false);
+			}
+
+			//ダミーかあれば分離
+			SeparateDummy (ref listA, ref listD);
+
+			RemoveEnter (ref listQ, false);
+
+			//完全一致コマンドの置き換え
+			ConvertPerfectCommand (ref listQ, true);
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+
+				//解答群の分割
+				for (int i = 0; i < listQ.Count; i++) {
+
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					string[] sep = { sd.sepKey };
+
+
+					if (listA [i] != NullKeyCommon) {
+						
+						string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+						List<string> listAS = new List<string> ();
+
+						foreach (string s in rowAS) {
+							listAS.Add (RemoveEnterAll (s));
+						}
+
+						AnswerToHankaku (ref listAS);
+
+						//### Q $$$ A &&& A &&& A
+
+						for (int tem = 0; tem < listAS.Count; tem++) {
+
+							ret += "(正答" + (i + 1) + "-" + (tem + 1) + ")" + listAS [tem];
+						}
+
+						ret += "\n";
+
+						//ダミー解答の分割
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							string[] rowDS = listD [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+							List<string> listDS = new List<string> ();
+
+							foreach (string s in rowDS) {
+								listDS.Add (s);
+							}
+							RemoveEnter (ref listDS);
+
+							//### Q $$$ A &&& A &&& A %%% D &&& D &&& D
+							for (int tem = 0; tem < listDS.Count; tem++) {
+
+								ret += "(ダミー" + (i + 1) + "-" + (tem + 1) + ")" + listDS [tem];
+							}
+
+							//選択肢があれば結合
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+								
+							ret += "\n";
+
+						} else {
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+
+						//説明文結合
+						if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+							ret += "(解説文" + (i + 1) + ")" + listE [i];
+							ret += "\n";
+						}
+
+					}
+					ret += "\n";
+				}
+			} else {
+				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
+				for (int i = 0; i < listQ.Count; i++) {
+
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					if (listA [i] != NullKeyCommon) {
+						ret += "(正答" + (i + 1) + ")" + listA [i];
+						ret += "\n";
+
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							ret += "(ダミー" + (i + 1) + ")" + RemoveEnterAll (listD [i]);
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+							ret += "\n";
+
+						} else {
+
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+
+						if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+							ret += "(解説文" + (i + 1) + ")" + listE [i];
+							ret += "\n";
+						}
+					}
+					ret += "\n";
+				}
+			}
+		} else if (mode == 3) {
+
+			for (int i = 0; i < listRow.Count; i++) {
+
+				string[] sep = { sd.ansKey };
+				string[] rowAS = listRow [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+				if (rowAS.Length > 2) {
+					string m = rowAS [1];
+
+					listQ.Add (rowAS [0]);
+					for (int tem = 2; tem < rowAS.Length; tem++) {
+						m += rowAS [tem];
+					}
+
+					listA.Add (m);
+
+				} else if (rowAS.Length < 2) {
+					listQ.Add (rowAS [0]);
+					listA.Add (NullKeyCommon);
+				} else {
+
+					listQ.Add (rowAS [0]);
+					listA.Add (rowAS [1]);
+				}
+					
+
+			}
+
+			//解説の分離
+			if (Statics.StrNull (sd.expKey) == false) {
+
+				for (int i = 0; i < listA.Count; i++) {
+
+					string[] sep = { sd.expKey };
+					string[] rowQE = listQ [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+					if (rowQE.Length == 2) {
+						listQ [i] = rowQE [0];
+						listE.Add (rowQE [1]);
+					} else if (rowQE.Length == 1) {
+						listE.Add (NullKeyCommon);
+					} else if (rowQE.Length > 2) {
+						listQ [i] = rowQE [0];
+
+						string m = rowQE [1];
+						for (int tem = 2; tem < rowQE.Length; tem++) {
+							m += rowQE [tem];
+						}
+
+						listE.Add (m);
+					}
+				}
+
+				RemoveEnter (ref listE, false);
+
+			}
+
+			//ダミーかあれば分離
+			SeparateDummy (ref listA, ref listD);
+
+			RemoveEnter (ref listQ, false);
+
+			//完全一致コマンドの置き換え
+			ConvertPerfectCommand (ref listQ, true);
+
+
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+
+				//解答群の分割
+				for (int i = 0; i < listQ.Count; i++) {
+
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					string[] sep = { sd.sepKey };
+
+					//説明文結合
+					if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+						ret += "(解説文" + (i + 1) + ")" + listE [i];
+						ret += "\n";
+					}
+
+
+					if (listA [i] != NullKeyCommon) {
+
+						string[] rowAS = listA [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+						List<string> listAS = new List<string> ();
+
+						foreach (string s in rowAS) {
+							listAS.Add (RemoveEnterAll (s));
+						}
+
+						AnswerToHankaku (ref listAS);
+
+						//### Q $$$ A &&& A &&& A
+
+						for (int tem = 0; tem < listAS.Count; tem++) {
+
+							ret += "(正答" + (i + 1) + "-" + (tem + 1) + ")" + listAS [tem];
+						}
+
+						ret += "\n";
+
+						//ダミー解答の分割
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							string[] rowDS = listD [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+							List<string> listDS = new List<string> ();
+
+							foreach (string s in rowDS) {
+								listDS.Add (s);
+							}
+							RemoveEnter (ref listDS);
+
+							//### Q $$$ A &&& A &&& A %%% D &&& D &&& D
+							for (int tem = 0; tem < listDS.Count; tem++) {
+
+								ret += "(ダミー" + (i + 1) + "-" + (tem + 1) + ")" + listDS [tem];
+							}
+
+							//選択肢があれば結合
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+
+							ret += "\n";
+
+						} else {
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+					}
+					ret += "\n";
+				}
+			} else {
+				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
+
+				for (int i = 0; i < listQ.Count; i++) {
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					//説明文結合
+					if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+						ret += "(解説文" + (i + 1) + ")" + listE [i];
+						ret += "\n";
+					}
+
+					if (listA [i] != NullKeyCommon) {
+						ret += "(正答" + (i + 1) + ")" + listA [i];
+						ret += "\n";
+
+
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							ret += "(ダミー" + (i + 1) + ")" + RemoveEnterAll (listD [i]);
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+							ret += "\n";
+
+						} else {
+
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+					}
+
+
+					ret += "\n";
+				}
+			}
+		} else if (mode == 4) {
+
+			string[] sep = { sd.ansKey };
+			string[] rowA = listRow [listRow.Count - 1].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+
+			listRow [listRow.Count - 1] = rowA [0];
+
+			for (int i = 1; i < rowA.Length; i++) {
+
+				listA.Add (rowA [i]);
+
+			}
+
+			for (int i = 0; i < listRow.Count; i++) {
+
+				listQ.Add (listRow [i]);
+
+			}
+
+			while (listQ.Count != listA.Count) {
+				if (listQ.Count < listA.Count) {
+					listQ.Add ("---");
+				} else {
+					listA.Add (NullKeyCommon);
+				}
+			}
+
+
+			//解説の分離
+			if (Statics.StrNull (sd.expKey) == false) {
+
+				for (int i = 0; i < listA.Count; i++) {
+
+					string[] sep2 = { sd.expKey };
+					string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
+
+
+					if (rowAS.Length == 2) {
+						listA [i] = rowAS [0];
+						listE.Add (rowAS [1]);
+					} else if (rowAS.Length == 1) {
+						listE.Add (NullKeyCommon);
+					} else if (rowAS.Length > 2) {
+						listA [i] = rowAS [0];
+
+						string m = rowAS [1];
+						for (int tem = 2; tem < rowAS.Length; tem++) {
+							m += rowAS [tem];
+						}
+
+						listE.Add (m);
+					}
+						
+				}
+
+				RemoveEnter (ref listE, false);
+			}
+
+			//ダミーがあれば分離
+			SeparateDummy (ref listA, ref listD);
+
+			RemoveEnter (ref listQ, false);
+
+			//完全一致コマンドの置き換え
+			ConvertPerfectCommand (ref listQ, true);
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+
+				//解答群の分割
+				for (int i = 0; i < listQ.Count; i++) {
+					
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					string[] sep2 = { sd.sepKey };
+
+
+					if (listA [i] != NullKeyCommon) {
+						string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
+
+						List<string> listAS = new List<string> ();
+
+						foreach (string s in rowAS) {
+							listAS.Add (RemoveEnterAll (s));
+						}
+
+						AnswerToHankaku (ref listAS);
+
+						//### Q $$$ A &&& A &&& A
+						for (int tem = 0; tem < listAS.Count; tem++) {
+
+							ret += "(正答" + (i + 1) + "-" + (tem + 1) + ")" + listAS [tem];
+						}
+
+						ret += "\n";
+
+						//ダミー解答の分割
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							string[] rowDS = listD [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+							List<string> listDS = new List<string> ();
+
+							foreach (string s in rowDS) {
+								listDS.Add (s);
+							}
+							RemoveEnter (ref listDS);
+
+							//### Q $$$ A &&& A &&& A %%% D &&& D &&& D
+							for (int tem = 0; tem < listDS.Count; tem++) {
+
+								ret += "(ダミー" + (i + 1) + "-" + (tem + 1) + ")" + listDS [tem];
+							}
+
+							//選択肢があれば結合
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+
+							ret += "\n";
+
+						} else {
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+
+						//説明文結合
+						if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+							ret += "(解説文" + (i + 1) + ")" + listE [i];
+							ret += "\n";
+						}
+
+					}
+					ret += "\n";
+				}
+			} else {
+				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
+
+				for (int i = 0; i < listQ.Count; i++) {
+
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					if (listA [i] != NullKeyCommon) {
+						ret += "(正答" + (i + 1) + ")" + listA [i];
+						ret += "\n";
+
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							ret += "(ダミー" + (i + 1) + ")" + RemoveEnterAll (listD [i]);
+
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+							ret += "\n";
+
+						} else {
+
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+
+						if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+							ret += "(解説文" + (i + 1) + ")" + listE [i];
+							ret += "\n";
+						}
+
+					}
+					ret += "\n";
+
+				}
+			}
+		} else if (mode == 5) {
+
+
+			string[] sep = { sd.ansKey };
+			string[] rowA = listRow [listRow.Count - 1].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+
+			listRow [listRow.Count - 1] = rowA [0];
+
+
+			//解説の分離[0]
+			if (Statics.StrNull (sd.expKey) == false) {
+				string[] sep2 = { sd.expKey };
+				string lr = listRow [listRow.Count - 1];
+				string[] rowE = lr.Split (sep2, StringSplitOptions.RemoveEmptyEntries);
+
+				if (rowE.Length > 1) {
+					listRow [listRow.Count - 1] = rowE [0];
+					listE.Add (rowE [1]);
+				}
+			}
+
+			for (int i = 1; i < rowA.Length; i++) {
+
+				listA.Add (rowA [i]);
+
+			}
+
+			for (int i = 0; i < listRow.Count; i++) {
+
+				listQ.Add (listRow [i]);
+
+			}
+
+			while (listQ.Count != listA.Count) {
+				if (listQ.Count < listA.Count) {
+					listQ.Add ("---");
+				} else {
+					listA.Add (NullKeyCommon);
+				}
+			}
+
+
+
+			//解説の分離
+			if (Statics.StrNull (sd.expKey) == false) {
+
+				for (int i = 0; i < listA.Count - 1; i++) {
+
+					string[] sep2 = { sd.expKey };
+					string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
+
+					if (rowAS.Length == 2) {
+						listA [i] = rowAS [0];
+						listE.Add (rowAS [1]);
+					} else if (rowAS.Length == 1) {
+						listE.Add (NullKeyCommon);
+					} else if (rowAS.Length > 2) {
+						listA [i] = rowAS [0];
+
+						string m = rowAS [1];
+						for (int tem = 2; tem < rowAS.Length; tem++) {
+							m += rowAS [tem];
+						}
+
+						listE.Add (m);
+					}
+				}
+
+				RemoveEnter (ref listE, false);
+			}
+
+			//ダミーがあれば分離
+			SeparateDummy (ref listA, ref listD);
+
+			RemoveEnter (ref listQ, false);
+
+			//完全一致コマンドの置き換え
+			ConvertPerfectCommand (ref listQ, true);
+
+			if (Statics.StrNull (sd.sepKey) == false) {
+
+				//解答群の分割
+				for (int i = 0; i < listQ.Count; i++) {
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					string[] sep2 = { sd.sepKey };
+
+					//説明文結合
+					if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+						ret += "(解説文" + (i + 1) + ")" + listE [i];
+						ret += "\n";
+					}
+
+					if (listA [i] != NullKeyCommon) {
+						
+						string[] rowAS = listA [i].Split (sep2, StringSplitOptions.RemoveEmptyEntries);
+
+						List<string> listAS = new List<string> ();
+
+						foreach (string s in rowAS) {
+							listAS.Add (RemoveEnterAll (s));
+						}
+
+						AnswerToHankaku (ref listAS);
+
+						//### Q $$$ A &&& A &&& A
+						for (int tem = 0; tem < listAS.Count; tem++) {
+
+							ret += "(正答" + (i + 1) + "-" + (tem + 1) + ")" + listAS [tem];
+						}
+
+						ret += "\n";
+
+						//ダミー解答の分割
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							string[] rowDS = listD [i].Split (sep, StringSplitOptions.RemoveEmptyEntries);
+							List<string> listDS = new List<string> ();
+
+							foreach (string s in rowDS) {
+								listDS.Add (s);
+							}
+							RemoveEnter (ref listDS);
+
+							//### Q $$$ A &&& A &&& A %%% D &&& D &&& D
+							for (int tem = 0; tem < listDS.Count; tem++) {
+
+								ret += "(ダミー" + (i + 1) + "-" + (tem + 1) + ")" + listDS [tem];
+							}
+
+							//選択肢があれば結合
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+
+							ret += "\n";
+
+						} else {
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+
+					}
+					ret += "\n";
+
+				}
+			} else {
+				RemoveEnter (ref listA);
+				AnswerToHankaku (ref listA);
+
+
+				for (int i = 0; i < listQ.Count; i++) {
+
+
+					ret += "(問題文" + (i + 1) + ")" + listQ [i] + "\n";
+
+					//説明文結合
+					if (listE.Count > 0 && listE [i] != NullKeyCommon) {
+						ret += "(解説文" + (i + 1) + ")" + listE [i];
+						ret += "\n";
+					}
+
+					if (listA [i] != NullKeyCommon) {
+						ret += "(正答" + (i + 1) + ")" + listA [i];
+						ret += "\n";
+
+						if (listD.Count > 0 && listD [i] != NullKeyCommon) {
+							ret += "(ダミー" + (i + 1) + ")" + RemoveEnterAll (listD [i]);
+
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+							}
+							ret += "\n";
+
+						} else {
+
+							if (sentaku.Length > 0) {
+								ret += sentaku;
+								ret += "\n";
+							}
+						}
+					}
+					ret += "\n";
+
+				}
+			}
+				
+		}
+
+		return ret;
 	}
 }
