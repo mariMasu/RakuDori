@@ -37,6 +37,10 @@ public class TimeFunctions : MonoBehaviour
 
 	public static bool NeedReview (string lastTime, int level)
 	{
+		if (lastTime == "なし") {
+			return true;
+		}
+
 		DateTime last = DateTime.Parse (lastTime);
 		TimeSpan diff = DateTime.Now.Subtract (last);
 
