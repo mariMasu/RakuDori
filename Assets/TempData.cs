@@ -339,13 +339,6 @@ public class TempData : MonoBehaviour
 
 		}
 
-		if (i == 1) {
-			Statics.youhukusyu = true;
-		} else {
-			Statics.youhukusyu = false;
-
-		}
-
 		if (i == 1 && (num [0] == 0)) {
 			s = "要復習問題が存在しません";
 

@@ -16,7 +16,6 @@ public class Statics : MonoBehaviour
 	public static int nowTag = 0;
 	public static int nowLevel = 0;
 
-	public static bool youhukusyu = false;
 
 	public static List<int> reviewList = new List<int> ();
 	public static float prefabGap = 0;

@@ -639,6 +639,9 @@ public class DrillAnsMaster : MonoBehaviour
 
 	public void AnswerNext ()
 	{
+
+		bool youhukusyu = TimeFunctions.NeedReview (nowQData.LAST, nowQData.LEVEL);
+
 		nowQData.LAST = DateTime.Now.ToString ();
 
 		foreach (Transform n in ansContent.transform) {
@@ -682,16 +685,13 @@ public class DrillAnsMaster : MonoBehaviour
 			nowQData.CORRECT += 1;
 			nowQData.REVIEW -= 1;
 
-
 			if (nowQData.REVIEW < 0) {
 
-				if (Statics.youhukusyu == true && nowQData.LEVEL != 5) {
 
-					if (nowQData.LEVEL > 0) {
-						if (Statics.nowSevere == false) {
-							nowQData.LEVEL += 1;
-						}
-					} else {
+				if (nowQData.LEVEL == 0) {
+					nowQData.LEVEL += 1;
+				} else if (youhukusyu == true && nowQData.LEVEL != 5) {
+					if (Statics.nowSevere == false) {
 						nowQData.LEVEL += 1;
 					}
 				}
@@ -798,6 +798,7 @@ public class DrillAnsMaster : MonoBehaviour
 	public void SelfAnswerNext (bool b)
 	{
 
+		bool youhukusyu = TimeFunctions.NeedReview (nowQData.LAST, nowQData.LEVEL);
 		nowQData.LAST = DateTime.Now.ToString ();
 
 		if (b == true) {
@@ -808,8 +809,10 @@ public class DrillAnsMaster : MonoBehaviour
 
 			if (nowQData.REVIEW < 0) {
 
-				if (Statics.youhukusyu == true && nowQData.LEVEL != 5) {
+				if (nowQData.LEVEL == 0) {
 					nowQData.LEVEL += 1;
+				} else if (youhukusyu == true && nowQData.LEVEL != 5) {
+					
 				}
 
 				nowQData.REVIEW = 0;
