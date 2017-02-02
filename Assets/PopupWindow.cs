@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine.UI;
+using System.IO;
+
 
 public class PopupWindow : MonoBehaviour
 {
@@ -20,6 +22,8 @@ public class PopupWindow : MonoBehaviour
 	public GameObject pop10;
 	public GameObject pop11;
 	public GameObject pop12;
+	public GameObject pop13;
+	public GameObject pop14;
 
 
 
@@ -202,6 +206,10 @@ public class PopupWindow : MonoBehaviour
 			pop = pop11;
 		} else if (num == 12) {
 			pop = pop12;
+		} else if (num == 13) {
+			pop = pop13;
+		} else if (num == 14) {
+			pop = pop14;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
@@ -238,6 +246,10 @@ public class PopupWindow : MonoBehaviour
 			pop = pop11;
 		} else if (num == 12) {
 			pop = pop12;
+		} else if (num == 13) {
+			pop = pop13;
+		} else if (num == 14) {
+			pop = pop14;
 		} else {
 			Debug.Log ("nonePop");
 			pop = pop1;
@@ -525,6 +537,95 @@ public class PopupWindow : MonoBehaviour
 		input2.GetComponent<InputField> ().text = nigate.ToString ();
 
 		Popup (5);
+	}
+
+	public void PopSetImage ()
+	{
+		QuesSentakuMaster qsm = this.GetComponent<QuesSentakuMaster> ();
+
+		GameObject parent = GameObject.Find ("PopSetImage");
+		GameObject text = parent.transform.Find ("question/Qtext/Text").gameObject;
+
+		PhotoImage wakuQ = parent.transform.Find ("wakuQ").gameObject.GetComponent<PhotoImage> ();
+		PhotoImage wakuA = parent.transform.Find ("wakuA").gameObject.GetComponent<PhotoImage> ();
+
+
+		QuesArray qa = DbTextToQA.DbToQA (qsm.nowQData.TEXT);
+
+		string ansText = "";
+
+		foreach (string s in qa.Ans) {
+			ansText += ("/" + s);
+		}
+		ansText = ansText.Substring (1);
+
+		string qtext = qa.Ques;
+
+		if (qa.Ques.Length > QuesTextEdit.PerKeyCommon.Length) {
+			if (qa.Ques.Substring (0, QuesTextEdit.PerKeyCommon.Length) == QuesTextEdit.PerKeyCommon) {
+				qtext = qa.Ques.Substring (QuesTextEdit.PerKeyCommon.Length);
+			}
+		}
+
+		string newText = "質問文\n" + qtext + "\n\n正答\n" + ansText + "\n\n解説\n" + qa.Exp;
+		text.GetComponent<Text> ().text = newText;
+
+
+		wakuQ.ResetImage ();
+		wakuA.ResetImage ();
+
+		if (qsm.nowQData.IMAGE_Q != "なし") {
+
+			Debug.Log ("gettex:" + qsm.nowQData.IMAGE_Q);
+
+			string path = System.IO.Path.Combine (Application.persistentDataPath, (qsm.nowQData.IMAGE_Q));
+
+			byte[] bytesRead;
+
+			try {
+				bytesRead = System.IO.File.ReadAllBytes (path);
+
+			} catch (System.Exception ex) {
+				Debug.Log (ex);
+				Popup (13);
+				return;
+			}
+
+			Texture2D tex = new Texture2D (1024, 1024);
+			tex.LoadImage (bytesRead);
+
+			wakuQ.Set2dImage (tex);
+		}
+
+		if (qsm.nowQData.IMAGE_A != "なし") {
+			Debug.Log ("gettex:" + qsm.nowQData.IMAGE_A);
+
+			string path = System.IO.Path.Combine (Application.persistentDataPath, (qsm.nowQData.IMAGE_A));
+			byte[] bytesRead;
+
+			try {
+				bytesRead = System.IO.File.ReadAllBytes (path);
+
+			} catch (System.Exception ex) {
+				Debug.Log (ex);
+				Popup (13);
+				return;
+			}
+			Texture2D tex = new Texture2D (1024, 1024);
+			tex.LoadImage (bytesRead);
+
+			wakuA.Set2dImage (tex);
+		}
+
+		Popup (13);
+	}
+
+	public void PopDownSetImage ()
+	{
+		// IMPORTANT! Call this method to clean memory if you are picking and discarding images
+		Resources.UnloadUnusedAssets ();
+
+		Popdown (13);
 	}
 
 }
