@@ -539,9 +539,26 @@ public class PopupWindow : MonoBehaviour
 		Popup (5);
 	}
 
-	public void PopSetImage ()
+	public void PopSetImageQS ()
 	{
 		QuesSentakuMaster qsm = this.GetComponent<QuesSentakuMaster> ();
+		QuesData qd = qsm.nowQData;
+
+		PopSetImage (13, qd);
+
+	}
+
+	public void PopSetImageDA ()
+	{
+		DrillAnsMaster dam = this.GetComponent<DrillAnsMaster> ();
+		QuesData qd = dam.nowQData;
+
+		PopSetImage (3, qd);
+
+	}
+
+	public void PopSetImage (int i, QuesData qd)
+	{
 
 		GameObject parent = GameObject.Find ("PopSetImage");
 		GameObject text = parent.transform.Find ("question/Qtext/Text").gameObject;
@@ -549,8 +566,7 @@ public class PopupWindow : MonoBehaviour
 		PhotoImage wakuQ = parent.transform.Find ("wakuQ").gameObject.GetComponent<PhotoImage> ();
 		PhotoImage wakuA = parent.transform.Find ("wakuA").gameObject.GetComponent<PhotoImage> ();
 
-
-		QuesArray qa = DbTextToQA.DbToQA (qsm.nowQData.TEXT);
+		QuesArray qa = DbTextToQA.DbToQA (qd.TEXT);
 
 		string ansText = "";
 
@@ -574,11 +590,11 @@ public class PopupWindow : MonoBehaviour
 		wakuQ.ResetImage ();
 		wakuA.ResetImage ();
 
-		if (qsm.nowQData.IMAGE_Q != "なし") {
+		if (qd.IMAGE_Q != "なし") {
 
-			Debug.Log ("gettex:" + qsm.nowQData.IMAGE_Q);
+			Debug.Log ("gettex:" + qd.IMAGE_Q);
 
-			string path = System.IO.Path.Combine (Application.persistentDataPath, (qsm.nowQData.IMAGE_Q));
+			string path = System.IO.Path.Combine (Application.persistentDataPath, (qd.IMAGE_Q));
 
 			byte[] bytesRead;
 
@@ -587,7 +603,7 @@ public class PopupWindow : MonoBehaviour
 
 			} catch (System.Exception ex) {
 				Debug.Log (ex);
-				Popup (13);
+				Popup (i);
 				return;
 			}
 
@@ -597,10 +613,10 @@ public class PopupWindow : MonoBehaviour
 			wakuQ.Set2dImage (tex);
 		}
 
-		if (qsm.nowQData.IMAGE_A != "なし") {
-			Debug.Log ("gettex:" + qsm.nowQData.IMAGE_A);
+		if (qd.IMAGE_A != "なし") {
+			Debug.Log ("gettex:" + qd.IMAGE_A);
 
-			string path = System.IO.Path.Combine (Application.persistentDataPath, (qsm.nowQData.IMAGE_A));
+			string path = System.IO.Path.Combine (Application.persistentDataPath, (qd.IMAGE_A));
 			byte[] bytesRead;
 
 			try {
@@ -608,7 +624,7 @@ public class PopupWindow : MonoBehaviour
 
 			} catch (System.Exception ex) {
 				Debug.Log (ex);
-				Popup (13);
+				Popup (i);
 				return;
 			}
 			Texture2D tex = new Texture2D (1024, 1024);
@@ -617,15 +633,15 @@ public class PopupWindow : MonoBehaviour
 			wakuA.Set2dImage (tex);
 		}
 
-		Popup (13);
+		Popup (i);
 	}
 
-	public void PopDownSetImage ()
+	public void PopDownSetImage (int i)
 	{
 		// IMPORTANT! Call this method to clean memory if you are picking and discarding images
 		Resources.UnloadUnusedAssets ();
 
-		Popdown (13);
+		Popdown (i);
 	}
 
 }

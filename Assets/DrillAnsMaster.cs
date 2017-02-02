@@ -16,6 +16,12 @@ public class DrillAnsMaster : MonoBehaviour
 	public GameObject shortBase;
 
 	public GameObject open;
+	public GameObject imageBA;
+
+	public GameObject imageView;
+
+	public Sprite sprQ;
+	public Sprite sprA;
 
 	GameObject ansContent;
 	GameObject sentakuContent;
@@ -56,6 +62,10 @@ public class DrillAnsMaster : MonoBehaviour
 	GameObject hide;
 	GameObject ok;
 	GameObject bad;
+
+	public GameObject LimageBQ;
+	public GameObject SimageBQ;
+	public GameObject imageEdit;
 
 	void Awake ()
 	{
@@ -346,7 +356,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			setTagLevActive ();
 			setIconActive ();
-
+			setImage ();
 
 			if (ansOrder == 0) {
 				Fisher_Yates_CardDeck_Shuffle ();
@@ -637,6 +647,30 @@ public class DrillAnsMaster : MonoBehaviour
 
 	}
 
+	public void setImage ()
+	{
+		imageBA.SetActive (false);
+		LimageBQ.SetActive (false);
+		SimageBQ.SetActive (false);
+		imageEdit.SetActive (false);
+
+		sprQ = Statics.pathToSprite (nowQData.IMAGE_Q);
+		sprA = Statics.pathToSprite (nowQData.IMAGE_A);
+
+		if (sprQ != null) {
+			GameObject activeImage = ansBase.transform.Find ("imageBQ").gameObject;
+			activeImage.SetActive (true);
+		}
+
+		if (sprA != null) {
+			if (nextQ.activeSelf == true || ok.activeSelf == true) {
+				GameObject activeImage = ansBase.transform.Find ("imageBQ").gameObject;
+				activeImage.SetActive (true);
+			}
+		}
+
+	}
+
 	public void AnswerNext ()
 	{
 
@@ -744,6 +778,11 @@ public class DrillAnsMaster : MonoBehaviour
 			StartCoroutine (CorContentText (expText, 0)); 
 		}
 
+		imageEdit.SetActive (true);
+		if (sprA != null) {
+			imageBA.SetActive (true);
+		}
+
 		this.GetComponent<DbProcess> ().UpdateQuesData (nowQData);
 
 		nextQ.SetActive (true);
@@ -772,6 +811,10 @@ public class DrillAnsMaster : MonoBehaviour
 		ok.SetActive (true);
 		bad.SetActive (true);
 
+		imageEdit.SetActive (true);
+		if (sprA != null) {
+			imageBA.SetActive (true);
+		}
 
 		foreach (Transform n in sentakuContent.transform) {
 			GameObject.Destroy (n.gameObject);
@@ -919,5 +962,19 @@ public class DrillAnsMaster : MonoBehaviour
 		contentGo.GetComponent<RectTransform> ().sizeDelta = new Vector2 (0, wh.y);
 
 	}
+
+	public void ViewImageMain (bool Q)
+	{ 
+		GameObject im = imageView.transform.Find ("image").gameObject;
+
+		if (Q == true) {
+			im.GetComponent<Image> ().sprite = sprQ;
+		} else {
+			im.GetComponent<Image> ().sprite = sprA;
+
+		}
+		imageView.SetActive (true);
+	}
+
 }
 

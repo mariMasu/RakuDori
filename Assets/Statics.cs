@@ -92,4 +92,33 @@ public class Statics : MonoBehaviour
 		}
 	}
 
+	public static Sprite pathToSprite (string str)
+	{
+
+		string path = System.IO.Path.Combine (Application.persistentDataPath, str);
+
+		byte[] bytesRead;
+
+		try {
+			bytesRead = System.IO.File.ReadAllBytes (path);
+
+		} catch (System.Exception ex) {
+			Debug.Log (ex);
+			return null;
+		}
+
+		Texture2D tex = new Texture2D (1024, 1024);
+		tex.LoadImage (bytesRead);
+
+		Sprite texture = SpriteFromTex2D (tex);
+
+		return texture;
+
+
+	}
+
+	public static Sprite SpriteFromTex2D (Texture2D texture)
+	{
+		return Sprite.Create (texture, new Rect (0, 0, texture.width, texture.height), new Vector2 (0.5f, 0.5f));
+	}
 }

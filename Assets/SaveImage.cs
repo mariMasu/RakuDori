@@ -8,6 +8,7 @@ using System.IO;
 
 public class SaveImage : MonoBehaviour
 {
+	public GameObject mainView;
 
 	public Texture2D imageQ = null;
 	public Texture2D imageA = null;
@@ -15,24 +16,24 @@ public class SaveImage : MonoBehaviour
 	QuesData nowQ;
 
 
-	public void SaveSimpleQS ()
+	public void SaveSimpleQS (int i)
 	{
 		QuesSentakuMaster qsm = this.GetComponent<QuesSentakuMaster> ();
 		nowQ = qsm.nowQData;
 
 		SaveSimple ();
 
-		this.GetComponent<PopupWindow> ().Popdown (13);
+		this.GetComponent<PopupWindow> ().Popdown (i);
 	}
 
-	public void SaveSimpleDA ()
+	public void SaveSimpleDA (int i)
 	{
 		DrillAnsMaster dsm = this.GetComponent<DrillAnsMaster> ();
 		nowQ = dsm.nowQData;
 
 		SaveSimple ();
 
-		this.GetComponent<PopupWindow> ().Popdown ();
+		this.GetComponent<PopupWindow> ().Popdown (i);
 	}
 
 	public void SaveSimple ()
@@ -97,6 +98,11 @@ public class SaveImage : MonoBehaviour
 		}
 
 		this.GetComponent<DbProcess> ().UpdateQuesData (nowQ);
+	}
+
+	public void ViewFalse ()
+	{
+		mainView.SetActive (false);
 	}
 
 }

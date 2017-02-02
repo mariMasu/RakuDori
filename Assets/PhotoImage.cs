@@ -35,16 +35,13 @@ public class PhotoImage : MonoBehaviour
 	{
 
 		const bool allowEditing = true;
-		const float compressionQuality = 0.1f;
+		const float compressionQuality = 0.03f;
 
 		IGImagePicker.PickImageFromPhotosAlbum (tex => {
 			Debug.Log ("Successfully picked image from photos album");
 
 			Set2dImage (tex);
 
-
-			// IMPORTANT! Call this method to clean memory if you are picking and discarding images
-			Resources.UnloadUnusedAssets ();
 		}, 
 			() => {
 				Debug.Log ("Picking image from photos album cancelled");
@@ -53,12 +50,10 @@ public class PhotoImage : MonoBehaviour
 			compressionQuality,
 			allowEditing);
 			
-		ImageView.SetActive (false);
-	}
+		// IMPORTANT! Call this method to clean memory if you are picking and discarding images
+		Resources.UnloadUnusedAssets ();
 
-	static Sprite SpriteFromTex2D (Texture2D texture)
-	{
-		return Sprite.Create (texture, new Rect (0, 0, texture.width, texture.height), new Vector2 (0.5f, 0.5f));
+		ImageView.SetActive (false);
 	}
 
 	public void ViewFalse ()
@@ -93,7 +88,7 @@ public class PhotoImage : MonoBehaviour
 		}
 
 		tex2d = tex;
-		texture = SpriteFromTex2D (tex2d);
+		texture = Statics.SpriteFromTex2D (tex2d);
 
 		if (this.name == "wakuQ" || this.name == "viewQ") {
 			Debug.Log ("setQtex");
