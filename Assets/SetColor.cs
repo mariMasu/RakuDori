@@ -14,7 +14,7 @@ public class SetColor : MonoBehaviour
 		setC ();
 	}
 
-	void setC ()
+	public void setC ()
 	{
 		Color[] col = DrillColor.GetColorD (Statics.nowColor);
 

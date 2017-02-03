@@ -137,16 +137,15 @@ public class UpdateReviewNotice : MonoBehaviour
 			DateTime latest = new DateTime (1000, 1, 1, 0, 0, 0);
 
 			foreach (QuesData qd in dbData) {
-				if ((qd.LAST.Length > 5 && qd.REVIEW == 0) == false) {
-					DateTime d = DateTime.Parse (qd.LAST);
+				
+				DateTime d = DateTime.Parse (qd.LAST);
 
-					if (TimeFunctions.NeedReview (qd.LAST, i)) {
-						nowNeedReview++;
-					}
+				if (TimeFunctions.NeedReview (qd.LAST, i)) {
+					nowNeedReview++;
+				}
 
-					if (latest < d) {
-						latest = d;
-					}
+				if (latest < d) {
+					latest = d;
 				}
 			}
 
@@ -175,6 +174,8 @@ public class UpdateReviewNotice : MonoBehaviour
 			}
 		}
 
+		if (Debug.isDebugBuild)
+			Debug.Log ("現在バッジセット" + nowNeedReview);
 		ObC.SetBadge (nowNeedReview);
 		#endif
 

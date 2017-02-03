@@ -35,7 +35,6 @@ public class PopupWindow : MonoBehaviour
 	public GameObject input6;
 	public GameObject input7;
 
-
 	void Awake ()
 	{
 	}
@@ -563,6 +562,8 @@ public class PopupWindow : MonoBehaviour
 		GameObject parent = GameObject.Find ("PopSetImage");
 		GameObject text = parent.transform.Find ("question/Qtext/Text").gameObject;
 
+		parent.transform.Find ("question").gameObject.GetComponent<SetColor> ().setC ();
+
 		PhotoImage wakuQ = parent.transform.Find ("wakuQ").gameObject.GetComponent<PhotoImage> ();
 		PhotoImage wakuA = parent.transform.Find ("wakuA").gameObject.GetComponent<PhotoImage> ();
 
@@ -643,5 +644,5 @@ public class PopupWindow : MonoBehaviour
 
 		Popdown (i);
 	}
-
+		
 }

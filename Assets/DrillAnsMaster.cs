@@ -662,11 +662,11 @@ public class DrillAnsMaster : MonoBehaviour
 			activeImage.SetActive (true);
 		}
 
-		if (sprA != null) {
-			if (nextQ.activeSelf == true || ok.activeSelf == true) {
-				GameObject activeImage = ansBase.transform.Find ("imageBQ").gameObject;
-				activeImage.SetActive (true);
+		if (nextQ.activeSelf == true || ok.activeSelf == true) {
+			if (sprA != null) {
+				imageBA.SetActive (true);
 			}
+			imageEdit.SetActive (true);
 		}
 
 	}

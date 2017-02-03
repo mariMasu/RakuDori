@@ -24,6 +24,8 @@ public class QuesSentakuMaster : MonoBehaviour
 	public List<QuesData> dbData;
 	public QuesData nowQData;
 
+	public GameObject imageP;
+
 	void Awake ()
 	{
 		senList = new List<int> ();
@@ -287,5 +289,67 @@ public class QuesSentakuMaster : MonoBehaviour
 	public int GetPlainQuesCount ()
 	{
 		return dbDataPlain.Count;
+	}
+
+	public void PopSetImageMulti ()
+	{
+		if (senList.Count == 0) {
+			return;
+		}
+
+		GameObject parent = GameObject.Find ("PopSetMultiImage");
+		GameObject icontent = parent.transform.Find ("scroll/Scroll View/Viewport/imageContent").gameObject;
+
+		foreach (Transform n in icontent.transform) {
+			GameObject.Destroy (n.gameObject);
+		}
+
+		DbProcess dp = this.GetComponent<DbProcess> ();
+		this.GetComponent<SaveImage> ().CreateImageList (senList);
+
+		foreach (int seni in senList) {
+			//Debug.Log (dbData.ID + dbData.NAME + dbData.COLOR);
+
+			QuesData qd = dp.GetDbData (seni);
+
+			GameObject go = Instantiate (imageP);
+
+			GameObject text = go.transform.Find ("Qtext/quesText").gameObject;
+			GameObject wakuQ = go.transform.Find ("wakuQ").gameObject;
+			GameObject wakuA = go.transform.Find ("wakuA").gameObject;
+
+
+
+			QuesArray qa = DbTextToQA.DbToQA (qd.TEXT);
+
+			string ansText = "";
+
+			foreach (string s in qa.Ans) {
+				ansText += ("/" + s);
+			}
+			ansText = ansText.Substring (1);
+
+			string qtext = qa.Ques;
+
+			if (qa.Ques.Length > QuesTextEdit.PerKeyCommon.Length) {
+				if (qa.Ques.Substring (0, QuesTextEdit.PerKeyCommon.Length) == QuesTextEdit.PerKeyCommon) {
+					qtext = qa.Ques.Substring (QuesTextEdit.PerKeyCommon.Length);
+				}
+			}
+
+			string newText = "質問文\n" + qtext + "\n\n正答\n" + ansText + "\n\n解説\n" + qa.Exp;
+			text.GetComponent<Text> ().text = newText;
+
+			wakuQ.GetComponent<ImageP> ().quesId = qd.ID;
+			wakuA.GetComponent<ImageP> ().quesId = qd.ID;
+
+			go.transform.SetParent (icontent.transform);
+			go.transform.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+
+			wakuQ.GetComponent<ImageP> ().SetDefault ();
+			wakuA.GetComponent<ImageP> ().SetDefault ();
+
+		}
+		this.GetComponent<PopupWindow> ().Popup (14);
 	}
 }
