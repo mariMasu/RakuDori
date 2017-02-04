@@ -384,10 +384,10 @@ public class PopupWindow : MonoBehaviour
 			toggle1.GetComponent<SimpleToTemp> ().SetTempToggle ();
 
 		} else {
-			drop1.GetComponent<Dropdown> ().value = 1;
-			drop2.GetComponent<Dropdown> ().value = 1;
-			drop3.GetComponent<Dropdown> ().value = 1;
-			drop4.GetComponent<Dropdown> ().value = 1;
+			drop1.GetComponent<Dropdown> ().value = 0;
+			drop2.GetComponent<Dropdown> ().value = 0;
+			drop3.GetComponent<Dropdown> ().value = 0;
+			drop4.GetComponent<Dropdown> ().value = 0;
 
 			toggle1.GetComponent<Toggle> ().isOn = false;
 			toggle1.GetComponent<SimpleToTemp> ().SetTempToggle ();
@@ -587,7 +587,6 @@ public class PopupWindow : MonoBehaviour
 		string newText = "質問文\n" + qtext + "\n\n正答\n" + ansText + "\n\n解説\n" + qa.Exp;
 		text.GetComponent<Text> ().text = newText;
 
-
 		wakuQ.ResetImage ();
 		wakuA.ResetImage ();
 
@@ -633,6 +632,8 @@ public class PopupWindow : MonoBehaviour
 
 			wakuA.Set2dImage (tex);
 		}
+
+		parent.transform.Find ("question/Qtext").GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
 
 		Popup (i);
 	}

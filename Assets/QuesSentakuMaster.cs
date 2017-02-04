@@ -349,6 +349,8 @@ public class QuesSentakuMaster : MonoBehaviour
 			wakuQ.GetComponent<ImageP> ().SetDefault ();
 			wakuA.GetComponent<ImageP> ().SetDefault ();
 
+			go.transform.Find ("Qtext").gameObject.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
+
 		}
 		this.GetComponent<PopupWindow> ().Popup (14);
 	}

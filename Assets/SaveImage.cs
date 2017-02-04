@@ -41,6 +41,8 @@ public class SaveImage : MonoBehaviour
 		SaveSimple ();
 
 		this.GetComponent<PopupWindow> ().Popdown (i);
+		this.GetComponent<PopupWindow> ().Popdown (7);
+
 	}
 
 	public void SaveSimpleDA (int i)
@@ -51,6 +53,8 @@ public class SaveImage : MonoBehaviour
 		SaveSimple ();
 
 		this.GetComponent<PopupWindow> ().Popdown (i);
+		this.GetComponent<PopupWindow> ().Popdown (1);
+
 	}
 
 	public void SaveSimple ()
@@ -188,6 +192,10 @@ public class SaveImage : MonoBehaviour
 		}
 
 		this.GetComponent<PopupWindow> ().Popdown (14);
+
+		this.GetComponent<QuesSentakuMaster> ().SetSentakuMode (false);
+		this.GetComponent<PopupWindow> ().Popdown (2);
+
 	}
 
 	public void ViewFalse ()
