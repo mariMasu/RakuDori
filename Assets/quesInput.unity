@@ -6342,7 +6342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 274.5, y: 0}
   m_SizeDelta: {x: 549, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &457
@@ -7654,10 +7654,10 @@ RectTransform:
   m_Father: {fileID: 484}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 292.8, y: -92.05}
+  m_SizeDelta: {x: 585.6, y: 184.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &523
 RectTransform:
@@ -18231,8 +18231,8 @@ MonoBehaviour:
       apiKey: c5cb8bc474345961c6e7a9778c947957ed8e1e4f
       spotID: 3174
     iOS:
-      apiKey: a6eca9dd074372c898dd1df549301f277c53f2b9
-      spotID: 3172
+      apiKey: d30c0fab1b51364b962467655c4a2be1892f20f0
+      spotID: 698444
   automaticDisplay: 1
   outputLog: 0
   adjustSize: 1

@@ -16126,8 +16126,8 @@ MonoBehaviour:
       apiKey: c5cb8bc474345961c6e7a9778c947957ed8e1e4f
       spotID: 3174
     iOS:
-      apiKey: a6eca9dd074372c898dd1df549301f277c53f2b9
-      spotID: 3172
+      apiKey: d30c0fab1b51364b962467655c4a2be1892f20f0
+      spotID: 698444
   automaticDisplay: 1
   outputLog: 0
   adjustSize: 1
@@ -27515,7 +27515,7 @@ Prefab:
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -129.85
       objectReference: {fileID: 0}
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
@@ -27525,7 +27525,7 @@ Prefab:
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 259.7
       objectReference: {fileID: 0}
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
@@ -27560,12 +27560,12 @@ Prefab:
     - target: {fileID: 224885538855077398, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 544.10645
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224885538855077398, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -493.74097
+      value: -441.0464
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ae347febb183c40dcab6dd8e2c549161, type: 2}

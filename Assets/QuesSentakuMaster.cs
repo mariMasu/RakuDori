@@ -210,6 +210,7 @@ public class QuesSentakuMaster : MonoBehaviour
 	{
 
 		this.GetComponent<DbProcess> ().DeleteSelection (senList);
+		SetSentakuMode (false);
 		SentakuQuesView ();
 		this.GetComponent<PopupWindow> ().Popdown (12);
 		this.GetComponent<PopupWindow> ().Popdown (2);

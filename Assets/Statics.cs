@@ -121,4 +121,37 @@ public class Statics : MonoBehaviour
 	{
 		return Sprite.Create (texture, new Rect (0, 0, texture.width, texture.height), new Vector2 (0.5f, 0.5f));
 	}
+
+	public static bool KindOfSpace (string str)
+	{
+		string[] space = {
+			" ",
+			"　",
+			"\t",
+			" ",
+			"\u2000",
+			"\u2001",
+			"\u2002",
+			"\u2003",
+			"\u2004",
+			"\u2005",
+			"\u2006",
+			"\u2007",
+			"\u2008",
+			"\u2009",
+			"\u200a",
+			"\u202f",
+			"\u205f"
+		};
+
+		foreach (string s in space) {
+			if (str == s) {
+				return true;
+			}
+		}
+
+		return false;
+
+
+	}
 }

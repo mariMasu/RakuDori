@@ -29,6 +29,8 @@ public class QuesTextEdit : MonoBehaviour
 
 	public static string Kaigyo = "\n";
 
+	public static bool haveNullList = false;
+
 	void Awake ()
 	{
 		es = GameObject.Find ("EventSystem");
@@ -40,7 +42,9 @@ public class QuesTextEdit : MonoBehaviour
 
 	public void QaTest ()
 	{
-		TextCheck ();
+		if (TextCheck () == false) {
+			return;
+		}
 		q = TextToArray (sd.inputPat);
 
 		if (q.Count == 0) {
@@ -863,6 +867,11 @@ public class QuesTextEdit : MonoBehaviour
 			return false;
 		}
 
+		if (haveNullList == true) {
+			es.GetComponent<PopupWindow> ().PopupCaution ("エラー\n改行やスペースのみの問題、回答は作れません");
+			return false;
+		}
+
 		return true;
 	}
 
@@ -876,15 +885,48 @@ public class QuesTextEdit : MonoBehaviour
 		return mlist.Substring (key.Length);
 	}
 
+	public static string RemoveSpaceZengo (string s)
+	{
+		if (Statics.StrNull (s) == false)
+			while (Statics.KindOfSpace (s.Substring (0, 1)) == true) {
+				s = s.Substring (1);
+				if (Statics.StrNull (s) == true) {
+					haveNullList = true;
+					return s;
+				}
+			}
+		if (Statics.StrNull (s) == false)
+			while (Statics.KindOfSpace (s.Substring (s.Length - 1)) == true) {
+				s = s.Substring (0, s.Length - 1);
+				if (Statics.StrNull (s) == true) {
+					haveNullList = true;
+					return s;
+				}
+			}
+				
+		return s;
+
+	}
+
 	public static string RemoveEnterZengo (string s)
 	{
-		while (s.Substring (0, Kaigyo.Length) == Kaigyo) {
-			s = s.Substring (Kaigyo.Length);
-		}
-		while (s.Substring (s.Length - Kaigyo.Length) == Kaigyo) {
-			s = s.Substring (0, s.Length - Kaigyo.Length);
-		}
-
+		if (Statics.StrNull (s) == false)
+			while (s.Substring (0, Kaigyo.Length) == Kaigyo) {
+				s = s.Substring (Kaigyo.Length);
+				if (Statics.StrNull (s) == true) {
+					haveNullList = true;
+					return s;
+				}
+			}
+		if (Statics.StrNull (s) == false)
+			while (s.Substring (s.Length - Kaigyo.Length) == Kaigyo) {
+				s = s.Substring (0, s.Length - Kaigyo.Length);
+				if (Statics.StrNull (s) == true) {
+					haveNullList = true;
+					return s;
+				}
+			}
+		
 		return s;
 
 	}
@@ -893,6 +935,11 @@ public class QuesTextEdit : MonoBehaviour
 	{
 		
 		string ns = s.Replace (Kaigyo, "");
+
+		if (Statics.StrNull (ns) == true) {
+			haveNullList = true;
+			return ns;
+		}
 
 		return ns;
 
@@ -904,8 +951,12 @@ public class QuesTextEdit : MonoBehaviour
 		for (int i = 0; i < list.Count; i++) {
 			if (b) {
 				list [i] = RemoveEnterAll (list [i]);
+				list [i] = RemoveSpaceZengo (list [i]);
+
 			} else {
 				list [i] = RemoveEnterZengo (list [i]);
+				list [i] = RemoveSpaceZengo (list [i]);
+
 			}
 		}
 
@@ -917,8 +968,12 @@ public class QuesTextEdit : MonoBehaviour
 		for (int i = 0; i < list.Length; i++) {
 			if (b) {
 				list [i] = RemoveEnterAll (list [i]);
+				list [i] = RemoveSpaceZengo (list [i]);
+
 			} else {
 				list [i] = RemoveEnterZengo (list [i]);
+				list [i] = RemoveSpaceZengo (list [i]);
+
 			}
 		}
 
@@ -987,6 +1042,8 @@ public class QuesTextEdit : MonoBehaviour
 
 	public void InputTextView ()
 	{
+		haveNullList = false;
+
 		string text = inputQuesText.GetComponent<InputField> ().text;
 
 		if (Statics.StrNull (text) == true) {

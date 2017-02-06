@@ -855,7 +855,7 @@ public class DrillAnsMaster : MonoBehaviour
 				if (nowQData.LEVEL == 0) {
 					nowQData.LEVEL += 1;
 				} else if (youhukusyu == true && nowQData.LEVEL != 5) {
-					
+					nowQData.LEVEL += 1;
 				}
 
 				nowQData.REVIEW = 0;
