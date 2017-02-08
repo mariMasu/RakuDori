@@ -11,6 +11,9 @@ public class DrillAnsMaster : MonoBehaviour
 	public GameObject ansP;
 	public GameObject sentakuP;
 	public GameObject textP;
+	public GameObject textPE;
+
+	public GameObject textIP;
 
 	public GameObject longBase;
 	public GameObject shortBase;
@@ -52,6 +55,7 @@ public class DrillAnsMaster : MonoBehaviour
 	GameObject level5;
 
 	GameObject tagImage;
+	GameObject nigate;
 	GameObject zyun;
 	GameObject correct;
 	GameObject wrong;
@@ -67,6 +71,19 @@ public class DrillAnsMaster : MonoBehaviour
 	public GameObject SimageBQ;
 	public GameObject imageEdit;
 
+	bool isLongAns;
+	GameObject questionBigContent;
+
+	GameObject QtextImage;
+	GameObject AtextImage1;
+	GameObject AtextImage2;
+	GameObject QtextImageB;
+
+	Vector3 levPosL;
+	Vector3 imaQPosL;
+	Vector3 levPosB;
+	Vector3 imaQPosB;
+
 	void Awake ()
 	{
 
@@ -80,6 +97,11 @@ public class DrillAnsMaster : MonoBehaviour
 			Statics.reviewList.RemoveAt (0);
 
 		}
+
+		levPosB = new Vector3 (-272, 236, 0);
+		imaQPosB = new Vector3 (256, 206, 0);
+		levPosL = new Vector3 (-272, -15, 0);
+		imaQPosL = new Vector3 (256, -26.75f, 0);
 			
 		Statics.prefabGap = ((GameObject.Find ("help").GetComponent<RectTransform> ().sizeDelta.x) / 2);
 
@@ -199,7 +221,7 @@ public class DrillAnsMaster : MonoBehaviour
 				if (suu != 0) {
 					float nigate = ((float)qd.WRONG / (float)suu);
 
-					if (nigate < PlayerPrefs.GetFloat ("NIGATE", 0.25f)) {
+					if (nigate <= PlayerPrefs.GetFloat ("NIGATE", 0.25f)) {
 						removeList.Add (qd);
 					}
 				} else {
@@ -268,7 +290,7 @@ public class DrillAnsMaster : MonoBehaviour
 		if (questionList.Count == 0) {
 			this.GetComponent<LoadButton> ().LoadDrillAns ();
 		} else {
-
+			
 			if (ansBase != null) {
 				
 				ansBase.transform.position = new Vector3 (10000, 0, 0);
@@ -323,8 +345,11 @@ public class DrillAnsMaster : MonoBehaviour
 
 			if (ansLen > 26 && q.Ans.Length > 1) {
 				ansBase = longBase;
+				isLongAns = true;
 			} else {
 				ansBase = shortBase;
+				isLongAns = false;
+
 			}
 
 			ansBase.transform.position = new Vector3 (0, 0, 0);
@@ -343,9 +368,10 @@ public class DrillAnsMaster : MonoBehaviour
 			level2 = ansBase.transform.Find ("level2").gameObject;
 			level3 = ansBase.transform.Find ("level3").gameObject;
 			level4 = ansBase.transform.Find ("level4").gameObject;
-
+			level5 = ansBase.transform.Find ("level5").gameObject;
 
 			zyun = ansBase.transform.Find ("zyun").gameObject;
+			nigate = ansBase.transform.Find ("nigate").gameObject;
 
 			next = ansBase.transform.Find ("next").gameObject;
 			nextQ = ansBase.transform.Find ("nextQ").gameObject;
@@ -373,6 +399,8 @@ public class DrillAnsMaster : MonoBehaviour
 			foreach (Transform n in ansContent.transform) {
 				GameObject.Destroy (n.gameObject);
 			}
+			ansContent.GetComponent<VerticalLayoutGroup> ().enabled = false;
+			ansContent.GetComponent<ContentSizeFitter> ().enabled = false;
 
 			foreach (Transform n in sentakuContent.transform) {
 				GameObject.Destroy (n.gameObject);
@@ -384,7 +412,7 @@ public class DrillAnsMaster : MonoBehaviour
 			GameObject ansS = ansBase.transform.Find ("choose/scroll").gameObject;
 			GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
 
-			senS.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "右上の開錠アイコンで自己評価、\n下の枠をタップで選択肢を表示します";
+			hide.transform.Find ("setumei").gameObject.GetComponent<Text> ().text = "右上の開錠アイコンで自己評価、\n下の枠をタップで選択肢を表示します";
 
 			ansContent.GetComponent<RectTransform> ().sizeDelta = ansS.GetComponent<RectTransform> ().sizeDelta;
 			sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
@@ -402,20 +430,34 @@ public class DrillAnsMaster : MonoBehaviour
 			}
 
 			if (nowQData.REVIEW > 0) {
-				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = "<size=80><color=#CE0606FF>＊不正解だったため復習中です。\nあと" + nowQData.REVIEW + "回正解しましょう</color></size>\n\n";
+				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text = "<size=30><color=#CE0606FF>＊不正解だったため復習中です。\nあと" + nowQData.REVIEW + "回正解しましょう</color></size>\n\n";
 			} else {
-				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text = "";
+				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text = "";
 			}
 
 
 			if (zyun.activeSelf == true) {
-				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text += q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length));
+				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text += q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length));
 			} else {
-				ansBase.transform.Find ("question/Qtext/Text").GetComponent<Text> ().text += q.Ques;
+				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text += q.Ques;
 			}
+
+			if (isLongAns) {
+				questionBigContent = ansBase.transform.Find ("questionBig/Qtext/Viewport/Content").gameObject;
+				questionBigContent.transform.Find ("Text").GetComponent<Text> ().text = ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text;
+
+				if (sprQ != null) {
+					QtextImageB.SetActive (true);
+				}
+
+				ansBase.transform.Find ("questionBig").gameObject.SetActive (true);
+
+			}
+
+			ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<RectTransform> ().pivot = new Vector2 (1, 1);
+
 			GameObject view = ansBase.transform.Find ("question/Qtext").gameObject;
 			StartCoroutine (CorScrollNormalize (view)); 
-
 
 			questionList.RemoveAt (0);
 		}
@@ -632,6 +674,8 @@ public class DrillAnsMaster : MonoBehaviour
 		hide.SetActive (true);
 		hide.GetComponent<ScrollRect> ().enabled = false;
 		hide.transform.Find ("Viewport/Content/expText").gameObject.GetComponent<Text> ().text = "";
+		hide.transform.Find ("Viewport/Content/ansText").gameObject.GetComponent<Text> ().text = "";
+
 
 		correct.SetActive (false);
 		wrong.SetActive (false);
@@ -645,10 +689,43 @@ public class DrillAnsMaster : MonoBehaviour
 			zyun.SetActive (false);
 		}
 
+		SetNigateIcon ();
+
+		if (isLongAns) {
+			level0.GetComponent<RectTransform> ().localPosition = levPosL;
+			level1.GetComponent<RectTransform> ().localPosition = levPosL;
+			level2.GetComponent<RectTransform> ().localPosition = levPosL;
+			level3.GetComponent<RectTransform> ().localPosition = levPosL;
+			level4.GetComponent<RectTransform> ().localPosition = levPosL;
+			level5.GetComponent<RectTransform> ().localPosition = levPosL;
+
+			LimageBQ.GetComponent<RectTransform> ().localPosition = imaQPosL;
+		}
+
 	}
 
 	public void setImage ()
 	{
+
+		if (isLongAns) {
+			QtextImage = ansBase.transform.Find ("question/Qtext/Viewport/Content/Image").gameObject;
+			QtextImageB = ansBase.transform.Find ("questionBig/Qtext/Viewport/Content/Image").gameObject;
+
+			AtextImage1 = ansBase.transform.Find ("hide/Viewport/Content/Image").gameObject;
+
+			QtextImage.SetActive (false);
+			AtextImage1.SetActive (false);
+			QtextImageB.SetActive (false);
+		} else {
+			QtextImage = ansBase.transform.Find ("question/Qtext/Viewport/Content/Image").gameObject;
+			AtextImage1 = ansBase.transform.Find ("hide/Viewport/Content/Image").gameObject;
+			AtextImage2 = ansBase.transform.Find ("question/Qtext/Viewport/Content/ImageA").gameObject;
+
+			QtextImage.SetActive (false);
+			AtextImage1.SetActive (false);
+			AtextImage2.SetActive (false);
+		}
+
 		imageBA.SetActive (false);
 		LimageBQ.SetActive (false);
 		SimageBQ.SetActive (false);
@@ -657,9 +734,29 @@ public class DrillAnsMaster : MonoBehaviour
 		sprQ = Statics.pathToSprite (nowQData.IMAGE_Q);
 		sprA = Statics.pathToSprite (nowQData.IMAGE_A);
 
+		#if UNITY_EDITOR
+		if ((nowQData.ID % 2) == 0) {
+			sprQ = Resources.Load <Sprite> ("icon");
+			sprA = Resources.Load <Sprite> ("icon");
+		}
+		#endif
+
 		if (sprQ != null) {
 			GameObject activeImage = ansBase.transform.Find ("imageBQ").gameObject;
 			activeImage.SetActive (true);
+
+			QtextImage.GetComponent<Image> ().sprite = sprQ;
+			QtextImage.SetActive (true);
+
+			if (isLongAns) {
+				QtextImageB.GetComponent<Image> ().sprite = sprQ;
+			}
+		}
+
+		if (sprA != null) {
+			AtextImage1.GetComponent<Image> ().sprite = sprA;
+			if (isLongAns != true)
+				AtextImage2.GetComponent<Image> ().sprite = sprA;
 		}
 
 		if (nextQ.activeSelf == true || ok.activeSelf == true) {
@@ -681,6 +778,10 @@ public class DrillAnsMaster : MonoBehaviour
 		foreach (Transform n in ansContent.transform) {
 			GameObject.Destroy (n.gameObject);
 		}
+
+		ansContent.GetComponent<VerticalLayoutGroup> ().enabled = true;
+		ansContent.GetComponent<ContentSizeFitter> ().enabled = true;
+
 
 		foreach (Transform n in sentakuContent.transform) {
 			GameObject.Destroy (n.gameObject);
@@ -769,19 +870,40 @@ public class DrillAnsMaster : MonoBehaviour
 		ansText.transform.SetParent (sentakuContent.transform);
 		StartCoroutine (CorContentText (ansText, 1)); 
 
+		imageEdit.SetActive (true);
+
+		if (sprA != null) {
+			imageBA.SetActive (true);
+			if (isLongAns != true)
+				AtextImage2.SetActive (true);
+		
+			if (isLongAns) {
+				GameObject image = Instantiate (textIP);
+
+				image.GetComponent<Image> ().sprite = sprA;
+
+				image.transform.SetParent (ansContent.transform);
+				image.GetComponent<RectTransform> ().pivot = new Vector2 (1, 1);
+				image.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+			}
+		}
+
 		if (Statics.StrNull (nowQArray.Exp) == false) {
-			GameObject expText = Instantiate (textP);
+			GameObject expText = Instantiate (textPE);
 
 			expText.GetComponent<Text> ().text = ("解説：\n" + nowQArray.Exp);
 
 			expText.transform.SetParent (ansContent.transform);
-			StartCoroutine (CorContentText (expText, 0)); 
+			expText.GetComponent<RectTransform> ().pivot = new Vector2 (1, 1);
+			expText.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+
 		}
 
-		imageEdit.SetActive (true);
-		if (sprA != null) {
-			imageBA.SetActive (true);
-		}
+		GameObject view = ansBase.transform.Find ("choose/scroll/Scroll View").gameObject;
+		StartCoroutine (CorScrollNormalize (view, 0.1f)); 
+
+		SetNigateIcon ();
+
 
 		this.GetComponent<DbProcess> ().UpdateQuesData (nowQData);
 
@@ -792,14 +914,28 @@ public class DrillAnsMaster : MonoBehaviour
 
 	public void ChooseOpen ()
 	{
-		GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
-		senS.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "";
+		hide.transform.Find ("setumei").gameObject.GetComponent<Text> ().text = "";
 
+		if (isLongAns) {
+			ansBase.transform.Find ("questionBig").gameObject.SetActive (false);
+
+		}
 		ContentNarabi (0);
 		open.SetActive (false);
 		hide.SetActive (false);
 
 		next.SetActive (true);
+
+		if (isLongAns) {
+			level0.GetComponent<RectTransform> ().localPosition = levPosB;
+			level1.GetComponent<RectTransform> ().localPosition = levPosB;
+			level2.GetComponent<RectTransform> ().localPosition = levPosB;
+			level3.GetComponent<RectTransform> ().localPosition = levPosB;
+			level4.GetComponent<RectTransform> ().localPosition = levPosB;
+			level5.GetComponent<RectTransform> ().localPosition = levPosB;
+
+			LimageBQ.GetComponent<RectTransform> ().localPosition = imaQPosB;
+		}
 
 	}
 
@@ -816,25 +952,24 @@ public class DrillAnsMaster : MonoBehaviour
 			imageBA.SetActive (true);
 		}
 
-		foreach (Transform n in sentakuContent.transform) {
-			GameObject.Destroy (n.gameObject);
-		}
-		GameObject senS = ansBase.transform.Find ("answer/scroll").gameObject;
-		senS.transform.Find ("expText").gameObject.GetComponent<Text> ().text = "";
+		SetNigateIcon ();
 
-		sentakuContent.GetComponent<RectTransform> ().sizeDelta = senS.GetComponent<RectTransform> ().sizeDelta;
+		hide.transform.Find ("setumei").gameObject.GetComponent<Text> ().text = "";
 
-		GameObject ansText = Instantiate (textP);
+		hide.transform.Find ("Viewport/Content/ansText").gameObject.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans));
 
-		ansText.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans));
-		ansText.transform.SetParent (sentakuContent.transform);
-		StartCoroutine (CorContentText (ansText, 1)); 
-
-		if (Statics.StrNull (nowQArray.Exp) == false) {
+		if (Statics.StrNull (nowQArray.Exp) == false || sprA != null) {
 			hide.GetComponent<ScrollRect> ().enabled = true;
-			hide.transform.Find ("Viewport/Content/expText").gameObject.GetComponent<Text> ().text = ("解説:\n" + nowQArray.Exp);
 
-			StartCoroutine (CorSetAnchor (hide.transform.Find ("Viewport/Content").gameObject, hide.transform.Find ("Viewport/Content/expText").gameObject)); 
+			if (sprA != null) {
+				AtextImage1.SetActive (true);
+			}
+			if (Statics.StrNull (nowQArray.Exp) == false) {
+				hide.transform.Find ("Viewport/Content/expText").gameObject.GetComponent<Text> ().text = ("解説:\n" + nowQArray.Exp);
+
+				StartCoroutine (CorSetAnchor (hide.transform.Find ("Viewport/Content").gameObject, hide.transform.Find ("Viewport/Content/expText").gameObject)); 
+			}
+
 		}
 	}
 
@@ -886,7 +1021,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 			questionList.Add (nowQData);
 		}
-
+			
 		this.GetComponent<DbProcess> ().UpdateQuesData (nowQData);
 
 		ViewQuestion ();
@@ -948,9 +1083,9 @@ public class DrillAnsMaster : MonoBehaviour
 
 	}
 
-	private IEnumerator CorScrollNormalize (GameObject scroll)
+	private IEnumerator CorScrollNormalize (GameObject scroll, float wait = 0.01f)
 	{ 
-		yield return StartCoroutine (Wait (0.01f));  
+		yield return StartCoroutine (Wait (wait));  
 		scroll.GetComponent<ScrollRect> ().verticalNormalizedPosition = 1f;
 	}
 
@@ -974,6 +1109,24 @@ public class DrillAnsMaster : MonoBehaviour
 
 		}
 		imageView.SetActive (true);
+	}
+
+	public void SetNigateIcon ()
+	{ 
+		int suu = (nowQData.CORRECT + nowQData.WRONG);
+		float wrong = (float)nowQData.WRONG;
+		if (suu != 0) {
+			float keisu = (wrong / (float)suu);
+
+			if (keisu > PlayerPrefs.GetFloat ("NIGATE", 0.25f)) {
+				nigate.SetActive (true);
+			} else {
+				nigate.SetActive (false);
+			}
+		} else {
+			nigate.SetActive (false);
+		}
+
 	}
 
 }

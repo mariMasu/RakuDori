@@ -66,6 +66,7 @@ public class QuesSentakuMaster : MonoBehaviour
 			GameObject ans = go.transform.FindChild ("ansText").gameObject;
 			GameObject num = go.transform.FindChild ("numText").gameObject;
 			GameObject tag = go.transform.FindChild ("tag").gameObject;
+			GameObject nigate = go.transform.FindChild ("nigate").gameObject;
 
 			GameObject level1 = go.transform.FindChild ("level1").gameObject;
 			GameObject level2 = go.transform.FindChild ("level2").gameObject;
@@ -130,6 +131,21 @@ public class QuesSentakuMaster : MonoBehaviour
 			} else {
 				zyun.SetActive (false);
 				ques.GetComponent<Text> ().text = qa.Ques;
+			}
+
+
+			int suu = (d.CORRECT + d.WRONG);
+			float wrong = (float)d.WRONG;
+			if (suu != 0) {
+				float keisu = (wrong / (float)suu);
+
+				if (keisu > PlayerPrefs.GetFloat ("NIGATE", 0.25f)) {
+					nigate.SetActive (true);
+				} else {
+					nigate.SetActive (false);
+				}
+			} else {
+				nigate.SetActive (false);
 			}
 				
 			string ansS = "";
