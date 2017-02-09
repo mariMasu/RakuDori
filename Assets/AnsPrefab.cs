@@ -12,7 +12,7 @@ public class AnsPrefab : MonoBehaviour
 	public string ansText = "";
 	public string id = "";
 
-	int textR = 26;
+	int textR = 24;
 
 	public IEnumerator SetTextC1 ()
 	{  
@@ -28,15 +28,17 @@ public class AnsPrefab : MonoBehaviour
 
 			List<string> strl = new List<string> ();
 			int gyoLength = 0;
+			int strLength = 0;
 
 			for (int i = 0; i < chars.Length; i++) {
-
+				strLength += 1;
 				gyoLength += charsByte [i];
 
 				if (gyoLength > textR) {
-					strl.Add (editText.Substring (0, i));
-					editText = editText.Substring (i);
+					strl.Add (editText.Substring (0, strLength));
+					editText = editText.Substring (strLength);
 
+					strLength = 0;
 					gyoLength = 0;
 				}
 			}

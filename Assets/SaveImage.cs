@@ -286,7 +286,7 @@ public class SaveImage : MonoBehaviour
 	{
 
 		const bool allowEditing = true;
-		const float compressionQuality = 0.03f;
+		const float compressionQuality = 0.1f;
 
 		IGImagePicker.PickImageFromPhotosAlbum (tex => {
 			Debug.Log ("Successfully picked image from photos album");

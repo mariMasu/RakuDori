@@ -69,44 +69,28 @@ public class DbProcess : MonoBehaviour
 	public void AddFirst (List<string> text)
 	{
 
+		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
+		                                            select ps);
+		int newid = 0;
+		if (dbData.Count != 0) {
+			dbData.Sort ((a, b) => b.ID - a.ID);
+			newid = (dbData [0].ID + 1);
+		}
+
 		foreach (string t in text) {
-			QuesData data = new QuesData { DRILL_ID = Statics.nowDrill, TEXT = t, IMAGE_Q = "なし", IMAGE_A = "なし", SOUND_Q = "なし", SOUND_A = "なし", LAST = "なし", EX2 = "なし"
+
+			int jun;
+			if (newid == 0) {
+				jun = -1000;
+			} else {
+				jun = newid * 1000;
+			}
+
+			QuesData data = new QuesData {ID = newid, DRILL_ID = Statics.nowDrill, TEXT = t, JUN = jun, IMAGE_Q = "なし", IMAGE_A = "なし", SOUND_Q = "なし", SOUND_A = "なし", LAST = "なし", EX2 = "なし"
 			};
 
 			dbManager.Insert (data);
-		}
-
-		List<QuesData> dbData = new List<QuesData> (from ps in dbManager.Table<QuesData> ()
-		                                            select ps);
-		List<QuesData> newData = new List<QuesData> ();
-
-		for (int i = dbData.Count - text.Count; i < dbData.Count; i++) {
-			newData.Add (dbData [i]);
-		}
-
-		foreach (QuesData qd in newData) {
-
-			int jun;
-			if (qd.ID == 0) {
-				jun = -1000;
-			} else {
-				jun = qd.ID * 1000;
-			}
-
-			QuesData dat = new QuesData {
-				ID = qd.ID,
-				DRILL_ID = qd.DRILL_ID,
-				TEXT = qd.TEXT,
-				JUN = jun,
-				REVIEW = 0,
-				IMAGE_Q = "なし", 
-				IMAGE_A = "なし",
-				SOUND_Q = "なし", 
-				SOUND_A = "なし",
-				LAST = "なし",
-				EX2 = "なし"
-			};
-			dbManager.UpdateTable (dat);
+			newid++;
 		}
 	}
 

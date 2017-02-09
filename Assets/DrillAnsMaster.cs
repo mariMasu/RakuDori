@@ -429,22 +429,24 @@ public class DrillAnsMaster : MonoBehaviour
 
 			}
 
+			GameObject texto = ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").gameObject;
+
 			if (nowQData.REVIEW > 0) {
-				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text = "<size=30><color=#CE0606FF>＊不正解だったため復習中です。\nあと" + nowQData.REVIEW + "回正解しましょう</color></size>\n\n";
+				texto.GetComponent<Text> ().text = "<size=30><color=#CE0606FF>＊不正解だったため復習中です。\nあと" + nowQData.REVIEW + "回正解しましょう</color></size>\n\n";
 			} else {
-				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text = "";
+				texto.GetComponent<Text> ().text = "";
 			}
 
 
 			if (zyun.activeSelf == true) {
-				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text += q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length));
+				texto.GetComponent<Text> ().text += q.Ques.Substring ((QuesTextEdit.PerKeyCommon.Length));
 			} else {
-				ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text += q.Ques;
+				texto.GetComponent<Text> ().text += q.Ques;
 			}
 
 			if (isLongAns) {
 				questionBigContent = ansBase.transform.Find ("questionBig/Qtext/Viewport/Content").gameObject;
-				questionBigContent.transform.Find ("Text").GetComponent<Text> ().text = ansBase.transform.Find ("question/Qtext/Viewport/Content/Text").GetComponent<Text> ().text;
+				questionBigContent.transform.Find ("Text").GetComponent<Text> ().text = texto.GetComponent<Text> ().text;
 
 				if (sprQ != null) {
 					QtextImageB.SetActive (true);
@@ -458,6 +460,10 @@ public class DrillAnsMaster : MonoBehaviour
 
 			GameObject view = ansBase.transform.Find ("question/Qtext").gameObject;
 			StartCoroutine (CorScrollNormalize (view)); 
+
+			if (sprQ == null) {
+				StartCoroutine (CorImageSet ()); 
+			}
 
 			questionList.RemoveAt (0);
 		}
@@ -564,6 +570,13 @@ public class DrillAnsMaster : MonoBehaviour
 
 	}
 
+	private IEnumerator CorImageSet ()
+	{  
+		yield return StartCoroutine (Wait ());  
+		QtextImage.SetActive (false);
+
+	}
+
 	public void ViewNowSentaku ()
 	{
 		foreach (Transform n in sentakuContent.transform) {
@@ -588,6 +601,9 @@ public class DrillAnsMaster : MonoBehaviour
 		}
 
 		StartCoroutine (CorSentakuNarabi ()); 
+
+		GameObject view = ansBase.transform.Find ("answer/scroll/Scroll View").gameObject;
+		StartCoroutine (CorScrollNormalize (view, 0.1f)); 
 
 	}
 
@@ -751,6 +767,9 @@ public class DrillAnsMaster : MonoBehaviour
 			if (isLongAns) {
 				QtextImageB.GetComponent<Image> ().sprite = sprQ;
 			}
+		} else {
+			QtextImage.GetComponent<Image> ().sprite = Resources.Load <Sprite> ("white");
+			QtextImage.SetActive (true);
 		}
 
 		if (sprA != null) {

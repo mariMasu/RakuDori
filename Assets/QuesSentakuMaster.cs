@@ -247,12 +247,15 @@ public class QuesSentakuMaster : MonoBehaviour
 	public void CopyQuesB (int drillId, bool tagCopy, bool levelCopy)
 	{
 
-		string time = DateTime.Now.ToString ();
+		List<QuesData> dbData = this.GetComponent<DbProcess> ().GetDbDataAll ();
+		int newid;
+		dbData.Sort ((a, b) => b.ID - a.ID);
+		newid = (dbData [0].ID + 1);
 
 		foreach (int s in senList) {
 			
 			QuesData qd = this.GetComponent<DbProcess> ().GetDbData (s);
-			QuesData newqd = new QuesData { DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE_Q = "なし", IMAGE_A = "なし",  SOUND_Q = "なし", SOUND_A = "なし", LAST = time, EX2 = "なし"
+			QuesData newqd = new QuesData {ID = newid, DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE_Q = qd.IMAGE_Q, IMAGE_A = qd.IMAGE_A,  SOUND_Q = "なし", SOUND_A = "なし", LAST = "なし", EX2 = "なし"
 			};
 
 			if (tagCopy) {
@@ -263,10 +266,13 @@ public class QuesSentakuMaster : MonoBehaviour
 				newqd.LEVEL = qd.LEVEL;
 				newqd.LAST = qd.LAST;
 				newqd.REVIEW = qd.REVIEW;
+				newqd.CORRECT = qd.CORRECT;
+				newqd.WRONG = qd.WRONG;
 			}
 
 			this.GetComponent<DbProcess> ().AddQues (newqd);
 
+			newid++;
 		}
 
 		SentakuQuesView ();
