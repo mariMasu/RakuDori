@@ -13,7 +13,9 @@ public class NendEvent : MonoBehaviour
 
 	void Awake ()
 	{
+
 		offBanner.SetActive (false);
+
 		NendAdBanner banner = this.GetComponent<NendAdBanner> ();
 
 		banner.AdLoaded += OnFinishLoadBannerAd;
@@ -22,12 +24,20 @@ public class NendEvent : MonoBehaviour
 		banner.AdClicked += OnClickBannerAd;
 		banner.AdBacked += OnDismissScreen;
 		banner.InformationClicked += OnClickInformation;
+
+		string off = PlayerPrefs.GetString ("BANNER", "false");
+		if (off == "true") {
+			offBanner.SetActive (true);
+		}
 	}
 
 	public void OnFinishLoadBannerAd (object sender, EventArgs args)
 	{
 		if (Debug.isDebugBuild)
 			UnityEngine.Debug.Log ("広告のロードが完了しました。");
+
+		PlayerPrefs.SetString ("BANNER", "false");
+		PlayerPrefs.Save ();
 	}
 
 	public void OnClickBannerAd (object sender, EventArgs args)
@@ -49,6 +59,9 @@ public class NendEvent : MonoBehaviour
 			UnityEngine.Debug.Log ("広告の受信に失敗しました。エラーメッセージ: " + args.Message);
 
 		offBanner.SetActive (true);
+		PlayerPrefs.SetString ("BANNER", "true");
+		PlayerPrefs.Save ();
+
 	}
 
 	public void OnDismissScreen (object sender, EventArgs args)

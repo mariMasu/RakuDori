@@ -42,7 +42,9 @@ public class QuesSentakuMaster : MonoBehaviour
 		dbData = dbDataPlain;
 
 		if (sortTag != 6) {
-			dbData = dbData.FindAll (s => s.TAG == sortTag);
+			DataSibori ();
+			GameObject tex = GameObject.Find ("search/Text");
+			tex.GetComponent<Text> ().text = "絞り込み解除";
 		}
 
 		dbData.Sort ((a, b) => a.JUN - b.JUN);
@@ -74,6 +76,8 @@ public class QuesSentakuMaster : MonoBehaviour
 			GameObject level4 = go.transform.FindChild ("level4").gameObject;
 			GameObject level5 = go.transform.FindChild ("level5").gameObject;
 
+			GameObject imgQ = go.transform.FindChild ("imgQ").gameObject;
+			GameObject imgA = go.transform.FindChild ("imgA").gameObject;
 
 			//Debug.Log (d);
 
@@ -121,6 +125,16 @@ public class QuesSentakuMaster : MonoBehaviour
 				level4.SetActive (true);
 			} else {
 				level5.SetActive (true);
+			}
+
+			imgQ.SetActive (false);
+			imgA.SetActive (false);
+
+			if (d.IMAGE_Q != "なし") {
+				imgQ.SetActive (true);
+			}
+			if (d.IMAGE_A != "なし") {
+				imgA.SetActive (true);
 			}
 
 			QuesArray qa = DbTextToQA.DbToQA (d.TEXT);
@@ -301,6 +315,55 @@ public class QuesSentakuMaster : MonoBehaviour
 			}
 			senList.Clear ();
 			
+		}
+	}
+
+	void DataSibori ()
+	{
+
+		if (sortTag < 6) {
+			dbData = dbData.FindAll (s => s.TAG == sortTag);
+		} else if (sortTag < 13) {
+			dbData = dbData.FindAll (s => s.LEVEL == (sortTag - 7));
+		} else {
+			if (sortTag == 13) {
+
+				dbData = dbData.FindAll (s => s.WRONG != 0);
+
+				if (dbData.Count > 0) {
+
+					List<QuesData> removeList = new List<QuesData> ();
+
+					foreach (QuesData qd in dbData) {
+
+						int suu = (qd.CORRECT + qd.WRONG);
+						if (suu != 0) {
+							float nigate = ((float)qd.WRONG / (float)suu);
+
+							if (nigate <= PlayerPrefs.GetFloat ("NIGATE", 0.25f)) {
+								removeList.Add (qd);
+							}
+						} else {
+							removeList.Add (qd);
+						}
+					}
+
+					foreach (QuesData q in removeList) {
+						dbData.Remove (q);
+					}
+
+				}
+
+			} else if (sortTag == 14) {
+				dbData = dbData.FindAll (s => DbTextToQA.IsPer (s.TEXT) == true);
+
+			} else if (sortTag == 15) {
+				dbData = dbData.FindAll (s => s.IMAGE_Q != "なし");
+
+			} else {
+				dbData = dbData.FindAll (s => s.IMAGE_A != "なし");
+
+			}
 		}
 	}
 

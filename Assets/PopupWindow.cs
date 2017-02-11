@@ -321,17 +321,26 @@ public class PopupWindow : MonoBehaviour
 	public void PopTagSort ()
 	{
 
-		QuesSentakuMaster qv = this.GetComponent<QuesSentakuMaster> ();
-		if (qv.GetPlainQuesCount () == 0) {
+		QuesSentakuMaster qsm = this.GetComponent<QuesSentakuMaster> ();
+		if (qsm.GetPlainQuesCount () == 0) {
 			return;
 		}
 
-		GameObject go = GameObject.Find ("PopTagSort");
-		go.GetComponent<TempData> ().temp [0] = "0";
+		if (qsm.sortTag == 6) {
 
-		Popup (5);
+			GameObject pts = GameObject.Find ("PopTagSort");
+			GameObject content = pts.transform.Find ("Scroll View/Viewport/Content").gameObject;
+			pts.GetComponent<TempData> ().temp [0] = "0";
 
-		go.transform.FindChild ("none").GetComponent<ButtonPoint> ().OnClickTagSort ();
+			Popup (5);
+
+			content.transform.FindChild ("none").GetComponent<ButtonPoint> ().OnClickTagSort ();
+		} else {
+			qsm.sortTag = 6;
+			GameObject tex = GameObject.Find ("search/Text");
+			tex.GetComponent<Text> ().text = "問題の絞り込み";
+			qsm.SentakuQuesView ();
+		}
 	}
 
 	public void PopupCaution (string t, int i = 4)
