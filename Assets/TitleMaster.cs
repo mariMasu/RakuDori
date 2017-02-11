@@ -15,6 +15,9 @@ public class TitleMaster : MonoBehaviour
 
 	void Awake ()
 	{
+		PlayerPrefs.SetString ("INPUTCAUTION", "false");
+		PlayerPrefs.Save ();
+
 		notice.SetActive (false);
 		SearchReviewQues ();
 	}

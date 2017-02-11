@@ -1052,6 +1052,14 @@ public class QuesTextEdit : MonoBehaviour
 			text = GetSampleText (sd.inputPat, text);
 		}
 
+		if (PlayerPrefs.GetString ("INPUTCAUTION", "false") != "true" && text.Length > 14000) {
+			
+			es.GetComponent<PopupWindow> ().PopupCaution ("テキスト量が多いためテストビューが途切れる可能性があります。\n登録は可能ですが、処理の時間が長くなることをご了承ください。");
+
+			PlayerPrefs.SetString ("INPUTCAUTION", "true");
+			PlayerPrefs.Save ();
+		}
+
 		viewText.GetComponent<Text> ().text = text;
 
 		StartCoroutine (CorSetAnchor (viewContent, viewText)); 

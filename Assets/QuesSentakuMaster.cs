@@ -32,6 +32,11 @@ public class QuesSentakuMaster : MonoBehaviour
 
 		content = GameObject.Find ("QuesContent");
 		SentakuQuesView ();
+
+		if (PlayerPrefs.GetString ("QUESCAUTION", "false") != "true" && dbDataPlain.Count > 100) {
+			this.GetComponent<PopupWindow> ().PopupCaution ("問題数が増えるほどドリル編集の処理時間、バッテリー消費量の増加につながります。\nご了承ください。", 8);
+
+		}
 	}
 
 
@@ -381,6 +386,14 @@ public class QuesSentakuMaster : MonoBehaviour
 	{
 		if (senList.Count == 0) {
 			return;
+		}
+
+		if (PlayerPrefs.GetString ("IMAGECAUTION", "false") != "true") {
+
+			this.GetComponent<PopupWindow> ().PopupCaution ("画像はアプリ内に保存されるため、登録数が増えるほどアプリの容量も増加します。\nご了承ください。", 8);
+
+			PlayerPrefs.SetString ("IMAGECAUTION", "true");
+			PlayerPrefs.Save ();
 		}
 
 		GameObject parent = GameObject.Find ("PopSetMultiImage");
