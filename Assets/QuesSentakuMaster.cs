@@ -36,6 +36,8 @@ public class QuesSentakuMaster : MonoBehaviour
 		if (PlayerPrefs.GetString ("QUESCAUTION", "false") != "true" && dbDataPlain.Count > 100) {
 			this.GetComponent<PopupWindow> ().PopupCaution ("問題数が増えるほどドリル編集の処理時間、バッテリー消費量の増加につながります。\nご了承ください。", 8);
 
+			PlayerPrefs.SetString ("QUESCAUTION", "true");
+			PlayerPrefs.Save ();
 		}
 	}
 
@@ -274,7 +276,19 @@ public class QuesSentakuMaster : MonoBehaviour
 		foreach (int s in senList) {
 			
 			QuesData qd = this.GetComponent<DbProcess> ().GetDbData (s);
-			QuesData newqd = new QuesData {ID = newid, DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE_Q = qd.IMAGE_Q, IMAGE_A = qd.IMAGE_A,  SOUND_Q = "なし", SOUND_A = "なし", LAST = "なし", EX2 = "なし"
+
+			string newimgQ = qd.IMAGE_Q;
+			string newimgA = qd.IMAGE_A;
+
+			if (newimgQ != "なし") {
+				newimgQ = this.GetComponent<SaveImage> ().CopyImage (newimgQ, newid.ToString (), true);
+			}
+			if (newimgA != "なし") {
+				newimgA = this.GetComponent<SaveImage> ().CopyImage (newimgA, newid.ToString (), false);
+
+			}
+
+			QuesData newqd = new QuesData {ID = newid, DRILL_ID = drillId, TEXT = qd.TEXT, IMAGE_Q = newimgQ, IMAGE_A = newimgA,  SOUND_Q = "なし", SOUND_A = "なし", LAST = "なし", EX2 = "なし"
 			};
 
 			if (tagCopy) {

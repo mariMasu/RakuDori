@@ -24337,7 +24337,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1027}
         m_MethodName: PopHelp
         m_Mode: 5
         m_Arguments:
@@ -24345,7 +24345,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: http://rakurakudori.webcrow.jp/#input2
+          m_StringArgument: http://rakurakudori.webcrow.jp/#gazou
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -26727,7 +26727,7 @@ Prefab:
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -129.85
       objectReference: {fileID: 0}
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
@@ -26737,7 +26737,7 @@ Prefab:
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 259.7
       objectReference: {fileID: 0}
     - target: {fileID: 224745854982678416, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
@@ -26772,7 +26772,7 @@ Prefab:
     - target: {fileID: 224885538855077398, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 491.8078
+      value: 515.25604
       objectReference: {fileID: 0}
     - target: {fileID: 224885538855077398, guid: ae347febb183c40dcab6dd8e2c549161,
         type: 2}

@@ -76,6 +76,8 @@ public class TempData : MonoBehaviour
 		QuesSentakuMaster qv = es.GetComponent<QuesSentakuMaster> ();
 		qv.TagSenB (int.Parse (temp [0]));
 
+		qv.SentakuQuesView ();
+
 		es.GetComponent<PopupWindow> ().Popdown (3);
 		es.GetComponent<PopupWindow> ().Popdown (2);
 	}

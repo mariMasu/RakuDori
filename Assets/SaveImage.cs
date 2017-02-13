@@ -40,6 +40,8 @@ public class SaveImage : MonoBehaviour
 
 		SaveSimple ();
 
+		qsm.SentakuQuesView ();
+
 		this.GetComponent<PopupWindow> ().Popdown (i);
 		this.GetComponent<PopupWindow> ().Popdown (7);
 
@@ -194,6 +196,8 @@ public class SaveImage : MonoBehaviour
 		this.GetComponent<PopupWindow> ().Popdown (14);
 
 		this.GetComponent<QuesSentakuMaster> ().SetSentakuMode (false);
+		this.GetComponent<QuesSentakuMaster> ().SentakuQuesView ();
+
 		this.GetComponent<PopupWindow> ().Popdown (2);
 
 	}
@@ -304,5 +308,65 @@ public class SaveImage : MonoBehaviour
 		Resources.UnloadUnusedAssets ();
 
 		ViewFalse ();
+	}
+
+	public string CopyImage (string moto, string copyId, bool isQ)
+	{
+
+		string retPass;
+		
+		string path = System.IO.Path.Combine (Application.persistentDataPath, (moto));
+
+		byte[] bytesRead;
+
+		try {
+			bytesRead = System.IO.File.ReadAllBytes (path);
+
+		} catch (System.Exception ex) {
+			Debug.Log (ex);
+			return "なし";
+		}
+
+		Texture2D tex = new Texture2D (1024, 1024);
+		tex.LoadImage (bytesRead);
+
+
+
+		byte[] pngarr = tex.EncodeToPNG ();
+		string newpath;
+
+		if (isQ) {
+			newpath = System.IO.Path.Combine (Application.persistentDataPath, copyId + "_Q.png");
+			retPass = copyId + "_Q.png";
+		} else {
+			newpath = System.IO.Path.Combine (Application.persistentDataPath, copyId + "_A.png");
+			retPass = copyId + "_A.png";
+
+		}
+
+		try {
+			File.WriteAllBytes (newpath, pngarr);
+
+		} catch (System.Exception ex) {
+			Debug.Log (ex);
+			return "なし";
+
+		}
+
+		return retPass;
+	}
+
+	public void DeleteImage (string imgPath)
+	{
+
+		try {
+			string path = System.IO.Path.Combine (Application.persistentDataPath, imgPath);
+			Debug.Log ("delete" + path);
+
+			File.Delete (path);
+
+		} catch (System.Exception ex) {
+			Debug.Log (ex);
+		}
 	}
 }

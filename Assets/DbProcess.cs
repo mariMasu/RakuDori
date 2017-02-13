@@ -115,6 +115,18 @@ public class DbProcess : MonoBehaviour
 
 			QuesData qd = new QuesData { ID = s };
 
+			if (qd.IMAGE_Q != "なし") {
+
+				this.GetComponent<SaveImage> ().DeleteImage (qd.IMAGE_Q);
+			
+			}
+
+			if (qd.IMAGE_A != "なし") {
+				this.GetComponent<SaveImage> ().DeleteImage (qd.IMAGE_A);
+
+			}
+
+
 			dbManager.Delete<QuesData> (qd);
 
 		}
