@@ -269,6 +269,7 @@ public class QuesSentakuMaster : MonoBehaviour
 	{
 
 		List<QuesData> dbData = this.GetComponent<DbProcess> ().GetDbDataAll ();
+
 		int newid;
 		dbData.Sort ((a, b) => b.ID - a.ID);
 		newid = (dbData [0].ID + 1);
@@ -282,9 +283,11 @@ public class QuesSentakuMaster : MonoBehaviour
 
 			if (newimgQ != "なし") {
 				newimgQ = this.GetComponent<SaveImage> ().CopyImage (newimgQ, newid.ToString (), true);
+				Debug.Log (newimgQ);
 			}
 			if (newimgA != "なし") {
 				newimgA = this.GetComponent<SaveImage> ().CopyImage (newimgA, newid.ToString (), false);
+				Debug.Log (newimgA);
 
 			}
 

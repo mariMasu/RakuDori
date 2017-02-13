@@ -327,12 +327,7 @@ public class SaveImage : MonoBehaviour
 			return "なし";
 		}
 
-		Texture2D tex = new Texture2D (1024, 1024);
-		tex.LoadImage (bytesRead);
 
-
-
-		byte[] pngarr = tex.EncodeToPNG ();
 		string newpath;
 
 		if (isQ) {
@@ -345,19 +340,21 @@ public class SaveImage : MonoBehaviour
 		}
 
 		try {
-			File.WriteAllBytes (newpath, pngarr);
+			Debug.Log ("Copy save to" + newpath);
+			File.WriteAllBytes (newpath, bytesRead);
 
 		} catch (System.Exception ex) {
 			Debug.Log (ex);
 			return "なし";
 
 		}
-
+			
 		return retPass;
 	}
 
 	public void DeleteImage (string imgPath)
 	{
+		Debug.Log ("delete" + imgPath);
 
 		try {
 			string path = System.IO.Path.Combine (Application.persistentDataPath, imgPath);

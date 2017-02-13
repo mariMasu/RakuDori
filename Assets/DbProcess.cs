@@ -113,21 +113,24 @@ public class DbProcess : MonoBehaviour
 
 		foreach (int s in sele) {
 
-			QuesData qd = new QuesData { ID = s };
+			QuesData qd = GetDbData (s);
 
 			if (qd.IMAGE_Q != "なし") {
 
+				Debug.Log (qd.IMAGE_Q);
 				this.GetComponent<SaveImage> ().DeleteImage (qd.IMAGE_Q);
-			
+
 			}
 
 			if (qd.IMAGE_A != "なし") {
+				Debug.Log (qd.IMAGE_A);
 				this.GetComponent<SaveImage> ().DeleteImage (qd.IMAGE_A);
 
 			}
 
+			QuesData delqd = new QuesData { ID = s };
 
-			dbManager.Delete<QuesData> (qd);
+			dbManager.Delete<QuesData> (delqd);
 
 		}
 	}
