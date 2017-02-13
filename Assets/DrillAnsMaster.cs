@@ -536,7 +536,6 @@ public class DrillAnsMaster : MonoBehaviour
 			}
 			Vector2 size = new Vector2 (maxWidth, (float)(nowHeight + (maxWidth * 0.2)));
 			con.GetComponent<RectTransform> ().sizeDelta = size;
-			StartCoroutine (CorScrollNormalize (view)); 
 		}
 
 
@@ -940,6 +939,7 @@ public class DrillAnsMaster : MonoBehaviour
 
 		}
 		ContentNarabi (0);
+		StartCoroutine (CorScrollNormalize (ansBase.transform.Find ("choose/scroll/Scroll View").gameObject, 0.05f)); 
 		open.SetActive (false);
 		hide.SetActive (false);
 
@@ -977,6 +977,9 @@ public class DrillAnsMaster : MonoBehaviour
 
 		hide.transform.Find ("Viewport/Content/ansText").gameObject.GetComponent<Text> ().text = ("正答:\n" + String.Join (" ", nowQArray.Ans));
 
+		StartCoroutine (CorSetAnchor (hide.transform.Find ("Viewport/Content").gameObject, hide.transform.Find ("Viewport/Content/ansText").gameObject)); 
+
+
 		if (Statics.StrNull (nowQArray.Exp) == false || sprA != null) {
 			hide.GetComponent<ScrollRect> ().enabled = true;
 
@@ -990,6 +993,7 @@ public class DrillAnsMaster : MonoBehaviour
 			}
 
 		}
+
 	}
 
 	public void SelfAnswerNext (bool b)
